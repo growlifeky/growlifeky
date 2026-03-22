@@ -1,0 +1,2270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grow Life Homesteading</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #0f2318;
+    --forest-mid: #1a3a2a;
+    --forest-light: #2d6645;
+    --leaf: #5a9e6a;
+    --leaf-bright: #7dc48a;
+    --cream: #f8f4ed;
+    --warm: #e8dcc8;
+    --bark: #8b6f47;
+    --gold: #c4a35a;
+    --gold-light: #d4b87a;
+    --text-dark: #0f1f14;
+    --text-mid: #3a5544;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text-dark); overflow-x: hidden; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    background: rgba(26,58,42,0.97); backdrop-filter: blur(10px);
+    padding: 0 5%; display: flex; align-items: center; justify-content: space-between;
+    height: 70px; border-bottom: 1px solid rgba(196,163,90,0.15);
+  }
+  .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: var(--cream); letter-spacing: 0.02em; cursor: pointer; display: flex; align-items: center; gap: 0.8rem; font-weight: 600; }
+  .nav-logo-sub { display: block; font-family: 'DM Sans', sans-serif; font-size: 0.58rem; color: var(--gold); letter-spacing: 0.2em; text-transform: uppercase; font-weight: 500; margin-top: 0.1rem; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
+  .nav-links a { color: rgba(232,220,200,0.6); text-decoration: none; font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 500; transition: color 0.2s; cursor: pointer; }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-cta { background: transparent !important; color: var(--gold) !important; border: 1px solid var(--gold) !important; padding: 0.5rem 1.4rem; border-radius: 2px; white-space: nowrap; }
+  .nav-cta:hover { background: var(--gold) !important; color: var(--forest) !important; }
+  .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; }
+  .nav-hamburger span { display: block; width: 24px; height: 2px; background: var(--cream); border-radius: 2px; }
+
+  /* DROPDOWNS */
+  .nav-dropdown { position: relative; }
+  .nav-dropdown > a { display: flex; align-items: center; gap: 0.3rem; }
+  .nav-dropdown > a::after { content: '▾'; font-size: 0.7rem; opacity: 0.6; }
+  .nav-dropdown:hover > a { color: var(--gold); }
+  .dropdown-menu {
+    display: none; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+    background: rgba(26,58,42,0.98); border: 1px solid rgba(109,184,122,0.2);
+    border-radius: 4px; padding: 0.5rem 0; min-width: 200px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3); z-index: 200;
+    padding-top: 12px; margin-top: 0;
+  }
+  .nav-dropdown::after {
+    content: ''; position: absolute; top: 100%; left: 0;
+    width: 100%; height: 12px; background: transparent;
+  }
+  .nav-dropdown:hover .dropdown-menu { display: block; }
+  .dropdown-menu a {
+    display: block; padding: 0.6rem 1.2rem; color: rgba(232,220,200,0.75) !important;
+    font-size: 0.78rem !important; letter-spacing: 0.08em; border-bottom: 1px solid rgba(109,184,122,0.08);
+    transition: all 0.15s; white-space: nowrap;
+  }
+  .dropdown-menu a:last-child { border-bottom: none; }
+  .dropdown-menu a:hover { color: var(--gold) !important; background: rgba(196,163,90,0.06); padding-left: 1.5rem; }
+
+  /* PAGES */
+  .page { display: none; min-height: 100vh; }
+  .page.active { display: block; animation: fadeUp 0.4s ease both; }
+
+  /* HOME HERO */
+  .home-hero {
+    min-height: 100vh; background: linear-gradient(160deg, var(--forest) 0%, #132d1e 40%, #0f2318 100%);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    position: relative; overflow: hidden; padding: 100px 5% 60px; text-align: center;
+  }
+  .home-hero::before {
+    content: ''; position: absolute; inset: 0;
+    background-image: radial-gradient(circle at 20% 50%, rgba(109,184,122,0.08) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(74,140,92,0.1) 0%, transparent 40%);
+  }
+  .home-hero-content { position: relative; z-index: 2; max-width: 750px; margin-bottom: 3rem; }
+  .hero-tag { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(196,163,90,0.1); border: 1px solid rgba(196,163,90,0.3); color: var(--gold); font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; padding: 0.45rem 1rem; border-radius: 2px; margin-bottom: 2rem; font-weight: 500; font-family: 'DM Sans', sans-serif; }
+  .home-hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.8rem, 6vw, 5.5rem); color: var(--cream); line-height: 1.05; margin-bottom: 1.5rem; font-weight: 300; letter-spacing: -0.01em; }
+  .home-hero h1 em { color: var(--leaf-bright); font-style: italic; font-weight: 300; }
+  .home-hero p { color: rgba(232,220,200,0.8); font-size: 1.05rem; line-height: 1.7; margin-bottom: 2rem; font-weight: 300; }
+  .home-stat { background: rgba(196,163,90,0.08); border: 1px solid rgba(196,163,90,0.25); border-radius: 2px; padding: 0.7rem 2rem; display: inline-block; }
+  .home-stat span { color: var(--gold); font-weight: 500; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; font-family: 'DM Sans', sans-serif; }
+
+  /* NAV CARDS */
+  .nav-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; padding: 0 5% 80px; position: relative; z-index: 2; max-width: 1100px; margin: 0 auto; width: 100%; }
+  .nav-card { background: rgba(255,255,255,0.07); border: 1px solid rgba(109,184,122,0.2); border-radius: 6px; padding: 2rem 1.8rem; cursor: pointer; transition: all 0.3s; text-align: left; position: relative; overflow: hidden; }
+  .nav-card::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--gold); transition: width 0.3s; }
+  .nav-card:hover { background: rgba(255,255,255,0.13); transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,0,0,0.2); }
+  .nav-card:hover::after { width: 100%; }
+  .nav-card-icon { font-size: 1.8rem; margin-bottom: 0.8rem; display: block; }
+  .nav-card h3 { font-family: 'Cormorant Garamond', serif; color: var(--cream); font-size: 1.2rem; margin-bottom: 0.4rem; font-weight: 600; letter-spacing: 0.01em; }
+  .nav-card p { color: rgba(232,220,200,0.6); font-size: 0.82rem; line-height: 1.5; font-weight: 300; }
+  .nav-card-arrow { position: absolute; top: 1.5rem; right: 1.5rem; color: rgba(196,163,90,0.4); font-size: 1rem; transition: all 0.3s; }
+  .nav-card:hover .nav-card-arrow { color: var(--gold); transform: translateX(4px); }
+
+  /* INNER PAGE HERO */
+  .page-hero { background: linear-gradient(135deg, var(--forest) 0%, #1a3a2a 100%); padding: 120px 5% 60px; position: relative; overflow: hidden; border-bottom: 1px solid rgba(196,163,90,0.1); }
+  .page-hero::before { content: ''; position: absolute; inset: 0; opacity: 0.4; background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%234a8c5c' fill-opacity='0.08'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E"); }
+  .page-hero-content { position: relative; z-index: 2; }
+  .breadcrumb { color: rgba(232,220,200,0.5); font-size: 0.8rem; margin-bottom: 1rem; cursor: pointer; display: inline-block; transition: color 0.2s; }
+  .breadcrumb:hover { color: var(--gold); }
+  .breadcrumb span { color: rgba(232,220,200,0.3); margin: 0 0.4rem; }
+  .page-hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.5rem, 5vw, 4rem); color: var(--cream); font-weight: 300; margin-bottom: 0.8rem; letter-spacing: -0.01em; }
+  .page-hero p { color: rgba(232,220,200,0.7); font-size: 1rem; max-width: 550px; line-height: 1.7; font-weight: 300; }
+  .page-content { padding: 60px 5%; max-width: 1200px; margin: 0 auto; }
+
+  /* SHARED */
+  .section-tag { display: inline-block; color: var(--gold); font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase; font-weight: 500; margin-bottom: 1rem; border-left: 2px solid var(--gold); padding-left: 0.8rem; font-family: 'DM Sans', sans-serif; }
+  .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 3.5vw, 3rem); color: var(--forest); line-height: 1.1; margin-bottom: 1rem; font-weight: 600; letter-spacing: -0.01em; }
+  .section-sub { color: var(--text-mid); font-size: 1rem; line-height: 1.7; max-width: 560px; font-weight: 300; }
+
+  /* SERVICES */
+  .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 1.5px; background: rgba(45,90,61,0.15); border: 1.5px solid rgba(45,90,61,0.15); margin-top: 2.5rem; }
+  .service-card { background: white; padding: 2.5rem; transition: all 0.3s; position: relative; overflow: hidden; }
+  .service-card::before { content: ''; position: absolute; top: 0; left: 0; width: 2px; height: 0; background: var(--gold); transition: height 0.3s; }
+  .service-card:hover { background: #fdfaf5; }
+  .service-card:hover::before { height: 100%; }
+  .service-icon { font-size: 2.2rem; margin-bottom: 1rem; display: block; }
+  .service-card h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: var(--forest); margin-bottom: 0.6rem; font-weight: 600; letter-spacing: 0.01em; }
+  .service-card > p { color: var(--text-mid); font-size: 0.88rem; line-height: 1.6; font-weight: 300; }
+  .service-items { margin-top: 1rem; list-style: none; }
+  .service-items li { color: var(--text-mid); font-size: 0.84rem; padding: 0.28rem 0 0.28rem 1.2rem; position: relative; border-bottom: 1px solid rgba(74,140,92,0.1); }
+  .service-items li:last-child { border-bottom: none; }
+  .service-items li::before { content: '→'; position: absolute; left: 0; color: var(--gold); font-size: 0.74rem; opacity: 0.7; }
+
+  /* FORMS */
+  .two-col { display: grid; grid-template-columns: 1fr 1.4fr; gap: 70px; align-items: start; }
+  .form-card { background: white; border: 1px solid rgba(45,90,61,0.12); border-radius: 4px; padding: 2.5rem; box-shadow: 0 4px 30px rgba(26,58,42,0.07); }
+  .form-card h3 { font-family: 'Cormorant Garamond', serif; color: var(--forest); font-size: 1.8rem; margin-bottom: 1.5rem; font-weight: 600; }
+  .form-group { margin-bottom: 1.1rem; }
+  .form-group label { display: block; color: var(--text-mid); font-size: 0.77rem; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.45rem; font-weight: 700; }
+  .form-group input, .form-group select, .form-group textarea { width: 100%; background: var(--cream); border: 1px solid rgba(45,90,61,0.2); border-radius: 3px; padding: 0.82rem 1rem; color: var(--text-dark); font-family: 'Lato', sans-serif; font-size: 0.9rem; outline: none; transition: border-color 0.2s; }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--forest-light); }
+  .form-group textarea { resize: vertical; min-height: 90px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .btn-submit { width: 100%; background: var(--forest-mid); color: white; border: none; padding: 1rem; border-radius: 2px; font-family: 'DM Sans', sans-serif; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; margin-top: 0.5rem; transition: all 0.2s; }
+  .btn-submit:hover { background: var(--leaf); transform: translateY(-2px); }
+  .success-msg { display: none; background: rgba(74,140,92,0.1); border: 1px solid var(--forest-light); color: var(--forest-mid); padding: 1rem; border-radius: 3px; text-align: center; margin-top: 1rem; font-size: 0.9rem; }
+  .perks-list { margin-top: 2rem; list-style: none; }
+  .perks-list li { color: var(--text-mid); padding: 0.7rem 0; border-bottom: 1px solid rgba(74,140,92,0.12); display: flex; align-items: center; gap: 0.8rem; font-size: 0.9rem; }
+  .perks-list li::before { content: '✓'; color: var(--gold); font-weight: 700; flex-shrink: 0; }
+
+  /* NEIGHBOR NETWORK */
+  .trade-board { display: grid; grid-template-columns: 320px 1fr; gap: 2rem; align-items: start; }
+  .trade-form-card { background: white; border: 1px solid rgba(45,90,61,0.12); border-radius: 4px; padding: 2rem; position: sticky; top: 90px; box-shadow: 0 4px 20px rgba(26,58,42,0.06); }
+  .trade-form-card h3 { font-family: 'Cormorant Garamond', serif; color: var(--forest); font-size: 1.5rem; margin-bottom: 1.3rem; font-weight: 600; }
+  .btn-green { width: 100%; background: var(--forest-mid); color: white; border: none; padding: 0.85rem; border-radius: 3px; font-family: 'Lato', sans-serif; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; margin-top: 0.5rem; transition: background 0.2s; }
+  .btn-green:hover { background: var(--forest-light); }
+  .listings-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem; }
+  .listings-title { font-family: 'Cormorant Garamond', serif; color: var(--forest); font-size: 1.5rem; font-weight: 600; }
+  .listing-filters { display: flex; gap: 0.5rem; }
+  .filter-btn { background: white; border: 1px solid rgba(45,90,61,0.2); color: var(--text-mid); padding: 0.35rem 0.9rem; border-radius: 20px; font-size: 0.78rem; font-weight: 700; cursor: pointer; transition: all 0.2s; font-family: 'Lato', sans-serif; }
+  .filter-btn.active, .filter-btn:hover { background: var(--forest); color: var(--gold); border-color: var(--forest); }
+  .listings { display: flex; flex-direction: column; gap: 1rem; }
+  .listing-card { background: white; border: 1px solid rgba(45,90,61,0.1); border-radius: 4px; padding: 1.3rem 1.5rem; display: flex; gap: 1.2rem; align-items: flex-start; transition: box-shadow 0.2s, transform 0.2s; }
+  .listing-card:hover { box-shadow: 0 4px 20px rgba(26,58,42,0.08); transform: translateY(-2px); }
+  .listing-badge { flex-shrink: 0; padding: 0.3rem 0.7rem; border-radius: 2px; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+  .badge-offer { background: rgba(74,140,92,0.12); color: var(--forest-mid); }
+  .badge-want { background: rgba(139,111,71,0.12); color: var(--bark); }
+  .listing-content { flex: 1; min-width: 0; }
+  .listing-title { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; color: var(--forest); margin-bottom: 0.3rem; font-weight: 600; }
+  .listing-desc { color: var(--text-mid); font-size: 0.84rem; line-height: 1.5; margin-bottom: 0.5rem; font-weight: 300; }
+  .listing-meta { display: flex; gap: 1rem; flex-wrap: wrap; font-size: 0.77rem; color: rgba(61,90,69,0.6); }
+  .contact-btn { flex-shrink: 0; background: transparent; border: 1px solid var(--forest-light); color: var(--forest-light); padding: 0.5rem 1rem; border-radius: 3px; font-size: 0.78rem; font-weight: 700; cursor: pointer; font-family: 'Lato', sans-serif; transition: all 0.2s; white-space: nowrap; }
+  .contact-btn:hover { background: var(--forest-mid); color: white; border-color: var(--forest-mid); }
+
+  /* GALLERY */
+  .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.2rem; margin-top: 2rem; }
+  .gallery-card { background: white; border-radius: 4px; overflow: hidden; border: 1px solid rgba(45,90,61,0.1); transition: transform 0.2s, box-shadow 0.2s; }
+  .gallery-card:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(26,58,42,0.12); }
+  .gallery-placeholder { height: 200px; display: flex; align-items: center; justify-content: center; font-size: 2.8rem; background: linear-gradient(135deg, #e8f0e8, #d0e8d4); flex-direction: column; gap: 0.4rem; }
+  .gallery-placeholder p { font-size: 0.72rem; color: var(--text-mid); font-weight: 300; }
+  .gallery-card-body { padding: 1.1rem; }
+  .gallery-card-body h4 { font-family: 'Playfair Display', serif; color: var(--forest); font-size: 0.95rem; margin-bottom: 0.25rem; }
+  .gallery-card-body p { color: var(--text-mid); font-size: 0.8rem; font-weight: 300; }
+  .gallery-upload { border: 2px dashed rgba(45,90,61,0.25); border-radius: 6px; padding: 3rem; text-align: center; margin-top: 2rem; transition: all 0.2s; cursor: pointer; }
+  .gallery-upload:hover { border-color: var(--gold); background: rgba(196,163,90,0.03); }
+  .gallery-upload .icon { font-size: 2.5rem; margin-bottom: 1rem; }
+  .gallery-upload h4 { font-family: 'Playfair Display', serif; color: var(--forest); margin-bottom: 0.4rem; }
+  .gallery-upload p { color: var(--text-mid); font-size: 0.85rem; font-weight: 300; }
+
+  /* ABOUT */
+  .about-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+  .about-visual { background: linear-gradient(135deg, var(--forest-mid), var(--forest)); border-radius: 6px; padding: 3rem; text-align: center; min-height: 380px; display: flex; align-items: center; justify-content: center; flex-direction: column; }
+  .about-visual .big-icon { font-size: 5rem; margin-bottom: 1.5rem; }
+  .about-visual h3 { font-family: 'Playfair Display', serif; color: var(--cream); font-size: 1.5rem; margin-bottom: 1rem; }
+  .about-visual p { color: rgba(232,220,200,0.7); font-size: 0.9rem; line-height: 1.6; font-weight: 300; }
+  .about-text h2 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--forest); margin-bottom: 1.2rem; font-weight: 900; }
+  .about-text p { color: var(--text-mid); line-height: 1.8; margin-bottom: 1rem; font-size: 0.95rem; font-weight: 300; }
+  .about-values { margin-top: 2rem; display: flex; flex-direction: column; gap: 1.2rem; }
+  .about-value { display: flex; gap: 1rem; align-items: flex-start; }
+  .about-value-icon { font-size: 1.5rem; flex-shrink: 0; }
+  .about-value h4 { font-family: 'Cormorant Garamond', serif; color: var(--forest); font-size: 1.15rem; margin-bottom: 0.2rem; font-weight: 600; }
+  .about-value p { color: var(--text-mid); font-size: 0.84rem; font-weight: 300; margin: 0; }
+
+  /* CONTACT */
+  .contact-layout { display: grid; grid-template-columns: 1fr 1.2fr; gap: 60px; }
+  .contact-info h2 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--forest); margin-bottom: 1rem; font-weight: 900; }
+  .contact-info > p { color: var(--text-mid); line-height: 1.8; margin-bottom: 2rem; font-weight: 300; }
+  .contact-cards { display: flex; flex-direction: column; gap: 1rem; }
+  .contact-card { background: white; border: 1px solid rgba(45,90,61,0.1); border-radius: 4px; padding: 1.2rem 1.5rem; display: flex; align-items: center; gap: 1rem; transition: box-shadow 0.2s; }
+  .contact-card:hover { box-shadow: 0 4px 20px rgba(196,163,90,0.08); border-color: rgba(196,163,90,0.2); }
+  .contact-card .icon { font-size: 1.8rem; flex-shrink: 0; }
+  .contact-card h4 { font-family: 'Playfair Display', serif; color: var(--forest); font-size: 0.95rem; margin-bottom: 0.2rem; }
+  .contact-card p { color: var(--text-mid); font-size: 0.84rem; font-weight: 300; }
+
+  /* FOOTER */
+  footer { background: var(--forest); padding: 36px 5%; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; border-top: 1px solid rgba(109,184,122,0.1); }
+  .footer-logo { font-family: 'Cormorant Garamond', serif; color: var(--cream); font-size: 1.1rem; font-weight: 600; letter-spacing: 0.02em; }
+  .footer-logo span { color: var(--gold); }
+  .footer-links { display: flex; gap: 1.5rem; }
+  .footer-links a { color: rgba(232,220,200,0.35); font-size: 0.75rem; text-decoration: none; cursor: pointer; transition: color 0.2s; letter-spacing: 0.08em; text-transform: uppercase; font-family: 'DM Sans', sans-serif; }
+  .footer-links a:hover { color: var(--gold); }
+  footer p { color: rgba(232,220,200,0.3); font-size: 0.78rem; }
+
+  /* MODAL */
+  .modal-overlay { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(0,0,0,0.6); align-items: center; justify-content: center; padding: 1rem; }
+  .modal-overlay.open { display: flex; }
+  .modal { background: white; border-radius: 6px; padding: 2.5rem; max-width: 440px; width: 100%; position: relative; animation: fadeUp 0.3s ease; }
+  .modal h3 { font-family: 'Cormorant Garamond', serif; color: var(--forest); font-size: 1.7rem; margin-bottom: 0.5rem; font-weight: 600; }
+  .modal p { color: var(--text-mid); font-size: 0.9rem; margin-bottom: 1.5rem; font-weight: 300; }
+  .modal input { width: 100%; border: 1px solid rgba(45,90,61,0.2); border-radius: 3px; padding: 0.8rem 1rem; font-family: 'Lato', sans-serif; font-size: 0.9rem; margin-bottom: 1rem; outline: none; color: var(--text-dark); background: var(--cream); transition: border-color 0.2s; }
+  .modal input:focus { border-color: var(--forest-light); }
+  .modal-close { position: absolute; top: 1rem; right: 1.2rem; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: rgba(45,90,61,0.4); }
+  .modal-close:hover { color: var(--forest); }
+  .modal-btns { display: flex; gap: 0.8rem; }
+  .modal-btns button { flex: 1; padding: 0.85rem; border-radius: 3px; font-family: 'Lato', sans-serif; font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+  .modal-cancel { background: transparent; border: 1px solid rgba(45,90,61,0.2); color: var(--text-mid); }
+  .modal-cancel:hover { background: var(--cream); }
+  .modal-send { background: var(--forest-mid); border: none; color: white; }
+  .modal-send:hover { background: var(--forest-light); }
+
+  /* AUTH & PROFILE */
+  .auth-tabs { display: flex; border-bottom: 1px solid rgba(45,90,61,0.15); margin-bottom: 1.5rem; }
+  .auth-tab { flex: 1; padding: 0.7rem; background: none; border: none; font-family: 'DM Sans', sans-serif; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(61,90,69,0.4); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all 0.2s; }
+  .auth-tab.active { color: var(--forest); border-bottom-color: var(--gold); }
+  .auth-error { display: none; background: rgba(192,57,43,0.08); border: 1px solid rgba(192,57,43,0.25); color: #c0392b; padding: 0.7rem 1rem; border-radius: 3px; font-size: 0.84rem; margin-bottom: 1rem; }
+  .auth-success { display: none; background: rgba(74,140,92,0.1); border: 1px solid rgba(74,140,92,0.3); color: var(--forest-mid); padding: 0.7rem 1rem; border-radius: 3px; font-size: 0.84rem; margin-bottom: 1rem; }
+
+  /* NAV AUTH BUTTON */
+  .nav-auth-btn { background: transparent; border: 1px solid rgba(196,163,90,0.4); color: rgba(232,220,200,0.7); padding: 0.4rem 1rem; border-radius: 2px; font-family: 'DM Sans', sans-serif; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+  .nav-auth-btn:hover { border-color: var(--gold); color: var(--gold); }
+  .nav-auth-btn.signed-in { border-color: rgba(109,184,122,0.4); color: var(--leaf-bright); }
+
+  /* PROFILE CONTACT PREF */
+  .contact-pref-options { display: flex; flex-direction: column; gap: 0.6rem; margin: 0.5rem 0 1rem; }
+  .contact-pref-option { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem; border: 1px solid rgba(45,90,61,0.18); border-radius: 4px; cursor: pointer; transition: all 0.2s; background: var(--cream); }
+  .contact-pref-option:hover, .contact-pref-option.selected { border-color: var(--forest-light); background: rgba(74,140,92,0.06); }
+  .contact-pref-option input[type=radio] { accent-color: var(--forest-light); width: 16px; height: 16px; flex-shrink: 0; }
+  .contact-pref-option .pref-label { font-size: 0.88rem; font-weight: 600; color: var(--forest); }
+  .contact-pref-option .pref-sub { font-size: 0.78rem; color: var(--text-mid); font-weight: 300; }
+  .contact-pref-handle { display: none; margin-top: 0.5rem; }
+  .contact-pref-handle input { width: 100%; background: var(--cream); border: 1px solid rgba(45,90,61,0.2); border-radius: 3px; padding: 0.7rem 1rem; color: var(--text-dark); font-family: 'DM Sans', sans-serif; font-size: 0.88rem; outline: none; transition: border-color 0.2s; }
+  .contact-pref-handle input:focus { border-color: var(--forest-light); }
+
+  /* INBOX */
+  .inbox-wrap { max-width: 700px; }
+  .inbox-empty { text-align: center; padding: 3rem; color: var(--text-mid); font-size: 0.9rem; font-weight: 300; }
+  .inbox-msg { background: white; border: 1px solid rgba(45,90,61,0.1); border-radius: 4px; padding: 1.3rem 1.5rem; margin-bottom: 0.8rem; transition: box-shadow 0.2s; }
+  .inbox-msg:hover { box-shadow: 0 4px 20px rgba(26,58,42,0.08); }
+  .inbox-msg-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.5rem; }
+  .inbox-msg-from { font-family: 'Cormorant Garamond', serif; color: var(--forest); font-size: 1.1rem; font-weight: 600; }
+  .inbox-msg-date { color: rgba(61,90,69,0.4); font-size: 0.76rem; font-weight: 300; }
+  .inbox-msg-about { font-size: 0.78rem; color: var(--gold); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .inbox-msg-body { color: var(--text-mid); font-size: 0.88rem; line-height: 1.6; font-weight: 300; margin-bottom: 0.6rem; }
+  .inbox-msg-contact { font-size: 0.82rem; color: var(--forest-mid); font-weight: 500; }
+  .inbox-msg-contact a { color: var(--forest-light); text-decoration: none; }
+  .inbox-tabs { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; }
+  .inbox-tab { padding: 0.45rem 1.1rem; border-radius: 20px; font-size: 0.78rem; font-weight: 700; cursor: pointer; border: 1px solid rgba(45,90,61,0.2); background: white; color: var(--text-mid); transition: all 0.2s; font-family: 'DM Sans', sans-serif; }
+  .inbox-tab.active { background: var(--forest); color: var(--gold); border-color: var(--forest); }
+
+  /* LISTING CONTACT BUTTON VARIANTS */
+  .contact-btn-fb { border-color: #1877f2 !important; color: #1877f2 !important; }
+  .contact-btn-fb:hover { background: #1877f2 !important; color: white !important; border-color: #1877f2 !important; }
+  .contact-btn-ig { border-color: #d6249f !important; color: #d6249f !important; }
+  .contact-btn-ig:hover { background: linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888) !important; color: white !important; border-color: transparent !important; }
+
+  /* PROFILE PAGE */
+  .profile-grid { display: grid; grid-template-columns: 280px 1fr; gap: 2rem; align-items: start; }
+  .profile-sidebar { background: white; border: 1px solid rgba(45,90,61,0.1); border-radius: 6px; padding: 2rem; position: sticky; top: 90px; }
+  .profile-avatar { width: 72px; height: 72px; background: var(--forest-mid); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin-bottom: 1rem; }
+  .profile-name { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: var(--forest); font-weight: 600; margin-bottom: 0.2rem; }
+  .profile-email { font-size: 0.8rem; color: var(--text-mid); font-weight: 300; margin-bottom: 1.5rem; }
+  .profile-nav-item { display: block; width: 100%; text-align: left; padding: 0.65rem 0.9rem; border-radius: 3px; border: none; background: none; font-family: 'DM Sans', sans-serif; font-size: 0.84rem; color: var(--text-mid); cursor: pointer; transition: all 0.2s; font-weight: 500; }
+  .profile-nav-item:hover { background: rgba(74,140,92,0.06); color: var(--forest); }
+  .profile-nav-item.active { background: rgba(74,140,92,0.1); color: var(--forest); font-weight: 700; }
+  .profile-section { background: white; border: 1px solid rgba(45,90,61,0.1); border-radius: 6px; padding: 2rem; }
+  .profile-section h3 { font-family: 'Cormorant Garamond', serif; color: var(--forest); font-size: 1.5rem; font-weight: 600; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(45,90,61,0.1); }
+  @media (max-width: 960px) { .profile-grid { grid-template-columns: 1fr; } .profile-sidebar { position: static; } }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+  @media (max-width: 960px) {
+    .nav-links { display: none; }
+    .nav-links.open { display: flex; flex-direction: column; position: fixed; top: 70px; left: 0; right: 0; background: rgba(26,58,42,0.98); padding: 1.5rem 5%; gap: 1.2rem; border-bottom: 1px solid rgba(196,163,90,0.15); z-index: 99; }
+    .nav-hamburger { display: flex; }
+    .nav-cards { grid-template-columns: repeat(2, 1fr); }
+    .two-col, .about-layout, .contact-layout { grid-template-columns: 1fr; gap: 40px; }
+    .trade-board { grid-template-columns: 1fr; }
+    .trade-form-card { position: static; }
+  }
+  @media (max-width: 580px) {
+    .nav-cards { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    .gallery-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo" onclick="showPage('home')">
+    <img src="https://i.imgur.com/O9Fqr7M.png" alt="Logo" style="height:44px;width:44px;object-fit:contain;border-radius:50%;" />
+    <div style="display:flex;flex-direction:column;line-height:1.2;">
+      <span>Grow Life Homesteading</span>
+      <span class="nav-logo-sub">Central Kentucky</span>
+    </div>
+  </div>
+  <ul class="nav-links" id="navLinks">
+    <li><a onclick="showPage('services')">Services</a></li>
+    <li class="nav-dropdown">
+      <a>Our Work</a>
+      <div class="dropdown-menu">
+        <a onclick="showPage('practices')">Our Practices & Philosophy</a>
+        <a onclick="showPage('about')">About Us</a>
+        <a onclick="window.open('https://www.instagram.com/growlife_ky','_blank')">Instagram</a>
+      </div>
+    </li>
+    <li class="nav-dropdown">
+      <a>Plans</a>
+      <div class="dropdown-menu">
+        <a onclick="showPage('plans')">Plans & Pricing</a>
+        <a onclick="showPage('faq')">FAQ</a>
+        <a onclick="showPage('tos')">Terms of Service</a>
+      </div>
+    </li>
+    <li><a onclick="showPage('network')">Community Table</a></li>
+    <li><a onclick="showPage('contact')">Contact</a></li>
+    <li><a onclick="showPage('consultation')" class="nav-cta">Get Started</a></li>
+    <li><button class="nav-auth-btn" id="navAuthBtn" onclick="handleNavAuth()">Sign In</button></li>
+  </ul>
+  <button class="nav-hamburger" onclick="toggleNav()"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- ======== HOME ======== -->
+<div class="page active" id="page-home">
+  <div class="home-hero">
+    <div class="home-hero-content">
+      <div style="margin-bottom:1.5rem;">
+        <img src="https://i.imgur.com/O9Fqr7M.png" alt="Grow Life Homesteading Logo" style="width:160px;height:160px;object-fit:contain;border-radius:50%;" />
+      </div>
+      <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;">
+        <div style="width:40px;height:1px;background:var(--gold);"></div>
+        <div class="hero-tag">🌿 The Community Table · Central Kentucky</div>
+      </div>
+      <h1>Embrace the Past.<br><em>Grow Your Future.</em><br>Self-Reliance Reborn.</h1>
+      <p>From garden setup to full property maintenance — we help homesteaders, families, and community centers build sustainable food forest ecosystems that produce for our customers.</p>
+      <div class="home-stat"><span>🏡 Serving Residential &amp; Community Centers</span></div>
+    </div>
+    <div class="nav-cards">
+      <div class="nav-card" onclick="showPage('services')">
+        <span class="nav-card-icon">🏡</span>
+        <h3>Our Services</h3>
+        <p>Construction, land setup, maintenance & more for your homestead or community property.</p>
+        <span class="nav-card-arrow">→</span>
+      </div>
+      <div class="nav-card" onclick="showPage('about')">
+        <span class="nav-card-icon">🌱</span>
+        <h3>About Us</h3>
+        <p>Learn about our story, mission, and the values that root everything we do.</p>
+        <span class="nav-card-arrow">→</span>
+      </div>
+      <div class="nav-card" onclick="showPage('consultation')">
+        <span class="nav-card-icon">📋</span>
+        <h3>Schedule a Consultation</h3>
+        <p>Tell us about your project and we'll get back to you within 1–2 business days.</p>
+        <span class="nav-card-arrow">→</span>
+      </div>
+      <div class="nav-card" onclick="showPage('network')">
+        <span class="nav-card-icon">🌽</span>
+        <h3>The Community Table</h3>
+        <p>Trade homegrown food, seeds, and surplus with neighbors in our community.</p>
+        <span class="nav-card-arrow">→</span>
+      </div>
+      <div class="nav-card" onclick="window.open('https://www.instagram.com/growlife_ky','_blank')">
+        <span class="nav-card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24"><defs><radialGradient id="ig2" cx="30%" cy="107%" r="150%"><stop offset="0%" stop-color="#fdf497"/><stop offset="5%" stop-color="#fdf497"/><stop offset="45%" stop-color="#fd5949"/><stop offset="60%" stop-color="#d6249f"/><stop offset="90%" stop-color="#285AEB"/></radialGradient></defs><path fill="url(#ig2)" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></span>
+        <h3>Instagram</h3>
+        <p>See our latest builds, gardens, and homestead transformations on Instagram @growlife_ky</p>
+        <span class="nav-card-arrow">→</span>
+      </div>
+      <div class="nav-card" onclick="showPage('plans')">
+        <span class="nav-card-icon">💰</span>
+        <h3>Plans & Pricing</h3>
+        <p>Maintenance plans, crop insurance, and pay-per-visit services tailored to your homestead.</p>
+        <span class="nav-card-arrow">→</span>
+      </div>
+      <div class="nav-card" onclick="showPage('practices')">
+        <span class="nav-card-icon">🌿</span>
+        <h3>Our Practices & Philosophy</h3>
+        <p>The methods, amendments, and principles behind every project we take on.</p>
+        <span class="nav-card-arrow">→</span>
+      </div>
+      <div class="nav-card" onclick="showPage('contact')">
+        <span class="nav-card-icon">📞</span>
+        <h3>Contact Us</h3>
+        <p>Reach out by phone, email, or stop by. We'd love to connect with you.</p>
+        <span class="nav-card-arrow">→</span>
+      </div>
+      <div class="nav-card" onclick="showPage('tos')">
+        <span class="nav-card-icon">📜</span>
+        <h3>Terms of Service</h3>
+        <p>Review our service terms, crop insurance policies, Community Table rules, and privacy policy.</p>
+        <span class="nav-card-arrow">→</span>
+      </div>
+    </div>
+  </div>
+  <footer>
+    <div class="footer-logo">Grow Life Homesteading <span>· The Community Table</span></div>
+    <div class="footer-links">
+      <a onclick="showPage('services')">Services</a>
+      <a onclick="showPage('consultation')">Consultation</a>
+      <a onclick="showPage('network')">Network</a>
+      <a onclick="showPage('contact')">Contact</a>
+    </div>
+    <p>© 2025 Grow Life Homesteading. <a onclick="showPage('tos')" style="color:rgba(232,220,200,0.4);cursor:pointer;text-decoration:underline;">Terms of Service</a></p>
+  </footer>
+</div>
+
+<!-- ======== SERVICES ======== -->
+<div class="page" id="page-services">
+  <div class="page-hero">
+    <div class="page-hero-content">
+      <div class="breadcrumb" onclick="showPage('home')">← Home <span>/</span> Services</div>
+      <h1>Our Services</h1>
+      <p>Everything you need to build, grow, and maintain a thriving homestead — for families, residences, and community centers.</p>
+    </div>
+  </div>
+  <div class="page-content">
+    <div class="services-grid">
+      <div class="service-card">
+        <span class="service-icon">🏗️</span>
+        <h3>Structures We Build</h3>
+        <p>Custom-built homesteading structures designed to last and serve your land well.</p>
+        <ul class="service-items">
+          <li>Raised garden beds</li>
+          <li>Chicken coops</li>
+          <li>Compost systems</li>
+          <li>Greenhouse construction</li>
+          <li>Hardscapes, outdoor kitchens & fire pit areas</li>
+          <li>Rainwater collection systems</li>
+          <li>Mushroom log systems</li>
+        </ul>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">🌱</span>
+        <h3>Garden & Land Setup</h3>
+        <p>We prep and plant so your property is ready to produce from day one.</p>
+        <ul class="service-items">
+          <li>Garden bed planning & installation</li>
+          <li>Soil preparation & amendment</li>
+          <li>Soil testing & analysis</li>
+          <li>Orchard, berry production & food forest planting</li>
+          <li>Native & pollinator plantings</li>
+          <li>Irrigation & drip line systems</li>
+          <li>Mulching & ground cover</li>
+          <li>Permaculture design</li>
+          <li>Aquaponics, natural organic swimming holes & pond construction</li>
+        </ul>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">🔧</span>
+        <h3>Property Maintenance</h3>
+        <p>Regular and seasonal upkeep so your homestead stays healthy and productive year-round.</p>
+        <ul class="service-items">
+          <li>Seasonal garden prep & planting</li>
+          <li>Pruning, harvesting & cleanup</li>
+          <li>Structure repairs & upkeep</li>
+          <li>Drainage & erosion management</li>
+          <li>Winterizing property & systems</li>
+          <li>Pest, weed & disease management</li>
+          <li>Animal husbandry & care</li>
+          <li>Greenhouse management & seedling care</li>
+          <li>Season extension techniques</li>
+          <li>Composting maintenance</li>
+          <li>Pond & water feature upkeep</li>
+        </ul>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">⛪</span>
+        <h3>Community Centers</h3>
+        <p>We partner with churches and community organizations to build productive, welcoming outdoor spaces.</p>
+        <ul class="service-items">
+          <li>Community garden setup</li>
+          <li>Bible gardens</li>
+          <li>Shared produce & harvest areas</li>
+          <li>Outdoor gathering spaces</li>
+          <li>Educational garden programs</li>
+          <li>Long-term maintenance contracts</li>
+          <li>Composting & sustainability workshops</li>
+          <li>Internships for students available</li>
+          <li>Canning & processing services</li>
+        </ul>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:3rem;">
+      <button class="btn-submit" style="width:auto;padding:1rem 3rem;" onclick="showPage('consultation')">Schedule a Free Consultation →</button>
+    </div>
+  </div>
+  <footer>
+    <div class="footer-logo">Grow Life Homesteading <span>· The Community Table</span></div>
+    <div class="footer-links"><a onclick="showPage('home')">Home</a><a onclick="showPage('consultation')">Consultation</a><a onclick="showPage('contact')">Contact</a></div>
+    <p>© 2025 Grow Life Homesteading. <a onclick="showPage('tos')" style="color:rgba(232,220,200,0.4);cursor:pointer;text-decoration:underline;">Terms of Service</a></p>
+  </footer>
+</div>
+
+<!-- ======== CONSULTATION ======== -->
+<div class="page" id="page-consultation">
+  <div class="page-hero">
+    <div class="page-hero-content">
+      <div class="breadcrumb" onclick="showPage('home')">← Home <span>/</span> Schedule a Consultation</div>
+      <h1>Schedule a Consultation</h1>
+      <p>Tell us about your property and what you're hoping to build or maintain. We'll get back to you within 1–2 business days.</p>
+    </div>
+  </div>
+  <div class="page-content">
+    <div class="two-col">
+      <div>
+        <div class="section-tag">Free Quotes</div>
+        <h2 class="section-title">Let's Talk About<br>Your Property</h2>
+        <p class="section-sub">Whether you're just starting your homesteading journey or looking to expand, we're here to help you plan and build it right.</p>
+        <ul class="perks-list">
+          <li>On-site assessment available</li>
+          <li>Flexible scheduling to fit your timeline</li>
+        </ul>
+      </div>
+      <div class="form-card">
+        <h3>Contact Us</h3>
+        <div class="form-row">
+          <div class="form-group"><label>First Name</label><input type="text" placeholder="First" /></div>
+          <div class="form-group"><label>Last Name</label><input type="text" placeholder="Last" /></div>
+        </div>
+        <div class="form-group"><label>Email Address</label><input type="email" placeholder="Email" /></div>
+        <div class="form-group"><label>Phone Number</label><input type="tel" placeholder="(555) 000-0000" /></div>
+        <div class="form-group">
+          <label>Property Type</label>
+          <select>
+            <option value="">Select type...</option>
+            <option>Residential Home</option>
+            <option>Church / Community Center</option>
+            <option>Small Farm / Rural Property</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Service Needed</label>
+          <select>
+            <option value="">Select service...</option>
+            <option>Construction / Build Project</option>
+            <option>Garden & Land Setup</option>
+            <option>Garden Restoration</option>
+            <option>Ongoing Maintenance</option>
+            <option>Multiple Services</option>
+            <option>Not Sure — Need Consultation</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Tell Us About Your Project</label><textarea placeholder="Describe what you're hoping to build or maintain. Include approximate property size if you know it..."></textarea></div>
+        <button class="btn-submit" onclick="submitForm('consultSuccess')">Submit Request →</button>
+        <div class="success-msg" id="consultSuccess">✓ Thanks! We'll be in touch within 1–2 business days.</div>
+      </div>
+    </div>
+  </div>
+  <footer>
+    <div class="footer-logo">Grow Life Homesteading <span>· The Community Table</span></div>
+    <div class="footer-links"><a onclick="showPage('home')">Home</a><a onclick="showPage('services')">Services</a><a onclick="showPage('contact')">Contact</a></div>
+    <p>© 2025 Grow Life Homesteading. <a onclick="showPage('tos')" style="color:rgba(232,220,200,0.4);cursor:pointer;text-decoration:underline;">Terms of Service</a></p>
+  </footer>
+</div>
+
+<!-- ======== NEIGHBOR NETWORK ======== -->
+<div class="page" id="page-network">
+  <div class="page-hero">
+    <div class="page-hero-content">
+      <div class="breadcrumb" onclick="showPage('home')">← Home <span>/</span> The Community Table</div>
+      <h1>The Community Table</h1>
+      <p>Connect with neighbors to trade homegrown produce, seeds, and surplus — safely and privately.</p>
+    </div>
+  </div>
+  <div class="page-content">
+    <!-- NOT SIGNED IN STATE -->
+    <div id="networkSignedOut" style="display:none;text-align:center;padding:3rem 1rem;">
+      <div style="font-size:3rem;margin-bottom:1rem;">🌽</div>
+      <h2 style="font-family:'Cormorant Garamond',serif;color:var(--forest);font-size:2rem;font-weight:600;margin-bottom:0.8rem;">Join the Community Table</h2>
+      <p style="color:var(--text-mid);font-size:0.95rem;max-width:480px;margin:0 auto 2rem;font-weight:300;line-height:1.7;">Create a free account to post listings, message neighbors privately, and never share your personal contact info publicly.</p>
+      <button class="btn-submit" style="width:auto;padding:0.9rem 2.5rem;" onclick="openAuthModal('signup')">Create Free Account →</button>
+      <p style="margin-top:1rem;color:var(--text-mid);font-size:0.84rem;font-weight:300;">Already have an account? <a onclick="openAuthModal('login')" style="color:var(--forest-light);cursor:pointer;font-weight:600;">Sign in</a></p>
+    </div>
+
+    <!-- SIGNED IN BUT UNVERIFIED STATE -->
+    <div id="networkUnverified" style="display:none;text-align:center;padding:3rem 1rem;">
+      <div style="font-size:3rem;margin-bottom:1rem;">📬</div>
+      <h2 style="font-family:'Cormorant Garamond',serif;color:var(--forest);font-size:2rem;font-weight:600;margin-bottom:0.8rem;">Check Your Email</h2>
+      <div style="background:rgba(196,163,90,0.08);border:1px solid rgba(196,163,90,0.25);border-radius:4px;padding:1.5rem 2rem;max-width:480px;margin:0 auto 2rem;">
+        <p style="color:var(--text-mid);font-size:0.95rem;font-weight:300;line-height:1.7;">We sent a confirmation link to <strong style="color:var(--forest)" id="unverifiedEmail">your email</strong>. Click the link to verify your account and unlock the Community Table.</p>
+      </div>
+      <p style="color:var(--text-mid);font-size:0.84rem;font-weight:300;max-width:400px;margin:0 auto;">Didn't get it? Check your spam folder, or <a onclick="resendVerification()" style="color:var(--forest-light);cursor:pointer;font-weight:600;">click here to resend</a>.</p>
+      <p id="resendConfirm" style="display:none;color:var(--forest-light);font-size:0.84rem;margin-top:0.8rem;font-weight:600;">✓ Verification email resent!</p>
+    </div>
+
+    <!-- SIGNED IN STATE -->
+    <div id="networkSignedIn" style="display:none;">
+      <div class="trade-board">
+        <div class="trade-form-card">
+          <h3>🌽 Post a Listing</h3>
+          <div class="form-group"><label>Item / Produce</label><input type="text" id="listingItem" placeholder="e.g. Zucchini, Eggs, Seedlings..." /></div>
+          <div class="form-group">
+            <label>Listing Type</label>
+            <select id="listingType">
+              <option value="offer">I'm Offering / Have to Share</option>
+              <option value="want">I'm Looking For / Want to Trade</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Details</label><textarea id="listingDesc" placeholder="Quantity, condition, trade preferences, pickup..."></textarea></div>
+          <div class="form-group"><label>General Area</label><input type="text" id="listingArea" placeholder="e.g. East side, North neighborhood..." /></div>
+          <button class="btn-green" onclick="addListing()">Post Listing →</button>
+          <div style="margin-top:1.2rem;padding-top:1.2rem;border-top:1px solid rgba(45,90,61,0.1);font-size:0.78rem;color:var(--text-mid);font-weight:300;line-height:1.6;">
+            🔒 Your name and contact info stay private. Interested neighbors message you through your profile.
+          </div>
+        </div>
+        <div>
+          <div class="listings-header">
+            <div class="listings-title">Active Listings</div>
+            <div class="listing-filters">
+              <button class="filter-btn active" onclick="filterListings('all', this)">All</button>
+              <button class="filter-btn" onclick="filterListings('offer', this)">Offering</button>
+              <button class="filter-btn" onclick="filterListings('want', this)">Wanted</button>
+            </div>
+          </div>
+          <div class="listings" id="listingsContainer"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer>
+    <div class="footer-logo">Grow Life Homesteading <span>· The Community Table</span></div>
+    <div class="footer-links"><a onclick="showPage('home')">Home</a><a onclick="showPage('services')">Services</a><a onclick="showPage('contact')">Contact</a></div>
+    <p>© 2025 Grow Life Homesteading. <a onclick="showPage('tos')" style="color:rgba(232,220,200,0.4);cursor:pointer;text-decoration:underline;">Terms of Service</a></p>
+  </footer>
+</div>
+
+<!-- ======== PROFILE / INBOX ======== -->
+<div class="page" id="page-profile">
+  <div class="page-hero">
+    <div class="page-hero-content">
+      <div class="breadcrumb" onclick="showPage('home')">← Home <span>/</span> My Profile</div>
+      <h1>My Profile</h1>
+      <p>Manage your listings, inbox, and contact preferences.</p>
+    </div>
+  </div>
+  <div class="page-content">
+    <div class="profile-grid">
+      <div class="profile-sidebar">
+        <div class="profile-avatar">🌿</div>
+        <div class="profile-name" id="profileDisplayName">—</div>
+        <div class="profile-email" id="profileDisplayEmail">—</div>
+        <button class="profile-nav-item active" id="pnav-inbox" onclick="switchProfileTab('inbox')">📬 Inbox</button>
+        <button class="profile-nav-item" id="pnav-mylistings" onclick="switchProfileTab('mylistings')">📋 My Listings</button>
+        <button class="profile-nav-item" id="pnav-settings" onclick="switchProfileTab('settings')">⚙️ Contact Preferences</button>
+        <div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid rgba(45,90,61,0.1);">
+          <button onclick="signOut()" style="width:100%;background:none;border:1px solid rgba(192,57,43,0.2);color:rgba(192,57,43,0.7);padding:0.6rem;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:0.78rem;font-weight:600;cursor:pointer;letter-spacing:0.08em;text-transform:uppercase;transition:all 0.2s;" onmouseover="this.style.background='rgba(192,57,43,0.06)'" onmouseout="this.style.background='none'">Sign Out</button>
+        </div>
+      </div>
+      <div>
+        <!-- INBOX TAB -->
+        <div id="ptab-inbox" class="profile-section">
+          <h3>📬 Inbox</h3>
+          <div class="inbox-tabs">
+            <button class="inbox-tab active" id="itab-unread" onclick="switchInboxTab('unread')">Unread</button>
+            <button class="inbox-tab" id="itab-all" onclick="switchInboxTab('all')">All Messages</button>
+          </div>
+          <div id="inboxContainer" class="inbox-wrap"><div class="inbox-empty">Loading messages...</div></div>
+        </div>
+        <!-- MY LISTINGS TAB -->
+        <div id="ptab-mylistings" class="profile-section" style="display:none;">
+          <h3>📋 My Listings</h3>
+          <div id="myListingsContainer" class="listings" style="margin-top:0;"><div class="inbox-empty">Loading your listings...</div></div>
+        </div>
+        <!-- SETTINGS TAB -->
+        <div id="ptab-settings" class="profile-section" style="display:none;">
+          <h3>⚙️ Contact Preferences</h3>
+          <p style="color:var(--text-mid);font-size:0.9rem;line-height:1.7;font-weight:300;margin-bottom:1.5rem;">Choose how neighbors reach you when they're interested in one of your listings. Your personal info is never shown publicly.</p>
+          <div class="contact-pref-options">
+            <label class="contact-pref-option" id="pref-dm">
+              <input type="radio" name="contactPref" value="dm" onchange="togglePrefHandle('dm')" />
+              <div>
+                <div class="pref-label">💬 On-site Message</div>
+                <div class="pref-sub">Neighbors send you a private message here — you see it in your inbox.</div>
+              </div>
+            </label>
+            <label class="contact-pref-option" id="pref-facebook">
+              <input type="radio" name="contactPref" value="facebook" onchange="togglePrefHandle('facebook')" />
+              <div>
+                <div class="pref-label">📘 Facebook Messenger</div>
+                <div class="pref-sub">We'll link to your Facebook profile so neighbors can message you directly.</div>
+              </div>
+            </label>
+            <label class="contact-pref-option" id="pref-instagram">
+              <input type="radio" name="contactPref" value="instagram" onchange="togglePrefHandle('instagram')" />
+              <div>
+                <div class="pref-label">📸 Instagram DM</div>
+                <div class="pref-sub">We'll link to your Instagram profile for direct messaging.</div>
+              </div>
+            </label>
+          </div>
+          <div id="handle-facebook" class="contact-pref-handle">
+            <div class="form-group"><label>Facebook Profile URL or Username</label><input type="text" id="fbHandle" placeholder="e.g. facebook.com/yourname or just yourname" /></div>
+          </div>
+          <div id="handle-instagram" class="contact-pref-handle">
+            <div class="form-group"><label>Instagram Username</label><input type="text" id="igHandle" placeholder="e.g. @yourhandle" /></div>
+          </div>
+          <button class="btn-submit" style="width:auto;padding:0.85rem 2rem;margin-top:0.5rem;" onclick="saveContactPrefs()">Save Preferences →</button>
+          <p id="prefsSaved" style="display:none;color:var(--forest-light);font-size:0.84rem;margin-top:0.8rem;font-weight:600;">✓ Preferences saved!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer>
+    <div class="footer-logo">Grow Life Homesteading <span>· The Community Table</span></div>
+    <div class="footer-links"><a onclick="showPage('home')">Home</a><a onclick="showPage('network')">Community Table</a><a onclick="showPage('contact')">Contact</a></div>
+    <p>© 2025 Grow Life Homesteading. <a onclick="showPage('tos')" style="color:rgba(232,220,200,0.4);cursor:pointer;text-decoration:underline;">Terms of Service</a></p>
+  </footer>
+</div>
+
+<!-- ======== GALLERY ======== -->
+<!-- ======== ABOUT ======== -->
+<div class="page" id="page-about">
+  <div class="page-hero">
+    <div class="page-hero-content">
+      <div class="breadcrumb" onclick="showPage('home')">← Home <span>/</span> About Us</div>
+      <h1>About Grow Life Homesteading</h1>
+      <p>A community-driven organization built on the belief that growing your own food is one of the most powerful things a person can do.</p>
+    </div>
+  </div>
+  <div class="page-content">
+
+    <!-- MISSION STATEMENT -->
+    <div style="background:var(--forest);border-radius:6px;padding:4rem 3rem;text-align:center;margin-bottom:5rem;position:relative;overflow:hidden;">
+      <div style="position:absolute;inset:0;background:url('data:image/svg+xml,%3Csvg width=%2260%22 height=%2260%22 viewBox=%220 0 60 60%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cg fill=%22%234a8c5c%22 fill-opacity=%220.06%22%3E%3Cpath d=%22M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z%22/%3E%3C/g%3E%3C/svg%3E');"></div>
+      <div style="position:relative;z-index:2;max-width:820px;margin:0 auto;">
+        <div style="color:var(--leaf-bright);font-size:0.75rem;letter-spacing:0.2em;text-transform:uppercase;font-weight:700;margin-bottom:1.5rem;border-left:3px solid var(--leaf-bright);padding-left:0.8rem;display:inline-block;">Our Mission</div>
+        <div style="font-size:3rem;color:rgba(109,184,122,0.2);line-height:1;margin-bottom:1rem;">❝</div>
+        <p style="font-family:'Playfair Display',serif;color:var(--cream);font-size:clamp(1.05rem,2vw,1.25rem);line-height:1.9;font-weight:400;font-style:italic;margin-bottom:2rem;">At Grow Life, we want to give people back the power of what it means to grow their own organic food and live a more sustainable and healthier lifestyle regardless of time, physical capability, or educational means to maximize their harvests each year. We want to revolutionize the food market and reconnect people to their natural state of living. Grow Life is about building a community, living closer to the Earth, and reacquainting ourselves with the people around us because food is something that will always bring us all together to the table.</p>
+        <div style="width:60px;height:2px;background:var(--leaf-bright);margin:0 auto 1rem;"></div>
+        <p style="color:rgba(232,220,200,0.5);font-size:0.8rem;letter-spacing:0.15em;text-transform:uppercase;font-weight:700;">— Grow Life Homesteading</p>
+      </div>
+    </div>
+
+    <!-- CORE VALUES -->
+    <div style="margin-bottom:5rem;">
+      <div style="text-align:center;margin-bottom:2.5rem;">
+        <div class="section-tag" style="display:inline-block;">What Drives Us</div>
+        <h2 class="section-title" style="margin-top:0.5rem;">Our Core Values</h2>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem;">
+        <div style="background:white;border:1px solid rgba(45,90,61,0.1);border-radius:4px;padding:2rem;text-align:center;transition:all 0.2s;">
+          <div style="font-size:2.5rem;margin-bottom:1rem;">🌱</div>
+          <h4 style="font-family:'Playfair Display',serif;color:var(--forest);font-size:1.1rem;margin-bottom:0.6rem;">Self-Reliance</h4>
+          <p style="color:var(--text-mid);font-size:0.86rem;line-height:1.6;font-weight:300;">We equip every client with the infrastructure and knowledge to produce their own food and live more independently — regardless of their starting point.</p>
+        </div>
+        <div style="background:white;border:1px solid rgba(45,90,61,0.1);border-radius:4px;padding:2rem;text-align:center;">
+          <div style="font-size:2.5rem;margin-bottom:1rem;">🤝</div>
+          <h4 style="font-family:'Playfair Display',serif;color:var(--forest);font-size:1.1rem;margin-bottom:0.6rem;">Community First</h4>
+          <p style="color:var(--text-mid);font-size:0.86rem;line-height:1.6;font-weight:300;">The strongest homesteads are built together. We foster neighbor-to-neighbor connection, food sharing, and mutual support through everything we do.</p>
+        </div>
+        <div style="background:white;border:1px solid rgba(45,90,61,0.1);border-radius:4px;padding:2rem;text-align:center;">
+          <div style="font-size:2.5rem;margin-bottom:1rem;">🌍</div>
+          <h4 style="font-family:'Playfair Display',serif;color:var(--forest);font-size:1.1rem;margin-bottom:0.6rem;">Stewardship</h4>
+          <p style="color:var(--text-mid);font-size:0.86rem;line-height:1.6;font-weight:300;">We build with the land in mind. Every practice we use restores and enriches rather than depletes — leaving the soil better than we found it.</p>
+        </div>
+        <div style="background:white;border:1px solid rgba(45,90,61,0.1);border-radius:4px;padding:2rem;text-align:center;">
+          <div style="font-size:2.5rem;margin-bottom:1rem;">🍽️</div>
+          <h4 style="font-family:'Playfair Display',serif;color:var(--forest);font-size:1.1rem;margin-bottom:0.6rem;">Food as Connection</h4>
+          <p style="color:var(--text-mid);font-size:0.86rem;line-height:1.6;font-weight:300;">Food will always bring us to the table together. We believe growing and sharing food is one of the most human things we can do — and we're here to make it possible for everyone.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- WHO WE SERVE -->
+    <div style="background:#f0ebe0;border-radius:6px;padding:3rem;margin-bottom:3rem;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;">
+      <div>
+        <div class="section-tag">Who We Serve</div>
+        <h2 class="section-title">Built for Every Kind of Grower</h2>
+        <p style="color:var(--text-mid);line-height:1.8;font-size:0.95rem;font-weight:300;">Whether you're a family wanting to grow your first garden bed or a church looking to build a community food forest — if you're ready to reconnect with the land, we're ready to help you do it.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:1rem;">
+        <div style="background:white;border-radius:4px;padding:1.2rem 1.5rem;display:flex;align-items:center;gap:1rem;border:1px solid rgba(45,90,61,0.1);">
+          <div style="font-size:1.8rem;">🏡</div>
+          <div><h4 style="font-family:'Playfair Display',serif;color:var(--forest);font-size:1rem;margin-bottom:0.2rem;">Residential Homesteaders</h4><p style="color:var(--text-mid);font-size:0.84rem;font-weight:300;">Families and individuals ready to grow their own food and build a more self-sufficient life.</p></div>
+        </div>
+        <div style="background:white;border-radius:4px;padding:1.2rem 1.5rem;display:flex;align-items:center;gap:1rem;border:1px solid rgba(45,90,61,0.1);">
+          <div style="font-size:1.8rem;">⛪</div>
+          <div><h4 style="font-family:'Playfair Display',serif;color:var(--forest);font-size:1rem;margin-bottom:0.2rem;">Churches & Community Centers</h4><p style="color:var(--text-mid);font-size:0.84rem;font-weight:300;">Organizations looking to build shared gardens, food programs, and sustainable outdoor spaces.</p></div>
+        </div>
+        <div style="background:white;border-radius:4px;padding:1.2rem 1.5rem;display:flex;align-items:center;gap:1rem;border:1px solid rgba(45,90,61,0.1);">
+          <div style="font-size:1.8rem;">🌾</div>
+          <div><h4 style="font-family:'Playfair Display',serif;color:var(--forest);font-size:1rem;margin-bottom:0.2rem;">Small Farms & Rural Properties</h4><p style="color:var(--text-mid);font-size:0.84rem;font-weight:300;">Landowners wanting to build productive, regenerative systems on larger acreage.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:2rem;">
+      <button class="btn-submit" style="width:auto;padding:1rem 3rem;" onclick="showPage('consultation')">Start Your Journey With Us →</button>
+    </div>
+
+  </div>
+  <footer>
+    <div class="footer-logo">Grow Life Homesteading <span>· The Community Table</span></div>
+    <div class="footer-links"><a onclick="showPage('home')">Home</a><a onclick="showPage('services')">Services</a><a onclick="showPage('contact')">Contact</a></div>
+    <p>© 2025 Grow Life Homesteading. <a onclick="showPage('tos')" style="color:rgba(232,220,200,0.4);cursor:pointer;text-decoration:underline;">Terms of Service</a></p>
+  </footer>
+</div>
+
+<!-- ======== PLANS & PRICING ======== -->
+<div class="page" id="page-plans">
+  <div class="page-hero">
+    <div class="page-hero-content">
+      <div class="breadcrumb" onclick="showPage('home')">← Home <span>/</span> Plans & Pricing</div>
+      <h1>Plans & Pricing</h1>
+      <p>Flexible plans built for every stage of your homesteading journey — from first-time gardeners to full food system homesteaders.</p>
+    </div>
+  </div>
+  <div class="page-content">
+
+    <!-- MAINTENANCE PLANS -->
+    <div style="margin-bottom:4rem;">
+      <div class="section-tag">Monthly Plans</div>
+      <h2 class="section-title">Maintenance Plans</h2>
+      <p class="section-sub" style="margin-bottom:1.5rem;">Regular, scheduled care so your homestead stays productive year-round without you having to worry about a thing.</p>
+      <div style="background:rgba(139,111,71,0.08);border-left:4px solid var(--bark);border-radius:0 4px 4px 0;padding:1.2rem 1.5rem;margin-bottom:2.5rem;">
+        <p style="color:var(--bark);font-weight:700;font-size:0.85rem;margin-bottom:0.4rem;">📋 A Note on Pricing</p>
+        <p style="color:var(--text-mid);font-size:0.85rem;line-height:1.7;font-weight:300;">The prices below are <strong style="color:var(--text-dark);">baseline starting points</strong>. Your actual monthly quote may vary based on your total square footage, the number and type of specialty systems on your property, and the maintenance demands of those systems. For example, a row of berry bushes may only need occasional watering and pruning, while a chicken coop requires regular hands-on care and monitoring. We'll work through all of this together during your consultation to build a quote that accurately reflects your property.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;">
+
+        <!-- The Basics -->
+        <div style="background:white;border:1px solid rgba(45,90,61,0.15);border-radius:6px;padding:2.5rem;position:relative;transition:transform 0.2s,box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 8px 30px rgba(26,58,42,0.1)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+          <h3 style="font-family:'Playfair Display',serif;color:var(--forest);font-size:1.3rem;margin-bottom:0.3rem;font-weight:700;">The Basics</h3>
+          <div style="width:40px;height:2px;background:var(--forest-light);margin-bottom:1.2rem;"></div>
+          <div style="margin-bottom:1.5rem;">
+            <span style="font-family:'Playfair Display',serif;font-size:3rem;color:var(--forest);font-weight:900;">$120</span>
+            <span style="color:var(--text-mid);font-size:0.9rem;font-weight:300;"> / month</span>
+          </div>
+          <ul class="service-items" style="margin-bottom:1.5rem;">
+            <li>Up to 400 square feet</li>
+            <li>Seasonal crops</li>
+            <li>Spring soil prep and fall clean up</li>
+            <li>Pest and Disease Management</li>
+          </ul>
+          <div style="background:rgba(74,140,92,0.08);border-radius:3px;padding:0.7rem 1rem;margin-bottom:1.5rem;">
+            <p style="color:var(--forest-mid);font-size:0.85rem;font-weight:700;">Perfect for new gardeners</p>
+            <p style="color:var(--text-mid);font-size:0.8rem;font-weight:300;margin-top:0.3rem;">➕ Specialty systems (greenhouse, aquaponics, etc.) can be added for an additional monthly fee.</p>
+          </div>
+          <button class="btn-submit" onclick="showPage('consultation')">Get Started →</button>
+        </div>
+
+        <!-- Complete Homestead -->
+        <div style="background:var(--forest-mid);border:2px solid var(--leaf);border-radius:6px;padding:2.5rem;position:relative;transition:transform 0.2s,box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 8px 30px rgba(26,58,42,0.2)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+          <div style="position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--leaf);color:white;font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;padding:0.35rem 1.2rem;border-radius:20px;">Most Popular</div>
+          <h3 style="font-family:'Playfair Display',serif;color:var(--cream);font-size:1.3rem;margin-bottom:0.3rem;font-weight:700;">Complete Homestead</h3>
+          <div style="width:40px;height:2px;background:var(--leaf-bright);margin-bottom:1.2rem;"></div>
+          <div style="margin-bottom:1.5rem;">
+            <span style="font-family:'Playfair Display',serif;font-size:3rem;color:var(--leaf-bright);font-weight:900;">$180</span>
+            <span style="color:rgba(232,220,200,0.6);font-size:0.9rem;font-weight:300;"> / month</span>
+          </div>
+          <ul style="list-style:none;margin-bottom:1.5rem;">
+            <li style="color:rgba(232,220,200,0.85);font-size:0.85rem;padding:0.3rem 0 0.3rem 1.2rem;position:relative;border-bottom:1px solid rgba(109,184,122,0.15);">
+              <span style="position:absolute;left:0;color:var(--leaf-bright);">→</span>Up to 800 square feet</li>
+            <li style="color:rgba(232,220,200,0.85);font-size:0.85rem;padding:0.3rem 0 0.3rem 1.2rem;position:relative;border-bottom:1px solid rgba(109,184,122,0.15);">
+              <span style="position:absolute;left:0;color:var(--leaf-bright);">→</span>Trellising, stakes, etc. included</li>
+            <li style="color:rgba(232,220,200,0.85);font-size:0.85rem;padding:0.3rem 0 0.3rem 1.2rem;position:relative;border-bottom:1px solid rgba(109,184,122,0.15);">
+              <span style="position:absolute;left:0;color:var(--leaf-bright);">→</span>Season extension techniques</li>
+            <li style="color:rgba(232,220,200,0.85);font-size:0.85rem;padding:0.3rem 0 0.3rem 1.2rem;position:relative;">
+              <span style="position:absolute;left:0;color:var(--leaf-bright);">→</span>✅ Basic Crop Insurance included</li>
+          </ul>
+          <div style="background:rgba(255,255,255,0.08);border-radius:3px;padding:0.7rem 1rem;margin-bottom:1.5rem;">
+            <p style="color:var(--leaf-bright);font-size:0.85rem;font-weight:700;">Complete garden mgmt. with expertise.</p>
+            <p style="color:rgba(232,220,200,0.6);font-size:0.8rem;font-weight:300;margin-top:0.3rem;">➕ Specialty systems can be added for an additional monthly fee.</p>
+            <p style="color:rgba(232,220,200,0.6);font-size:0.8rem;font-weight:300;margin-top:0.3rem;">🛡️ Basic Crop Insurance bundled in — a $18/mo value.</p>
+          </div>
+          <button style="width:100%;background:var(--leaf);color:white;border:none;padding:1rem;border-radius:3px;font-family:'Lato',sans-serif;font-size:0.9rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='var(--leaf-bright)'" onmouseout="this.style.background='var(--leaf)'" onclick="showPage('consultation')">Get Started →</button>
+        </div>
+
+        <!-- Premium Homestead -->
+        <div style="background:white;border:1px solid rgba(45,90,61,0.15);border-radius:6px;padding:2.5rem;position:relative;transition:transform 0.2s,box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 8px 30px rgba(26,58,42,0.1)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+          <h3 style="font-family:'Playfair Display',serif;color:var(--forest);font-size:1.3rem;margin-bottom:0.3rem;font-weight:700;">Premium Homestead</h3>
+          <div style="width:40px;height:2px;background:var(--forest-light);margin-bottom:1.2rem;"></div>
+          <div style="margin-bottom:1.5rem;">
+            <span style="font-family:'Playfair Display',serif;font-size:3rem;color:var(--forest);font-weight:900;">$250</span>
+            <span style="color:var(--text-mid);font-size:0.9rem;font-weight:300;"> / month</span>
+          </div>
+          <ul class="service-items" style="margin-bottom:1.5rem;">
+            <li>Up to 1,200 sq. ft. + 2 specialty systems</li>
+            <li>Mid-season soil boosters</li>
+            <li>Harvest prep consultation</li>
+            <li>✅ Basic Crop Insurance included</li>
+          </ul>
+          <div style="background:rgba(74,140,92,0.08);border-radius:3px;padding:0.7rem 1rem;margin-bottom:1.5rem;">
+            <p style="color:var(--forest-mid);font-size:0.85rem;font-weight:700;">Complete food systems, for homesteaders.</p>
+            <p style="color:var(--text-mid);font-size:0.8rem;font-weight:300;margin-top:0.3rem;">➕ Specialty systems can be added for an additional monthly fee.</p>
+            <p style="color:var(--text-mid);font-size:0.8rem;font-weight:300;margin-top:0.3rem;">🛡️ Basic Crop Insurance bundled in — a $18/mo value.</p>
+          </div>
+          <button class="btn-submit" onclick="showPage('consultation')">Get Started →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CROP INSURANCE -->
+    <div style="margin-bottom:4rem;">
+      <div class="section-tag">Protection Plans</div>
+      <h2 class="section-title">Crop Insurance Plans</h2>
+      <p class="section-sub" style="margin-bottom:2.5rem;">Protect your investment. Our crop insurance plans cover everything from weather damage to livestock health — so a bad season never means starting from zero.</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;">
+
+        <!-- Basic Coverage -->
+        <div style="background:white;border:1px solid rgba(45,90,61,0.15);border-radius:6px;padding:2.5rem;transition:transform 0.2s,box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 8px 30px rgba(26,58,42,0.1)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+          <h3 style="font-family:'Playfair Display',serif;color:var(--forest);font-size:1.3rem;margin-bottom:0.3rem;font-weight:700;">Basic Coverage</h3>
+          <div style="width:40px;height:2px;background:var(--forest-light);margin-bottom:1.2rem;"></div>
+          <div style="margin-bottom:1.5rem;">
+            <span style="font-family:'Playfair Display',serif;font-size:3rem;color:var(--forest);font-weight:900;">$18</span>
+            <span style="color:var(--text-mid);font-size:0.9rem;font-weight:300;"> / month</span>
+          </div>
+          <ul class="service-items" style="margin-bottom:1.5rem;">
+            <li>Replant guarantee for weather damage</li>
+            <li>Pest outbreak and emergency response</li>
+            <li>50% discount on new crops after first cycle</li>
+          </ul>
+          <button class="btn-submit" onclick="showPage('consultation')">Add Coverage →</button>
+        </div>
+
+        <!-- Standard Coverage -->
+        <div style="background:var(--forest-mid);border:2px solid var(--leaf);border-radius:6px;padding:2.5rem;position:relative;transition:transform 0.2s,box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 8px 30px rgba(26,58,42,0.2)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+          <div style="position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--leaf);color:white;font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;padding:0.35rem 1.2rem;border-radius:20px;">Most Popular</div>
+          <h3 style="font-family:'Playfair Display',serif;color:var(--cream);font-size:1.3rem;margin-bottom:0.3rem;font-weight:700;">Standard Coverage</h3>
+          <div style="width:40px;height:2px;background:var(--leaf-bright);margin-bottom:1.2rem;"></div>
+          <div style="margin-bottom:1.5rem;">
+            <span style="font-family:'Playfair Display',serif;font-size:3rem;color:var(--leaf-bright);font-weight:900;">$28</span>
+            <span style="color:rgba(232,220,200,0.6);font-size:0.9rem;font-weight:300;"> / month</span>
+          </div>
+          <ul style="list-style:none;margin-bottom:1.5rem;">
+            <li style="color:rgba(232,220,200,0.85);font-size:0.85rem;padding:0.3rem 0 0.3rem 1.2rem;position:relative;border-bottom:1px solid rgba(109,184,122,0.15);"><span style="position:absolute;left:0;color:var(--leaf-bright);">→</span>Crop replacement for crops not exceeding past 20% of lifespan (juvenile stage)</li>
+            <li style="color:rgba(232,220,200,0.85);font-size:0.85rem;padding:0.3rem 0 0.3rem 1.2rem;position:relative;border-bottom:1px solid rgba(109,184,122,0.15);"><span style="position:absolute;left:0;color:var(--leaf-bright);">→</span>Beneficial insect releases</li>
+            <li style="color:rgba(232,220,200,0.85);font-size:0.85rem;padding:0.3rem 0 0.3rem 1.2rem;position:relative;border-bottom:1px solid rgba(109,184,122,0.15);"><span style="position:absolute;left:0;color:var(--leaf-bright);">→</span>Equipment repair coverage (stakes, frost/insect cover, etc.)</li>
+            <li style="color:rgba(232,220,200,0.85);font-size:0.85rem;padding:0.3rem 0 0.3rem 1.2rem;position:relative;"><span style="position:absolute;left:0;color:var(--leaf-bright);">→</span>Free emergency visits between scheduled visits</li>
+          </ul>
+          <button style="width:100%;background:var(--leaf);color:white;border:none;padding:1rem;border-radius:3px;font-family:'Lato',sans-serif;font-size:0.9rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='var(--leaf-bright)'" onmouseout="this.style.background='var(--leaf)'" onclick="showPage('consultation')">Add Coverage →</button>
+        </div>
+
+        <!-- Premium Coverage -->
+        <div style="background:white;border:1px solid rgba(45,90,61,0.15);border-radius:6px;padding:2.5rem;transition:transform 0.2s,box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 8px 30px rgba(26,58,42,0.1)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+          <h3 style="font-family:'Playfair Display',serif;color:var(--forest);font-size:1.3rem;margin-bottom:0.3rem;font-weight:700;">Premium Coverage</h3>
+          <div style="width:40px;height:2px;background:var(--forest-light);margin-bottom:1.2rem;"></div>
+          <div style="margin-bottom:1.5rem;">
+            <span style="font-family:'Playfair Display',serif;font-size:3rem;color:var(--forest);font-weight:900;">$45</span>
+            <span style="color:var(--text-mid);font-size:0.9rem;font-weight:300;"> / month</span>
+          </div>
+          <ul class="service-items" style="margin-bottom:1.5rem;">
+            <li>Minimum harvest guarantee</li>
+            <li>Livestock health issues (chickens, bees)</li>
+            <li>Infrastructure damage coverage (irrigation/rainwater systems, pathways, tree and shrub damage)</li>
+            <li>Season restart guarantee if catastrophic failure</li>
+          </ul>
+          <button class="btn-submit" onclick="showPage('consultation')">Add Coverage →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAY PER VISIT -->
+    <div style="margin-bottom:3rem;">
+      <div class="section-tag">Flexible Option</div>
+      <h2 class="section-title">Pay-Per-Visit & Emergency Services</h2>
+      <p class="section-sub" style="margin-bottom:2.5rem;">Need occasional help without a monthly commitment? All services include a <strong>+$50 visitation fee</strong>.</p>
+      <div style="background:white;border:1px solid rgba(45,90,61,0.12);border-radius:6px;overflow:hidden;">
+        <div style="background:var(--forest);padding:1rem 2rem;display:grid;grid-template-columns:1fr 1fr;">
+          <span style="color:var(--leaf-bright);font-weight:700;font-size:0.85rem;letter-spacing:0.1em;text-transform:uppercase;">Service</span>
+          <span style="color:var(--leaf-bright);font-weight:700;font-size:0.85rem;letter-spacing:0.1em;text-transform:uppercase;">Cost</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;padding:1rem 2rem;border-bottom:1px solid rgba(45,90,61,0.08);transition:background 0.2s;" onmouseover="this.style.background='#f9faf9'" onmouseout="this.style.background=''">
+          <span style="color:var(--text-dark);font-size:0.92rem;">Orchard & Berry Production</span>
+          <span style="color:var(--forest-mid);font-weight:700;font-size:0.92rem;">$30 per visit</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;padding:1rem 2rem;border-bottom:1px solid rgba(45,90,61,0.08);background:#f9fdf9;transition:background 0.2s;" onmouseover="this.style.background='#f0f7f0'" onmouseout="this.style.background='#f9fdf9'">
+          <span style="color:var(--text-dark);font-size:0.92rem;">Greenhouse Management</span>
+          <span style="color:var(--forest-mid);font-weight:700;font-size:0.92rem;">$40 per visit</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;padding:1rem 2rem;border-bottom:1px solid rgba(45,90,61,0.08);transition:background 0.2s;" onmouseover="this.style.background='#f9faf9'" onmouseout="this.style.background=''">
+          <span style="color:var(--text-dark);font-size:0.92rem;">Chicken Coop Care</span>
+          <span style="color:var(--forest-mid);font-weight:700;font-size:0.92rem;">$40 per visit</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;padding:1rem 2rem;border-bottom:1px solid rgba(45,90,61,0.08);background:#f9fdf9;transition:background 0.2s;" onmouseover="this.style.background='#f0f7f0'" onmouseout="this.style.background='#f9fdf9'">
+          <span style="color:var(--text-dark);font-size:0.92rem;">Rainwater/Irrigation System Maintenance</span>
+          <span style="color:var(--forest-mid);font-weight:700;font-size:0.92rem;">$30 per visit</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;padding:1rem 2rem;border-bottom:1px solid rgba(45,90,61,0.08);transition:background 0.2s;" onmouseover="this.style.background='#f9faf9'" onmouseout="this.style.background=''">
+          <span style="color:var(--text-dark);font-size:0.92rem;">Composting System</span>
+          <span style="color:var(--forest-mid);font-weight:700;font-size:0.92rem;">$15 per visit</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;padding:1rem 2rem;background:#f9fdf9;transition:background 0.2s;" onmouseover="this.style.background='#f0f7f0'" onmouseout="this.style.background='#f9fdf9'">
+          <span style="color:var(--text-dark);font-size:0.92rem;">Canning and Preserving</span>
+          <span style="color:var(--forest-mid);font-weight:700;font-size:0.92rem;">$30–$50 per visit</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:2.5rem;">
+      <button class="btn-submit" style="width:auto;padding:1rem 3rem;" onclick="showPage('consultation')">Schedule a Consultation →</button>
+    </div>
+
+    <!-- REFERRAL & LOYALTY -->
+    <div style="margin-top:4rem;">
+      <div class="section-tag">Rewards Program</div>
+      <h2 class="section-title">Referral & Loyalty Rewards</h2>
+      <p class="section-sub" style="margin-bottom:2.5rem;">We believe the best communities grow together. We reward the people who spread the word and the customers who stick with us season after season.</p>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:2rem;">
+
+        <!-- REFERRAL -->
+        <div style="background:var(--forest);border-radius:6px;padding:2.5rem;position:relative;overflow:hidden;">
+          <div style="position:absolute;top:-20px;right:-20px;font-size:8rem;opacity:0.05;line-height:1;">🤝</div>
+          <div style="position:relative;z-index:2;">
+            <div style="font-size:2.5rem;margin-bottom:1rem;">🤝</div>
+            <h3 style="font-family:'Playfair Display',serif;color:var(--cream);font-size:1.3rem;margin-bottom:0.5rem;font-weight:700;">Referral Reward</h3>
+            <div style="width:40px;height:2px;background:var(--leaf-bright);margin-bottom:1.2rem;"></div>
+            <p style="color:rgba(232,220,200,0.7);font-size:0.88rem;line-height:1.7;font-weight:300;margin-bottom:1.5rem;">Know someone who would love Grow Life? Send them our way. When they sign up for a maintenance plan, you both win.</p>
+            <div style="background:rgba(109,184,122,0.15);border:1px solid rgba(109,184,122,0.3);border-radius:4px;padding:1.2rem;margin-bottom:1.5rem;">
+              <div style="color:var(--leaf-bright);font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;font-weight:700;margin-bottom:0.5rem;">Your Reward</div>
+              <div style="font-family:'Playfair Display',serif;color:var(--cream);font-size:1.6rem;font-weight:900;">10% off</div>
+              <div style="color:rgba(232,220,200,0.6);font-size:0.82rem;font-weight:300;">your next month's plan for every successful referral</div>
+            </div>
+            <ul style="list-style:none;">
+              <li style="color:rgba(232,220,200,0.7);font-size:0.85rem;padding:0.3rem 0 0.3rem 1.2rem;position:relative;border-bottom:1px solid rgba(109,184,122,0.1);"><span style="position:absolute;left:0;color:var(--leaf-bright);">→</span>No limit on referrals</li>
+              <li style="color:rgba(232,220,200,0.7);font-size:0.85rem;padding:0.3rem 0 0.3rem 1.2rem;position:relative;border-bottom:1px solid rgba(109,184,122,0.1);"><span style="position:absolute;left:0;color:var(--leaf-bright);">→</span>Referral must sign up for a maintenance plan</li>
+              <li style="color:rgba(232,220,200,0.7);font-size:0.85rem;padding:0.3rem 0 0.3rem 1.2rem;position:relative;"><span style="position:absolute;left:0;color:var(--leaf-bright);">→</span>Discount applied to your next billing cycle</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- LOYALTY -->
+        <div style="background:white;border:1px solid rgba(45,90,61,0.12);border-radius:6px;padding:2.5rem;">
+          <div style="font-size:2.5rem;margin-bottom:1rem;">🌳</div>
+          <h3 style="font-family:'Playfair Display',serif;color:var(--forest);font-size:1.3rem;margin-bottom:0.5rem;font-weight:700;">Loyalty Rewards</h3>
+          <div style="width:40px;height:2px;background:var(--forest-light);margin-bottom:1.2rem;"></div>
+          <p style="color:var(--text-mid);font-size:0.88rem;line-height:1.7;font-weight:300;margin-bottom:1.5rem;">The longer you grow with us, the more we give back. Here's what you unlock as a subscriber:</p>
+
+          <div style="display:flex;flex-direction:column;gap:1rem;">
+            <div style="display:flex;gap:1rem;align-items:flex-start;padding:1rem;background:rgba(74,140,92,0.06);border-radius:4px;border-left:3px solid var(--forest-light);">
+              <div style="flex-shrink:0;background:var(--forest-light);color:white;font-size:0.72rem;font-weight:700;padding:0.3rem 0.7rem;border-radius:20px;letter-spacing:0.08em;text-transform:uppercase;white-space:nowrap;">3 Months</div>
+              <div>
+                <h4 style="font-family:'Playfair Display',serif;color:var(--forest);font-size:0.95rem;margin-bottom:0.2rem;">Free Crop Insurance Month</h4>
+                <p style="color:var(--text-mid);font-size:0.82rem;font-weight:300;">One free month of Basic Crop Insurance — a $18 value — on us.</p>
+              </div>
+            </div>
+            <div style="display:flex;gap:1rem;align-items:flex-start;padding:1rem;background:rgba(74,140,92,0.06);border-radius:4px;border-left:3px solid var(--forest-light);">
+              <div style="flex-shrink:0;background:var(--forest-light);color:white;font-size:0.72rem;font-weight:700;padding:0.3rem 0.7rem;border-radius:20px;letter-spacing:0.08em;text-transform:uppercase;white-space:nowrap;">6 Months</div>
+              <div>
+                <h4 style="font-family:'Playfair Display',serif;color:var(--forest);font-size:0.95rem;margin-bottom:0.2rem;">Priority Scheduling + Free Soil Test</h4>
+                <p style="color:var(--text-mid);font-size:0.82rem;font-weight:300;">Move to the front of the schedule, plus a complimentary soil test to dial in your growing setup.</p>
+              </div>
+            </div>
+            <div style="display:flex;gap:1rem;align-items:flex-start;padding:1rem;background:rgba(74,140,92,0.06);border-radius:4px;border-left:3px solid var(--forest-light);">
+              <div style="flex-shrink:0;background:var(--forest-mid);color:white;font-size:0.72rem;font-weight:700;padding:0.3rem 0.7rem;border-radius:20px;letter-spacing:0.08em;text-transform:uppercase;white-space:nowrap;">12 Months</div>
+              <div>
+                <h4 style="font-family:'Playfair Display',serif;color:var(--forest);font-size:0.95rem;margin-bottom:0.2rem;">Free Month on Us</h4>
+                <p style="color:var(--text-mid);font-size:0.82rem;font-weight:300;">After 12 consecutive months, your 13th month is completely free. Thank you for growing with us.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="background:rgba(74,140,92,0.08);border:1px solid rgba(74,140,92,0.2);border-radius:4px;padding:1.2rem 1.8rem;text-align:center;">
+        <p style="color:var(--forest-mid);font-size:0.88rem;font-weight:300;">To refer a friend or ask about your loyalty status, <a onclick="showPage('contact')" style="color:var(--forest-light);font-weight:700;cursor:pointer;text-decoration:underline;">contact us</a> or mention it during your next scheduled visit.</p>
+      </div>
+    </div>
+
+  </div>
+  <footer>
+    <div class="footer-logo">Grow Life Homesteading <span>· The Community Table</span></div>
+    <div class="footer-links"><a onclick="showPage('home')">Home</a><a onclick="showPage('services')">Services</a><a onclick="showPage('contact')">Contact</a></div>
+    <p>© 2025 Grow Life Homesteading. <a onclick="showPage('tos')" style="color:rgba(232,220,200,0.4);cursor:pointer;text-decoration:underline;">Terms of Service</a></p>
+  </footer>
+</div>
+
+<!-- ======== TERMS OF SERVICE ======== -->
+<div class="page" id="page-tos">
+  <div class="page-hero">
+    <div class="page-hero-content">
+      <div class="breadcrumb" onclick="showPage('home')">← Home <span>/</span> Terms of Service</div>
+      <h1>Terms of Service</h1>
+      <p>Please read these terms carefully before using Grow Life Homesteading's services or The Community Table.</p>
+    </div>
+  </div>
+  <div class="page-content" style="max-width:860px;">
+
+    <div style="background:rgba(74,140,92,0.08);border:1px solid rgba(74,140,92,0.2);border-radius:4px;padding:1.2rem 1.8rem;margin-bottom:2.5rem;">
+      <p style="color:var(--forest-mid);font-size:0.88rem;font-weight:300;line-height:1.7;">By using any service offered by Grow Life Homesteading or participating in The Community Table, you agree to the following terms. These terms were last updated March 2025. Grow Life Homesteading reserves the right to update these terms at any time. Continued use of our services constitutes acceptance of any updated terms.</p>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:2rem;">
+
+      <!-- SECTION 1 -->
+      <div style="background:white;border:1px solid rgba(45,90,61,0.1);border-radius:6px;padding:2rem 2.5rem;">
+        <h3 style="font-family:'Playfair Display',serif;color:var(--forest);font-size:1.15rem;margin-bottom:1rem;padding-bottom:0.8rem;border-bottom:1px solid rgba(45,90,61,0.1);">1. Maintenance Plan Terms & Cancellation Policy</h3>
+        <div style="color:var(--text-mid);font-size:0.88rem;line-height:1.8;font-weight:300;">
+          <p style="margin-bottom:0.8rem;">Maintenance plans are billed on a monthly recurring basis. By enrolling in a plan, you authorize Grow Life Homesteading to charge your selected payment method each month until cancellation.</p>
+          <p style="margin-bottom:0.8rem;">Cancellations must be submitted in writing via email to <strong style="color:var(--forest);"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="d0b7a2bfa7bcb9b6b5bbb5bea4a5b3bba990b7bdb1b9bcfeb3bfbd">[email&#160;protected]</a></strong> at least <strong style="color:var(--forest);">7 days before</strong> your next billing date to avoid being charged for the following month.</p>
+          <p style="margin-bottom:0.8rem;">Grow Life Homesteading reserves the right to adjust pricing with a minimum of 30 days written notice. Continued enrollment after a pricing change constitutes acceptance of the new rate.</p>
+          <p>Specialty system add-ons are subject to an additional monthly fee agreed upon during your consultation. These add-ons may be removed with the same 7-day written notice required for full plan cancellations.</p>
+        </div>
+      </div>
+
+      <!-- SECTION 2 -->
+      <div style="background:white;border:1px solid rgba(45,90,61,0.1);border-radius:6px;padding:2rem 2.5rem;">
+        <h3 style="font-family:'Playfair Display',serif;color:var(--forest);font-size:1.15rem;margin-bottom:1rem;padding-bottom:0.8rem;border-bottom:1px solid rgba(45,90,61,0.1);">2. Crop Insurance Terms & Limitations</h3>
+        <div style="color:var(--text-mid);font-size:0.88rem;line-height:1.8;font-weight:300;">
+          <p style="margin-bottom:0.8rem;">Crop insurance plans are add-on subscriptions available exclusively to active maintenance plan subscribers. Coverage begins on the first scheduled visit following enrollment.</p>
+          <p style="margin-bottom:0.8rem;">Coverage is limited to losses that occur under the specific conditions outlined in your selected tier (Basic, Standard, or Premium). Grow Life Homesteading is not liable for losses resulting from client negligence, unauthorized modifications to the property, or circumstances outside the scope of the enrolled plan.</p>
+          <p style="margin-bottom:0.8rem;">Crop replacement under Standard Coverage applies only to plants that have not exceeded 20% of their expected lifespan at the time of loss (juvenile stage). Mature plant losses are not covered under Standard Coverage.</p>
+          <p>All insurance claims must be reported within <strong style="color:var(--forest);">48 hours</strong> of the loss event. Claims submitted after this window may be denied at the discretion of Grow Life Homesteading.</p>
+        </div>
+      </div>
+
+      <!-- SECTION 3 -->
+      <div style="background:white;border:1px solid rgba(45,90,61,0.1);border-radius:6px;padding:2rem 2.5rem;">
+        <h3 style="font-family:'Playfair Display',serif;color:var(--forest);font-size:1.15rem;margin-bottom:1rem;padding-bottom:0.8rem;border-bottom:1px solid rgba(45,90,61,0.1);">3. Pay-Per-Visit Terms</h3>
+        <div style="color:var(--text-mid);font-size:0.88rem;line-height:1.8;font-weight:300;">
+          <p style="margin-bottom:0.8rem;">Pay-per-visit services are charged at the listed rate plus a <strong style="color:var(--forest);">$50 visitation fee</strong> per visit. Payment is due at the time of service unless otherwise agreed upon in writing.</p>
+          <p style="margin-bottom:0.8rem;">Cancellations or rescheduling of scheduled pay-per-visit appointments must be made at least <strong style="color:var(--forest);">24 hours in advance</strong>. Late cancellations or no-shows may be subject to a $25 cancellation fee.</p>
+          <p>Pay-per-visit services do not include crop insurance coverage or loyalty program eligibility. To access those benefits, enrollment in a monthly maintenance plan is required.</p>
+        </div>
+      </div>
+
+      <!-- SECTION 4 -->
+      <div style="background:white;border:1px solid rgba(45,90,61,0.1);border-radius:6px;padding:2rem 2.5rem;">
+        <h3 style="font-family:'Playfair Display',serif;color:var(--forest);font-size:1.15rem;margin-bottom:1rem;padding-bottom:0.8rem;border-bottom:1px solid rgba(45,90,61,0.1);">4. The Community Table — Trading Board Rules & Disclaimer</h3>
+        <div style="color:var(--text-mid);font-size:0.88rem;line-height:1.8;font-weight:300;">
+          <p style="margin-bottom:0.8rem;">The Community Table is a neighbor-to-neighbor food trading board intended exclusively for the free exchange and trade of homegrown produce, seeds, seedlings, and related goods among members of the Grow Life Homesteading community.</p>
+          <div style="background:rgba(139,111,71,0.08);border-left:3px solid var(--bark);border-radius:0 4px 4px 0;padding:1rem 1.2rem;margin:1rem 0;">
+            <p style="color:var(--bark);font-weight:700;font-size:0.85rem;margin-bottom:0.5rem;">By posting on The Community Table, you agree that:</p>
+            <ul style="list-style:none;display:flex;flex-direction:column;gap:0.4rem;">
+              <li style="padding-left:1.2rem;position:relative;"><span style="position:absolute;left:0;color:var(--bark);">→</span>You are <strong>trading only</strong> — not selling produce for profit. Commercial sales are strictly prohibited.</li>
+              <li style="padding-left:1.2rem;position:relative;"><span style="position:absolute;left:0;color:var(--bark);">→</span>All items posted were <strong>grown by you</strong> on your own property. You may not trade or offer produce sourced from unknown third parties, stores, or suppliers whose growing inputs you cannot verify.</li>
+              <li style="padding-left:1.2rem;position:relative;"><span style="position:absolute;left:0;color:var(--bark);">→</span>You take full responsibility for the safety, quality, and accuracy of anything you offer or trade.</li>
+              <li style="padding-left:1.2rem;position:relative;"><span style="position:absolute;left:0;color:var(--bark);">→</span>Listings must be honest and accurate. Misrepresentation of produce origin or quality is grounds for removal from the platform.</li>
+            </ul>
+          </div>
+          <p>Grow Life Homesteading does not verify, endorse, or take responsibility for any produce, seeds, or goods exchanged through The Community Table. All trades are made between private individuals at their own risk. Grow Life Homesteading is not liable for any illness, injury, or dispute arising from Community Table exchanges.</p>
+        </div>
+      </div>
+
+      <!-- SECTION 5 -->
+      <div style="background:white;border:1px solid rgba(45,90,61,0.1);border-radius:6px;padding:2rem 2.5rem;">
+        <h3 style="font-family:'Playfair Display',serif;color:var(--forest);font-size:1.15rem;margin-bottom:1rem;padding-bottom:0.8rem;border-bottom:1px solid rgba(45,90,61,0.1);">5. General Liability Disclaimer</h3>
+        <div style="color:var(--text-mid);font-size:0.88rem;line-height:1.8;font-weight:300;">
+          <p style="margin-bottom:0.8rem;">Grow Life Homesteading operates with care and professionalism on every property we service. However, we are not liable for pre-existing property conditions, acts of nature, pest or disease outbreaks beyond our reasonable control, or losses resulting from client modifications made between scheduled visits.</p>
+          <p style="margin-bottom:0.8rem;">Clients are responsible for disclosing any known property hazards, utility lines, or access restrictions prior to the first visit. Grow Life Homesteading is not responsible for damage arising from undisclosed conditions.</p>
+          <p>Our liability in any circumstance is limited to the value of services rendered in the most recent billing period. We are not liable for indirect, incidental, or consequential damages of any kind.</p>
+        </div>
+      </div>
+
+      <!-- SECTION 6 -->
+      <div style="background:white;border:1px solid rgba(45,90,61,0.1);border-radius:6px;padding:2rem 2.5rem;">
+        <h3 style="font-family:'Playfair Display',serif;color:var(--forest);font-size:1.15rem;margin-bottom:1rem;padding-bottom:0.8rem;border-bottom:1px solid rgba(45,90,61,0.1);">6. Privacy Policy & Data Use</h3>
+        <div style="color:var(--text-mid);font-size:0.88rem;line-height:1.8;font-weight:300;">
+          <p style="margin-bottom:0.8rem;">Grow Life Homesteading collects only the information you provide voluntarily through our consultation form and contact form — including your name, email, phone number, and property details. This information is used solely to provide and improve our services and to communicate with you about your account or inquiries.</p>
+          <p style="margin-bottom:0.8rem;">We do not sell, rent, or share your personal information with third parties for marketing purposes.</p>
+          <p style="margin-bottom:0.8rem;">Community Table posts are visible to all app users. Do not include personal contact information such as your full address or phone number in public listings.</p>
+          <p>By using this app or submitting a form, you consent to the collection and use of your information as described above. To request deletion of your data, contact us at <strong style="color:var(--forest);"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="5037223f273c3936353b353e2425333b2910373d31393c7e333f3d">[email&#160;protected]</a></strong>.</p>
+        </div>
+      </div>
+
+      <!-- SECTION 7 -->
+      <div style="background:white;border:1px solid rgba(45,90,61,0.1);border-radius:6px;padding:2rem 2.5rem;">
+        <h3 style="font-family:'Playfair Display',serif;color:var(--forest);font-size:1.15rem;margin-bottom:1rem;padding-bottom:0.8rem;border-bottom:1px solid rgba(45,90,61,0.1);">7. Referral & Loyalty Program Terms</h3>
+        <div style="color:var(--text-mid);font-size:0.88rem;line-height:1.8;font-weight:300;">
+          <p style="margin-bottom:0.8rem;">Referral rewards are issued as a 10% discount applied to the referring customer's next billing cycle. The referred individual must sign up for and complete their first month of an active maintenance plan for the reward to be applied.</p>
+          <p style="margin-bottom:0.8rem;">Referral rewards have no cash value and cannot be combined with other promotions unless explicitly stated. There is no limit to the number of referrals a customer may make.</p>
+          <p style="margin-bottom:0.8rem;">Loyalty rewards are automatically tracked based on consecutive months of active subscription. Rewards are applied at the 3-month, 6-month, and 12-month milestones. Gaps in subscription reset the loyalty counter.</p>
+          <p>Grow Life Homesteading reserves the right to modify or discontinue the referral and loyalty program at any time with 30 days notice to active subscribers.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div style="margin-top:2.5rem;text-align:center;">
+      <p style="color:var(--text-mid);font-size:0.85rem;font-weight:300;">Questions about these terms? <a onclick="showPage('contact')" style="color:var(--forest-light);font-weight:700;cursor:pointer;">Contact us</a> and we'll be happy to clarify.</p>
+    </div>
+
+  </div>
+  <footer>
+    <div class="footer-logo">Grow Life Homesteading <span>· The Community Table</span></div>
+    <div class="footer-links"><a onclick="showPage('home')">Home</a><a onclick="showPage('plans')">Plans & Pricing</a><a onclick="showPage('contact')">Contact</a></div>
+    <p>© 2025 Grow Life Homesteading. <a onclick="showPage('tos')" style="color:rgba(232,220,200,0.4);cursor:pointer;text-decoration:underline;">Terms of Service</a></p>
+  </footer>
+</div>
+
+<!-- ======== FAQ ======== -->
+<div class="page" id="page-faq">
+  <div class="page-hero">
+    <div class="page-hero-content">
+      <div class="breadcrumb" onclick="showPage('home')">← Home <span>/</span> FAQ</div>
+      <h1>Frequently Asked Questions</h1>
+      <p>Everything you need to know before getting started with Grow Life Homesteading.</p>
+    </div>
+  </div>
+  <div class="page-content" style="max-width:860px;">
+
+    <div id="faqList" style="display:flex;flex-direction:column;gap:1rem;margin-bottom:3rem;">
+
+      <!-- FAQ 1 -->
+      <div class="faq-item" style="background:white;border:1px solid rgba(45,90,61,0.12);border-radius:6px;overflow:hidden;">
+        <button onclick="toggleFaq(this)" style="width:100%;text-align:left;padding:1.5rem 2rem;background:none;border:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:1rem;">
+          <span style="font-family:'Playfair Display',serif;color:var(--forest);font-size:1.05rem;font-weight:700;">Do you use any synthetic fertilizers or pesticides?</span>
+          <span class="faq-arrow" style="color:var(--gold);font-size:1.2rem;flex-shrink:0;transition:transform 0.3s;font-weight:300;">＋</span>
+        </button>
+        <div class="faq-answer" style="display:none;padding:0 2rem 1.5rem;">
+          <p style="color:var(--text-mid);font-size:0.92rem;line-height:1.8;font-weight:300;">Never. Grow Life is a strictly organic operation. We do not use synthetic fertilizers, pesticides, herbicides, or any other chemical inputs. Every amendment, spray, and input we bring to your property is organic, naturally derived, and vetted to be free of PFAS and other harmful forever chemicals. Our approach is rooted in building healthy soil and resilient plants naturally — so your food is as clean as it can be.</p>
+        </div>
+      </div>
+
+      <!-- FAQ 2 -->
+      <div class="faq-item" style="background:white;border:1px solid rgba(45,90,61,0.12);border-radius:6px;overflow:hidden;">
+        <button onclick="toggleFaq(this)" style="width:100%;text-align:left;padding:1.5rem 2rem;background:none;border:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:1rem;">
+          <span style="font-family:'Playfair Display',serif;color:var(--forest);font-size:1.05rem;font-weight:700;">What areas do you serve?</span>
+          <span class="faq-arrow" style="color:var(--gold);font-size:1.2rem;flex-shrink:0;transition:transform 0.3s;font-weight:300;">＋</span>
+        </button>
+        <div class="faq-answer" style="display:none;padding:0 2rem 1.5rem;">
+          <p style="color:var(--text-mid);font-size:0.92rem;line-height:1.8;font-weight:300;">We are based in and primarily serve Central Kentucky. If you're outside our primary service area and interested in working with us, reach out — we evaluate requests outside our region on a case by case basis depending on project scope.</p>
+        </div>
+      </div>
+
+      <!-- FAQ 3 -->
+      <div class="faq-item" style="background:white;border:1px solid rgba(45,90,61,0.12);border-radius:6px;overflow:hidden;">
+        <button onclick="toggleFaq(this)" style="width:100%;text-align:left;padding:1.5rem 2rem;background:none;border:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:1rem;">
+          <span style="font-family:'Playfair Display',serif;color:var(--forest);font-size:1.05rem;font-weight:700;">How do I know which maintenance plan is right for me?</span>
+          <span class="faq-arrow" style="color:var(--gold);font-size:1.2rem;flex-shrink:0;transition:transform 0.3s;font-weight:300;">＋</span>
+        </button>
+        <div class="faq-answer" style="display:none;padding:0 2rem 1.5rem;">
+          <p style="color:var(--text-mid);font-size:0.92rem;line-height:1.8;font-weight:300;">It comes down to how much growing space you have and how involved your system is. <strong style="color:var(--forest);">The Basics ($120/mo)</strong> is perfect for new gardeners with up to 400 sq ft who want seasonal support and pest management. <strong style="color:var(--forest);">Complete Homestead ($180/mo)</strong> steps it up to 800 sq ft with trellising and season extension included. <strong style="color:var(--forest);">Premium Homestead ($250/mo)</strong> covers up to 1,200 sq ft plus two specialty systems and is built for serious homesteaders running a full food production setup. Not sure? Schedule a free consultation and we'll help you figure it out.</p>
+        </div>
+      </div>
+
+      <!-- FAQ 4 -->
+      <div class="faq-item" style="background:white;border:1px solid rgba(45,90,61,0.12);border-radius:6px;overflow:hidden;">
+        <button onclick="toggleFaq(this)" style="width:100%;text-align:left;padding:1.5rem 2rem;background:none;border:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:1rem;">
+          <span style="font-family:'Playfair Display',serif;color:var(--forest);font-size:1.05rem;font-weight:700;">Do I need to be home during visits?</span>
+          <span class="faq-arrow" style="color:var(--gold);font-size:1.2rem;flex-shrink:0;transition:transform 0.3s;font-weight:300;">＋</span>
+        </button>
+        <div class="faq-answer" style="display:none;padding:0 2rem 1.5rem;">
+          <p style="color:var(--text-mid);font-size:0.92rem;line-height:1.8;font-weight:300;">Not at all. Once we've completed your initial consultation and set up your service plan, we can carry out scheduled visits whether you're home or not. We do recommend being present for your first visit so we can walk the property together and make sure everything is set up exactly how you want it. After that, we handle everything and keep you updated.</p>
+        </div>
+      </div>
+
+      <!-- FAQ 5 -->
+      <div class="faq-item" style="background:white;border:1px solid rgba(45,90,61,0.12);border-radius:6px;overflow:hidden;">
+        <button onclick="toggleFaq(this)" style="width:100%;text-align:left;padding:1.5rem 2rem;background:none;border:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:1rem;">
+          <span style="font-family:'Playfair Display',serif;color:var(--forest);font-size:1.05rem;font-weight:700;">How does crop insurance work?</span>
+          <span class="faq-arrow" style="color:var(--gold);font-size:1.2rem;flex-shrink:0;transition:transform 0.3s;font-weight:300;">＋</span>
+        </button>
+        <div class="faq-answer" style="display:none;padding:0 2rem 1.5rem;">
+          <p style="color:var(--text-mid);font-size:0.92rem;line-height:1.8;font-weight:300;">Our crop insurance plans are add-on subscriptions that protect your homestead against losses outside of normal wear and growing conditions. <strong style="color:var(--forest);">Basic Coverage ($18/mo)</strong> covers weather damage replanting, pest emergencies, and gives you 50% off new crops after your first cycle. <strong style="color:var(--forest);">Standard Coverage ($28/mo)</strong> adds crop replacement for juvenile losses, beneficial insect releases, equipment repair, and free emergency visits. <strong style="color:var(--forest);">Premium Coverage ($45/mo)</strong> is our most comprehensive — covering minimum harvest guarantees, livestock health, infrastructure damage, and a full season restart if catastrophic failure occurs.</p>
+          <div style="background:rgba(74,140,92,0.08);border-left:3px solid var(--forest-light);border-radius:0 4px 4px 0;padding:0.9rem 1.2rem;margin-top:1rem;">
+            <p style="color:var(--forest-mid);font-size:0.88rem;font-weight:700;margin-bottom:0.3rem;">🛡️ Already included in some plans</p>
+            <p style="color:var(--text-mid);font-size:0.85rem;font-weight:300;line-height:1.7;">If you're on the <strong style="color:var(--forest);">Complete Homestead</strong> or <strong style="color:var(--forest);">Premium Homestead</strong> maintenance plan, Basic Crop Insurance is already bundled into your subscription at no extra cost — a $18/mo value. You can always upgrade to Standard or Premium Coverage as an add-on from there.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- FAQ 6 -->
+      <div class="faq-item" style="background:white;border:1px solid rgba(45,90,61,0.12);border-radius:6px;overflow:hidden;">
+        <button onclick="toggleFaq(this)" style="width:100%;text-align:left;padding:1.5rem 2rem;background:none;border:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:1rem;">
+          <span style="font-family:'Playfair Display',serif;color:var(--forest);font-size:1.05rem;font-weight:700;">Can you work with small spaces or container gardens?</span>
+          <span class="faq-arrow" style="color:var(--gold);font-size:1.2rem;flex-shrink:0;transition:transform 0.3s;font-weight:300;">＋</span>
+        </button>
+        <div class="faq-answer" style="display:none;padding:0 2rem 1.5rem;">
+          <p style="color:var(--text-mid);font-size:0.92rem;line-height:1.8;font-weight:300;">Absolutely. We believe everyone deserves access to fresh, homegrown food regardless of how much space they have. Whether you have a small backyard, a patio, a balcony, or just a few raised beds, we can design and maintain a productive growing setup for you. Our Basics plan starts at 400 sq ft but we're happy to discuss custom arrangements for smaller spaces during your consultation.</p>
+        </div>
+      </div>
+
+      <!-- FAQ 7 -->
+      <div class="faq-item" style="background:white;border:1px solid rgba(45,90,61,0.12);border-radius:6px;overflow:hidden;">
+        <button onclick="toggleFaq(this)" style="width:100%;text-align:left;padding:1.5rem 2rem;background:none;border:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:1rem;">
+          <span style="font-family:'Playfair Display',serif;color:var(--forest);font-size:1.05rem;font-weight:700;">How do I get started?</span>
+          <span class="faq-arrow" style="color:var(--gold);font-size:1.2rem;flex-shrink:0;transition:transform 0.3s;font-weight:300;">＋</span>
+        </button>
+        <div class="faq-answer" style="display:none;padding:0 2rem 1.5rem;">
+          <p style="color:var(--text-mid);font-size:0.92rem;line-height:1.8;font-weight:300;">The first step is scheduling a free consultation. Fill out our consultation form and tell us a little about your property and what you're hoping to build or maintain. We'll get back to you within 1–2 business days to schedule an on-site assessment. From there we'll put together a plan tailored to your space, goals, and budget — and we'll get to work as soon as you're ready.</p>
+          <button class="btn-submit" style="width:auto;padding:0.7rem 2rem;margin-top:1rem;font-size:0.82rem;" onclick="showPage('consultation')">Schedule a Free Consultation →</button>
+        </div>
+      </div>
+
+      <!-- FAQ 8 -->
+      <div class="faq-item" style="background:white;border:1px solid rgba(45,90,61,0.12);border-radius:6px;overflow:hidden;">
+        <button onclick="toggleFaq(this)" style="width:100%;text-align:left;padding:1.5rem 2rem;background:none;border:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:1rem;">
+          <span style="font-family:'Playfair Display',serif;color:var(--forest);font-size:1.05rem;font-weight:700;">What are the benefits of a subscription plan vs. pay-per-visit?</span>
+          <span class="faq-arrow" style="color:var(--gold);font-size:1.2rem;flex-shrink:0;transition:transform 0.3s;font-weight:300;">＋</span>
+        </button>
+        <div class="faq-answer" style="display:none;padding:0 2rem 1.5rem;">
+          <p style="color:var(--text-mid);font-size:0.92rem;line-height:1.8;font-weight:300;">A subscription plan is the best value if you want consistent, ongoing care. You get regularly scheduled visits, proactive management across all seasons, and a team that gets to know your land deeply over time. It's also significantly more cost-effective — a pay-per-visit service runs $15–$50 per service plus a $50 visitation fee each time, which adds up quickly. A subscription locks in predictable pricing, prioritizes your property on our schedule, and ensures nothing gets missed between visits. Pay-per-visit is great for occasional needs or if you just want to try us out before committing to a plan.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CTA -->
+    <div style="background:var(--forest);border-radius:6px;padding:2.5rem;text-align:center;">
+      <h3 style="font-family:'Playfair Display',serif;color:var(--cream);font-size:1.4rem;margin-bottom:0.6rem;">Still have questions?</h3>
+      <p style="color:rgba(232,220,200,0.65);font-size:0.9rem;font-weight:300;margin-bottom:1.5rem;">We're happy to talk through anything before you commit to a single thing.</p>
+      <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+        <button class="btn-submit" style="width:auto;padding:0.85rem 2rem;" onclick="showPage('consultation')">Schedule a Consultation →</button>
+        <button class="btn-submit" style="width:auto;padding:0.85rem 2rem;background:transparent;border:2px solid var(--leaf);color:var(--leaf-bright);" onmouseover="this.style.background='var(--leaf)';this.style.color='white'" onmouseout="this.style.background='transparent';this.style.color='var(--leaf-bright)'" onclick="showPage('contact')">Contact Us</button>
+      </div>
+    </div>
+
+  </div>
+  <footer>
+    <div class="footer-logo">Grow Life Homesteading <span>· The Community Table</span></div>
+    <div class="footer-links"><a onclick="showPage('home')">Home</a><a onclick="showPage('plans')">Plans & Pricing</a><a onclick="showPage('contact')">Contact</a></div>
+    <p>© 2025 Grow Life Homesteading. <a onclick="showPage('tos')" style="color:rgba(232,220,200,0.4);cursor:pointer;text-decoration:underline;">Terms of Service</a></p>
+  </footer>
+</div>
+
+<!-- ======== CONTACT ======== -->
+<div class="page" id="page-contact">
+  <div class="page-hero">
+    <div class="page-hero-content">
+      <div class="breadcrumb" onclick="showPage('home')">← Home <span>/</span> Contact Us</div>
+      <h1>Get in Touch</h1>
+      <p>Ready to start a project or just have questions? We'd love to hear from you.</p>
+    </div>
+  </div>
+  <div class="page-content">
+    <div class="contact-layout">
+      <div class="contact-info">
+        <h2>We're Here to Help</h2>
+        <p>Whether you're ready to schedule a consultation or just want to learn more about what we do, reach out any time. We serve residential properties and community centers throughout the local region.</p>
+        <div class="contact-cards">
+          <div class="contact-card"><div class="icon">📞</div><div><h4>Call Us</h4><p>(555) 123-4567</p></div></div>
+          <div class="contact-card"><div class="icon">📧</div><div><h4>Email</h4><p><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="4e293c21392227282b252b203a3b2d25370e29232f2722602d2123">[email&#160;protected]</a></p></div></div>
+          <div class="contact-card"><div class="icon">📍</div><div><h4>Service Area</h4><p>Central Kentucky</p></div></div>
+          <div class="contact-card"><div class="icon">🕐</div><div><h4>Hours</h4><p>Mon–Sat: 7am – 6pm · Sun: By Appointment</p></div></div>
+          <div class="contact-card" onclick="window.open('https://www.facebook.com/GrowLifeEL','_blank')" style="cursor:pointer;">
+            <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24"><path fill="#1877F2" d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.883v2.27h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg></div>
+            <div><h4>Facebook</h4><p>GrowLife EL</p></div>
+          </div>
+          <div class="contact-card" onclick="window.open('https://www.instagram.com/growlife_ky','_blank')" style="cursor:pointer;">
+            <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24"><defs><radialGradient id="ig" cx="30%" cy="107%" r="150%"><stop offset="0%" stop-color="#fdf497"/><stop offset="5%" stop-color="#fdf497"/><stop offset="45%" stop-color="#fd5949"/><stop offset="60%" stop-color="#d6249f"/><stop offset="90%" stop-color="#285AEB"/></radialGradient></defs><path fill="url(#ig)" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></div>
+            <div><h4>Instagram</h4><p>@growlife_ky</p></div>
+          </div>
+        </div>
+      </div>
+      <div class="form-card">
+        <h3>Send Us a Message</h3>
+        <div class="form-row">
+          <div class="form-group"><label>First Name</label><input type="text" placeholder="First" /></div>
+          <div class="form-group"><label>Last Name</label><input type="text" placeholder="Last" /></div>
+        </div>
+        <div class="form-group"><label>Email Address</label><input type="email" placeholder="Email" /></div>
+        <div class="form-group"><label>Phone Number</label><input type="tel" placeholder="(555) 000-0000" /></div>
+        <div class="form-group"><label>Message</label><textarea placeholder="How can we help you?"></textarea></div>
+        <button class="btn-submit" onclick="submitForm('contactSuccess')">Send Message →</button>
+        <div class="success-msg" id="contactSuccess">✓ Message sent! We'll be in touch soon.</div>
+      </div>
+    </div>
+  </div>
+  <footer>
+    <div class="footer-logo">Grow Life Homesteading <span>· The Community Table</span></div>
+    <div class="footer-links"><a onclick="showPage('home')">Home</a><a onclick="showPage('services')">Services</a><a onclick="showPage('consultation')">Consultation</a></div>
+    <p>© 2025 Grow Life Homesteading. <a onclick="showPage('tos')" style="color:rgba(232,220,200,0.4);cursor:pointer;text-decoration:underline;">Terms of Service</a></p>
+  </footer>
+</div>
+
+<!-- ======== PRACTICES ======== -->
+<div class="page" id="page-practices">
+  <div class="page-hero">
+    <div class="page-hero-content">
+      <div class="breadcrumb" onclick="showPage('home')">← Home <span>/</span> Our Practices & Philosophy</div>
+      <h1>Our Practices & Philosophy</h1>
+      <p>We don't guess. We don't cut corners. Every decision we make on your land is backed by regenerative science, hands-on experience, and a deep respect for how nature actually works.</p>
+    </div>
+  </div>
+
+  <!-- VERIFICATION WALL -->
+  <div id="practicesWall" style="display:none;text-align:center;padding:4rem 5%;">
+    <div id="practicesWallNotSignedIn">
+      <div style="font-size:3rem;margin-bottom:1rem;">🌿</div>
+      <h2 style="font-family:'Cormorant Garamond',serif;color:var(--forest);font-size:2rem;font-weight:600;margin-bottom:0.8rem;">Members Only</h2>
+      <p style="color:var(--text-mid);font-size:0.95rem;max-width:480px;margin:0 auto 2rem;font-weight:300;line-height:1.7;">This page is available to verified Grow Life members. Create a free account or sign in to access it.</p>
+      <button class="btn-submit" style="width:auto;padding:0.9rem 2.5rem;margin-right:1rem;" onclick="openAuthModal('signup')">Create Free Account →</button>
+      <button class="btn-submit" style="width:auto;padding:0.9rem 2rem;background:transparent;border:2px solid var(--forest-mid);color:var(--forest-mid);" onmouseover="this.style.background='var(--forest-mid)';this.style.color='white'" onmouseout="this.style.background='transparent';this.style.color='var(--forest-mid)'" onclick="openAuthModal('login')">Sign In</button>
+    </div>
+    <div id="practicesWallUnverified" style="display:none;">
+      <div style="font-size:3rem;margin-bottom:1rem;">📬</div>
+      <h2 style="font-family:'Cormorant Garamond',serif;color:var(--forest);font-size:2rem;font-weight:600;margin-bottom:0.8rem;">Verify Your Email First</h2>
+      <div style="background:rgba(196,163,90,0.08);border:1px solid rgba(196,163,90,0.25);border-radius:4px;padding:1.5rem 2rem;max-width:480px;margin:0 auto 1.5rem;">
+        <p style="color:var(--text-mid);font-size:0.95rem;font-weight:300;line-height:1.7;">We sent a confirmation link to <strong style="color:var(--forest)" id="practicesUnverifiedEmail">your email</strong>. Click the link to unlock this page and the Community Table.</p>
+      </div>
+      <p style="color:var(--text-mid);font-size:0.84rem;font-weight:300;">Didn't get it? <a onclick="resendVerification()" style="color:var(--forest-light);cursor:pointer;font-weight:600;">Resend verification email</a></p>
+      <p id="practicesResendConfirm" style="display:none;color:var(--forest-light);font-size:0.84rem;margin-top:0.8rem;font-weight:600;">✓ Verification email resent!</p>
+    </div>
+  </div>
+
+  <div id="practicesContent" class="page-content">
+
+    <!-- PHILOSOPHY BANNER -->
+    <div style="background:var(--forest);border-radius:6px;padding:2.5rem 3rem;margin-bottom:3rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1.5rem;text-align:center;">
+      <div><div style="font-size:1.8rem;margin-bottom:0.5rem;">🚫</div><div style="color:var(--leaf-bright);font-weight:700;font-size:0.8rem;letter-spacing:0.12em;text-transform:uppercase;">Zero Synthetics</div><div style="color:rgba(232,220,200,0.6);font-size:0.8rem;margin-top:0.3rem;font-weight:300;">Strictly organic inputs only</div></div>
+      <div><div style="font-size:1.8rem;margin-bottom:0.5rem;">♻️</div><div style="color:var(--leaf-bright);font-weight:700;font-size:0.8rem;letter-spacing:0.12em;text-transform:uppercase;">Regenerative</div><div style="color:rgba(232,220,200,0.6);font-size:0.8rem;margin-top:0.3rem;font-weight:300;">Build soil, don't deplete it</div></div>
+      <div><div style="font-size:1.8rem;margin-bottom:0.5rem;">🌀</div><div style="color:var(--leaf-bright);font-weight:700;font-size:0.8rem;letter-spacing:0.12em;text-transform:uppercase;">Permaculture</div><div style="color:rgba(232,220,200,0.6);font-size:0.8rem;margin-top:0.3rem;font-weight:300;">Design with nature's patterns</div></div>
+      <div><div style="font-size:1.8rem;margin-bottom:0.5rem;">🌾</div><div style="color:var(--leaf-bright);font-weight:700;font-size:0.8rem;letter-spacing:0.12em;text-transform:uppercase;">No-Till / Low-Till</div><div style="color:rgba(232,220,200,0.6);font-size:0.8rem;margin-top:0.3rem;font-weight:300;">Protect the soil food web</div></div>
+      <div><div style="font-size:1.8rem;margin-bottom:0.5rem;">🌳</div><div style="color:var(--leaf-bright);font-weight:700;font-size:0.8rem;letter-spacing:0.12em;text-transform:uppercase;">Biodynamic</div><div style="color:rgba(232,220,200,0.6);font-size:0.8rem;margin-top:0.3rem;font-weight:300;">Rooted in living systems</div></div>
+      <div><div style="font-size:1.8rem;margin-bottom:0.5rem;">🐛</div><div style="color:var(--leaf-bright);font-weight:700;font-size:0.8rem;letter-spacing:0.12em;text-transform:uppercase;">IPM</div><div style="color:rgba(232,220,200,0.6);font-size:0.8rem;margin-top:0.3rem;font-weight:300;">Smart, targeted pest control</div></div>
+    </div>
+
+    <!-- SOIL AMENDMENTS -->
+    <div style="margin-bottom:3.5rem;">
+      <div class="section-tag">What Goes In the Ground</div>
+      <h2 class="section-title">Soil Amendments We Use</h2>
+      <p class="section-sub" style="margin-bottom:2rem;">Healthy soil is the foundation of everything. We feed the soil, and the soil feeds your plants. Every amendment we use is chosen to build long-term fertility — not just a quick fix.</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.2rem;">
+        <div style="background:white;border:1px solid rgba(45,90,61,0.1);border-radius:4px;padding:1.8rem;border-left:4px solid var(--forest-light);">
+          <div style="font-size:1.8rem;margin-bottom:0.8rem;">🌱</div>
+          <h4 style="font-family:'Playfair Display',serif;color:var(--forest);font-size:1.1rem;margin-bottom:0.5rem;">Compost & Vermicompost</h4>
+          <p style="color:var(--text-mid);font-size:0.88rem;line-height:1.65;font-weight:300;">The backbone of our soil program. Finished compost and worm castings deliver a broad spectrum of nutrients, beneficial microbes, and organic matter that dramatically improves soil structure and water retention.</p>
+        </div>
+        <div style="background:white;border:1px solid rgba(45,90,61,0.1);border-radius:4px;padding:1.8rem;border-left:4px solid var(--forest-light);">
+          <div style="font-size:1.8rem;margin-bottom:0.8rem;">🔥</div>
+          <h4 style="font-family:'Playfair Display',serif;color:var(--forest);font-size:1.1rem;margin-bottom:0.5rem;">Biochar</h4>
+          <p style="color:var(--text-mid);font-size:0.88rem;line-height:1.65;font-weight:300;">A highly porous carbon structure that acts as a long-term habitat for beneficial soil microbes. Biochar improves drainage in heavy soils, boosts water retention in sandy soils, and sequesters carbon for decades.</p>
+        </div>
+        <div style="background:white;border:1px solid rgba(45,90,61,0.1);border-radius:4px;padding:1.8rem;border-left:4px solid var(--forest-light);">
+          <div style="font-size:1.8rem;margin-bottom:0.8rem;">⛰️</div>
+          <h4 style="font-family:'Playfair Display',serif;color:var(--forest);font-size:1.1rem;margin-bottom:0.5rem;">Rock Dust & Minerals</h4>
+          <p style="color:var(--text-mid);font-size:0.88rem;line-height:1.65;font-weight:300;">Glacial rock dust and mineral blends remineralize soils that have been depleted over time. Trace minerals are the difference between food that merely grows and food that truly nourishes.</p>
+        </div>
+        <div style="background:white;border:1px solid rgba(45,90,61,0.1);border-radius:4px;padding:1.8rem;border-left:4px solid var(--forest-light);">
+          <div style="font-size:1.8rem;margin-bottom:0.8rem;">🍄</div>
+          <h4 style="font-family:'Playfair Display',serif;color:var(--forest);font-size:1.1rem;margin-bottom:0.5rem;">Mycorrhizal Inoculants</h4>
+          <p style="color:var(--text-mid);font-size:0.88rem;line-height:1.65;font-weight:300;">We inoculate root zones with mycorrhizal fungi to build the underground network that plants depend on. This dramatically extends root reach, improves drought resistance, and increases nutrient uptake — naturally.</p>
+        </div>
+        <div style="background:white;border:1px solid rgba(45,90,61,0.1);border-radius:4px;padding:1.8rem;border-left:4px solid var(--forest-light);">
+          <div style="font-size:1.8rem;margin-bottom:0.8rem;">🌊</div>
+          <h4 style="font-family:'Playfair Display',serif;color:var(--forest);font-size:1.1rem;margin-bottom:0.5rem;">Kelp & Fish Meal</h4>
+          <p style="color:var(--text-mid);font-size:0.88rem;line-height:1.65;font-weight:300;">Ocean-derived inputs rich in naturally chelated minerals, growth hormones, and amino acids. Kelp meal stimulates microbial activity and plant immunity. Fish meal delivers slow-release nitrogen that feeds without burning.</p>
+        </div>
+        <div style="background:white;border:1px solid rgba(45,90,61,0.1);border-radius:4px;padding:1.8rem;border-left:4px solid var(--forest-light);">
+          <div style="font-size:1.8rem;margin-bottom:0.8rem;">🌿</div>
+          <h4 style="font-family:'Playfair Display',serif;color:var(--forest);font-size:1.1rem;margin-bottom:0.5rem;">Bone & Blood Meal</h4>
+          <p style="color:var(--text-mid);font-size:0.88rem;line-height:1.65;font-weight:300;">Bone meal provides slow-release phosphorus for strong root development and flowering. Blood meal is a fast-acting nitrogen source used strategically to kickstart growth during key periods without synthetic intervention.</p>
+        </div>
+        <div style="background:white;border:1px solid rgba(45,90,61,0.1);border-radius:4px;padding:1.8rem;border-left:4px solid var(--forest-light);">
+          <div style="font-size:1.8rem;margin-bottom:0.8rem;">🌾</div>
+          <h4 style="font-family:'Playfair Display',serif;color:var(--forest);font-size:1.1rem;margin-bottom:0.5rem;">Cover Crop Biomass</h4>
+          <p style="color:var(--text-mid);font-size:0.88rem;line-height:1.65;font-weight:300;">We strategically use cover crops — clover, rye, buckwheat, vetch — to fix nitrogen, suppress weeds, and chop-and-drop as green manure. This is living soil building in real time.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRACTICES SECTIONS -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-bottom:3.5rem;">
+
+      <div style="background:white;border:1px solid rgba(45,90,61,0.1);border-radius:4px;padding:2rem;">
+        <div style="font-size:2rem;margin-bottom:1rem;">🔄</div>
+        <h3 style="font-family:'Playfair Display',serif;color:var(--forest);font-size:1.2rem;margin-bottom:0.8rem;">Composting Methods</h3>
+        <p style="color:var(--text-mid);font-size:0.88rem;line-height:1.65;font-weight:300;margin-bottom:1rem;">We don't just pile and hope. Our composting approach is intentional and layered — hot composting to kill pathogens and weed seeds, vermicomposting for the richest castings, and cold composting for long-term slow decomposition. We also take sourcing seriously — all materials we bring in are vetted to ensure they are free of PFAS and other harmful forever chemicals.</p>
+        <ul class="service-items">
+          <li>Hot composting — 130–160°F kill zones</li>
+          <li>Vermicomposting with red wigglers</li>
+          <li>Chop-and-drop composting in place</li>
+          <li>Compost tea brewing for soil drenches</li>
+          <li>All sourced materials vetted PFAS-free</li>
+        </ul>
+      </div>
+
+      <div style="background:white;border:1px solid rgba(45,90,61,0.1);border-radius:4px;padding:2rem;">
+        <div style="font-size:2rem;margin-bottom:1rem;">🌿</div>
+        <h3 style="font-family:'Playfair Display',serif;color:var(--forest);font-size:1.2rem;margin-bottom:0.8rem;">Cover Cropping & Soil Health</h3>
+        <p style="color:var(--text-mid);font-size:0.88rem;line-height:1.65;font-weight:300;margin-bottom:1rem;">Bare soil is a problem. We keep the ground covered year-round using strategic cover crop mixes tailored to your region and season. This suppresses weeds, prevents erosion, feeds the soil web, and builds organic matter without any inputs from off-site.</p>
+        <ul class="service-items">
+          <li>Nitrogen-fixing legume blends</li>
+          <li>Crimson clover for nitrogen fixation & pollinators</li>
+          <li>Winter rye & hairy vetch for cold seasons</li>
+          <li>Buckwheat for fast summer coverage</li>
+          <li>Daikon radish for compaction breaking</li>
+          <li>Pollinator-friendly mixes between beds</li>
+        </ul>
+      </div>
+
+      <div style="background:white;border:1px solid rgba(45,90,61,0.1);border-radius:4px;padding:2rem;">
+        <div style="font-size:2rem;margin-bottom:1rem;">🐛</div>
+        <h3 style="font-family:'Playfair Display',serif;color:var(--forest);font-size:1.2rem;margin-bottom:0.8rem;">Pest & Disease Management (IPM)</h3>
+        <p style="color:var(--text-mid);font-size:0.88rem;line-height:1.65;font-weight:300;margin-bottom:1rem;">We use Integrated Pest Management — meaning we work with nature before reaching for any spray, even an organic one. Healthy soil grows resilient plants. Beneficial insects, companion planting, and physical barriers handle the rest. Intervention is targeted and minimal.</p>
+        <ul class="service-items">
+          <li>Beneficial insect habitat plantings</li>
+          <li>Companion planting for pest confusion</li>
+          <li>Neem oil & insecticidal soap as last resort</li>
+          <li>Row covers & physical exclusion</li>
+          <li>Crop rotation to break disease cycles</li>
+          <li>Fermented plant juice foliar sprays</li>
+        </ul>
+      </div>
+
+      <div style="background:white;border:1px solid rgba(45,90,61,0.1);border-radius:4px;padding:2rem;">
+        <div style="font-size:2rem;margin-bottom:1rem;">💧</div>
+        <h3 style="font-family:'Playfair Display',serif;color:var(--forest);font-size:1.2rem;margin-bottom:0.8rem;">Water Management</h3>
+        <p style="color:var(--text-mid);font-size:0.88rem;line-height:1.65;font-weight:300;margin-bottom:1rem;">We design every property to catch, slow, and sink water before it leaves the land. Swales on contour, rain gardens, and pond systems transform rain from a runoff problem into your most valuable resource. Drip irrigation and deep mulching minimize what you use.</p>
+        <ul class="service-items">
+          <li>Swales & earthworks on contour</li>
+          <li>Rainwater harvesting & storage systems</li>
+          <li>Pond & natural swimming hole construction</li>
+          <li>Drip irrigation & sub-surface delivery</li>
+          <li>Deep mulching for water retention</li>
+          <li>Rain garden & bioswale design</li>
+        </ul>
+      </div>
+
+      <div style="background:white;border:1px solid rgba(45,90,61,0.1);border-radius:4px;padding:2rem;">
+        <div style="font-size:2rem;margin-bottom:1rem;">📅</div>
+        <h3 style="font-family:'Playfair Display',serif;color:var(--forest);font-size:1.2rem;margin-bottom:0.8rem;">Seasonal Maintenance</h3>
+        <p style="color:var(--text-mid);font-size:0.88rem;line-height:1.65;font-weight:300;margin-bottom:1rem;">A productive homestead requires a rhythm. We maintain seasonal schedules tailored to your specific property, climate, and crops — so nothing falls through the cracks and your land is always one step ahead.</p>
+        <ul class="service-items">
+          <li>Spring: soil prep, early planting, pruning</li>
+          <li>Summer: irrigation management, succession planting</li>
+          <li>Fall: harvest, cover cropping, soil amendment</li>
+          <li>Winter: infrastructure repair, season extension</li>
+          <li>Year-round: compost turning, pest scouting</li>
+        </ul>
+      </div>
+
+      <div style="background:white;border:1px solid rgba(45,90,61,0.1);border-radius:4px;padding:2rem;">
+        <div style="font-size:2rem;margin-bottom:1rem;">🐔</div>
+        <h3 style="font-family:'Playfair Display',serif;color:var(--forest);font-size:1.2rem;margin-bottom:0.8rem;">Animal Integration</h3>
+        <p style="color:var(--text-mid);font-size:0.88rem;line-height:1.65;font-weight:300;margin-bottom:1rem;">Animals are a core part of a functioning homestead ecosystem. We integrate chickens strategically to cycle nutrients, manage pests, and build soil fertility — using proven systems like chicken tractors and chicken tunnels to put their natural behaviors to work on your land.</p>
+        <ul class="service-items">
+          <li>Chicken tractors for garden prep & pest control</li>
+          <li>Chicken tunnels to direct flock movement between beds</li>
+          <li>Rotational grazing & paddock design</li>
+          <li>Manure composting & nutrient cycling</li>
+          <li>Coop placement for maximum land benefit</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- PERMACULTURE SECTION -->
+    <div style="background:var(--forest-mid);border-radius:6px;padding:3rem;margin-bottom:2rem;">
+      <div style="max-width:800px;margin:0 auto;text-align:center;">
+        <div style="font-size:2.5rem;margin-bottom:1rem;">🌀</div>
+        <h2 style="font-family:'Playfair Display',serif;color:var(--cream);font-size:1.8rem;margin-bottom:1rem;font-weight:900;">Permaculture Design Principles</h2>
+        <p style="color:rgba(232,220,200,0.75);line-height:1.8;font-weight:300;margin-bottom:2rem;">Permaculture isn't a technique — it's a lens. We design every property as an integrated system where each element serves multiple functions and every output becomes an input somewhere else. The result is a landscape that becomes more productive, more resilient, and less dependent on outside inputs every single year.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;text-align:left;">
+          <div style="background:rgba(255,255,255,0.07);border-radius:4px;padding:1.2rem;">
+            <div style="color:var(--leaf-bright);font-weight:700;font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.4rem;">Observe First</div>
+            <p style="color:rgba(232,220,200,0.6);font-size:0.82rem;font-weight:300;line-height:1.5;">We study your land before we touch it — sun, wind, water flow, and soil.</p>
+          </div>
+          <div style="background:rgba(255,255,255,0.07);border-radius:4px;padding:1.2rem;">
+            <div style="color:var(--leaf-bright);font-weight:700;font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.4rem;">Stack Functions</div>
+            <p style="color:rgba(232,220,200,0.6);font-size:0.82rem;font-weight:300;line-height:1.5;">Every plant, structure, and animal serves at least three purposes in the system.</p>
+          </div>
+          <div style="background:rgba(255,255,255,0.07);border-radius:4px;padding:1.2rem;">
+            <div style="color:var(--leaf-bright);font-weight:700;font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.4rem;">Catch Energy</div>
+            <p style="color:rgba(232,220,200,0.6);font-size:0.82rem;font-weight:300;line-height:1.5;">Water, sunlight, wind, and biomass — we design to capture and use each one.</p>
+          </div>
+          <div style="background:rgba(255,255,255,0.07);border-radius:4px;padding:1.2rem;">
+            <div style="color:var(--leaf-bright);font-weight:700;font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.4rem;">Use Edges</div>
+            <p style="color:rgba(232,220,200,0.6);font-size:0.82rem;font-weight:300;line-height:1.5;">The most productive zones are edges. We maximize them in every design.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:2.5rem;">
+      <button class="btn-submit" style="width:auto;padding:1rem 3rem;" onclick="showPage('consultation')">Ready to Build Your Homestead? →</button>
+    </div>
+
+  </div>
+  <footer>
+    <div class="footer-logo">Grow Life Homesteading <span>· The Community Table</span></div>
+    <div class="footer-links"><a onclick="showPage('home')">Home</a><a onclick="showPage('services')">Services</a><a onclick="showPage('contact')">Contact</a></div>
+    <p>© 2025 Grow Life Homesteading. <a onclick="showPage('tos')" style="color:rgba(232,220,200,0.4);cursor:pointer;text-decoration:underline;">Terms of Service</a></p>
+  </footer>
+</div>
+
+
+<!-- AUTH MODAL -->
+<div class="modal-overlay" id="authModal">
+  <div class="modal" style="max-width:420px;">
+    <button class="modal-close" onclick="closeAuthModal()">×</button>
+    <div style="text-align:center;margin-bottom:1.2rem;">
+      <div style="font-size:2rem;margin-bottom:0.5rem;">🌿</div>
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;color:var(--forest);font-weight:600;">Community Table</h3>
+    </div>
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="authTabLogin" onclick="switchAuthTab('login')">Sign In</button>
+      <button class="auth-tab" id="authTabSignup" onclick="switchAuthTab('signup')">Create Account</button>
+    </div>
+    <div id="authError" class="auth-error"></div>
+    <div id="authSuccess" class="auth-success"></div>
+
+    <!-- LOGIN FORM -->
+    <div id="authLoginForm">
+      <div class="form-group"><label>Email</label><input type="email" id="loginEmail" placeholder="your@email.com" onkeydown="if(event.key==='Enter')doLogin()" /></div>
+      <div class="form-group"><label>Password</label><input type="password" id="loginPassword" placeholder="Your password" onkeydown="if(event.key==='Enter')doLogin()" /></div>
+      <button id="loginBtn" class="btn-submit" onclick="doLogin()">Sign In →</button>
+    </div>
+
+    <!-- SIGNUP FORM -->
+    <div id="authSignupForm" style="display:none;">
+      <div class="form-group"><label>Display Name</label><input type="text" id="signupName" placeholder="How neighbors will see you (first name is fine)" /></div>
+      <div class="form-group"><label>Email</label><input type="email" id="signupEmail" placeholder="your@email.com" /></div>
+      <div class="form-group"><label>Password</label><input type="password" id="signupPassword" placeholder="At least 6 characters" /></div>
+      <button id="signupBtn" class="btn-submit" onclick="doSignup()">Create Account →</button>
+      <p style="font-size:0.78rem;color:var(--text-mid);font-weight:300;margin-top:0.8rem;line-height:1.5;text-align:center;">Your email is never shown publicly. You control how neighbors contact you.</p>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT NEIGHBOR MODAL -->
+<div class="modal-overlay" id="contactModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeContactModal()">×</button>
+    <h3>Contact Neighbor</h3>
+    <p id="modalDesc">Send a message to connect about this listing.</p>
+    <div id="modalDmForm">
+      <input type="text" placeholder="Your message" id="modalMsg" style="width:100%;border:1px solid rgba(45,90,61,0.2);border-radius:3px;padding:0.8rem 1rem;font-family:'DM Sans',sans-serif;font-size:0.9rem;margin-bottom:1rem;outline:none;color:var(--text-dark);background:var(--cream);" />
+      <div class="modal-btns">
+        <button class="modal-cancel" onclick="closeContactModal()">Cancel</button>
+        <button class="modal-send" onclick="sendDM()">Send Message →</button>
+      </div>
+    </div>
+    <div id="modalExternalLink" style="display:none;">
+      <div id="modalExternalBtn" style="margin-bottom:1rem;text-align:center;"></div>
+      <button class="modal-cancel" style="width:100%;" onclick="closeContactModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- ACCESS GATE MODAL -->
+<div class="modal-overlay" id="accessGate">
+  <div class="modal" style="max-width:480px;">
+    <button class="modal-close" onclick="closeGate()">×</button>
+    <input type="hidden" id="gate-target" value="" />
+    <div style="text-align:center;margin-bottom:1.5rem;">
+      <div style="font-size:2.5rem;margin-bottom:0.8rem;">🔒</div>
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;color:var(--forest);margin-bottom:0.5rem;">Members Only</h3>
+      <p style="color:var(--text-mid);font-size:0.88rem;line-height:1.7;font-weight:300;">This section is exclusively available to Grow Life Homesteading subscribers and qualifying pay-per-visit clients. Enter your access code below to unlock it.</p>
+    </div>
+    <div style="background:rgba(196,163,90,0.08);border:1px solid rgba(196,163,90,0.2);border-radius:3px;padding:1rem 1.2rem;margin-bottom:1.2rem;">
+      <p style="color:var(--text-mid);font-size:0.82rem;font-weight:300;line-height:1.6;">Don't have a code? <a onclick="closeGate();showPage('consultation')" style="color:var(--forest-light);font-weight:700;cursor:pointer;">Schedule a consultation</a> or sign up for a maintenance plan to get access.</p>
+    </div>
+    <input type="text" id="gate-code-input" placeholder="Enter your access code" style="width:100%;border:1px solid rgba(45,90,61,0.2);border-radius:2px;padding:0.85rem 1rem;font-family:'DM Sans',sans-serif;font-size:0.9rem;margin-bottom:0.8rem;outline:none;color:var(--text-dark);background:var(--cream);letter-spacing:0.1em;text-transform:uppercase;" onkeydown="if(event.key==='Enter')submitGateCode()" />
+    <p id="gate-error" style="display:none;color:#c0392b;font-size:0.82rem;margin-bottom:0.8rem;font-weight:500;"></p>
+    <button id="gate-submit-btn" onclick="submitGateCode()" class="btn-submit">Unlock Access →</button>
+    <p style="text-align:center;margin-top:1rem;color:rgba(61,90,69,0.45);font-size:0.75rem;font-weight:300;">Your code is saved in your browser so you won't need to re-enter it.</p>
+  </div>
+</div>
+
+
+<script>
+
+  function toggleFaq(btn) {
+    const answer = btn.nextElementSibling;
+    const arrow = btn.querySelector('.faq-arrow');
+    const isOpen = answer.style.display === 'block';
+    answer.style.display = isOpen ? 'none' : 'block';
+    arrow.textContent = isOpen ? '＋' : '－';
+    arrow.style.transform = isOpen ? '' : 'rotate(0deg)';
+  }
+
+  // ---- ACCESS GATE (email verification based) ----
+  const GATED_PAGES = ['network', 'practices'];
+
+  function isEmailVerified() {
+    return currentUser && (currentUser.email_confirmed_at || currentUser.confirmed_at);
+  }
+
+  // Keep old code gate for backwards compat but it's no longer the primary gate
+  const ACCESS_KEY = 'glh_access_code';
+  function isUnlocked() { return !!localStorage.getItem(ACCESS_KEY); }
+
+  async function verifyCode(code) {
+    try {
+      const data = await sbFetch(`access_codes?code=eq.${code.trim().toUpperCase()}`);
+      return data && data.length > 0;
+    } catch(e) { return false; }
+  }
+
+  function showGate(pageName) {
+    document.getElementById('gate-target').value = pageName;
+    document.getElementById('gate-code-input').value = '';
+    document.getElementById('gate-error').style.display = 'none';
+    document.getElementById('accessGate').classList.add('open');
+  }
+
+  function closeGate() { document.getElementById('accessGate').classList.remove('open'); }
+
+  async function submitGateCode() {
+    const code = document.getElementById('gate-code-input').value.trim();
+    const target = document.getElementById('gate-target').value;
+    const btn = document.getElementById('gate-submit-btn');
+    const err = document.getElementById('gate-error');
+    if (!code) { err.style.display = 'block'; err.textContent = 'Please enter your access code.'; return; }
+    btn.textContent = 'Verifying...'; btn.disabled = true;
+    const valid = await verifyCode(code);
+    if (valid) {
+      localStorage.setItem(ACCESS_KEY, code.toUpperCase());
+      closeGate(); showPage(target);
+    } else {
+      err.style.display = 'block';
+      err.textContent = 'Invalid code. Please check with Grow Life Homesteading.';
+    }
+    btn.textContent = 'Unlock Access →'; btn.disabled = false;
+  }
+
+  async function resendVerification() {
+    if (!currentUser) return;
+    try {
+      await fetch(`${SUPABASE_URL}/auth/v1/resend`, {
+        method: 'POST',
+        headers: { 'apikey': SUPABASE_KEY, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'signup', email: currentUser.email })
+      });
+    } catch(e) {}
+    // Show confirm on whichever page triggered it
+    ['resendConfirm','practicesResendConfirm'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) { el.style.display = 'block'; setTimeout(() => el.style.display = 'none', 4000); }
+    });
+  }
+
+  function showPage(name) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + name).classList.add('active');
+    window.scrollTo(0, 0);
+    document.getElementById('navLinks').classList.remove('open');
+    if (name === 'network') initNetworkPage();
+    if (name === 'practices') initPracticesPage();
+    if (name === 'profile') initProfilePage();
+  }
+
+  function toggleNav() { document.getElementById('navLinks').classList.toggle('open'); }
+
+  // ============ SUPABASE ============
+  const SUPABASE_URL = 'https://rzahjdysmqakdqjtolcn.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ6YWhqZHlzbXFha2RxanRvbGNuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM2MzcwMDgsImV4cCI6MjA4OTIxMzAwOH0.d4by1EvFyTBXbaZM0rtuwGjy7KYbECoNH2Qu4aBtvTM';
+
+  async function sbFetch(path, options = {}) {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
+      method: options.method || 'GET',
+      headers: {
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${currentToken || SUPABASE_KEY}`,
+        'Content-Type': 'application/json',
+        'Prefer': options.prefer || ''
+      },
+      body: options.body || undefined
+    });
+    if (!res.ok) throw new Error(await res.text());
+    if (res.status === 204) return null;
+    return res.json();
+  }
+
+  // ============ AUTH ============
+  let currentUser = null;
+  let currentToken = null;
+  let currentProfile = null;
+
+  async function sbAuth(endpoint, body) {
+    const res = await fetch(`${SUPABASE_URL}/auth/v1/${endpoint}`, {
+      method: 'POST',
+      headers: { 'apikey': SUPABASE_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error_description || data.msg || 'Auth error');
+    return data;
+  }
+
+  async function doLogin() {
+    const email = document.getElementById('loginEmail').value.trim();
+    const password = document.getElementById('loginPassword').value;
+    const btn = document.getElementById('loginBtn');
+    document.getElementById('authError').style.display = 'none';
+    if (!email || !password) { showAuthError('Please enter your email and password.'); return; }
+    btn.textContent = 'Signing in...'; btn.disabled = true;
+    try {
+      const data = await sbAuth('token?grant_type=password', { email, password });
+      await onAuthSuccess(data);
+      closeAuthModal();
+    } catch(e) { showAuthError(e.message || 'Invalid email or password.'); }
+    btn.textContent = 'Sign In →'; btn.disabled = false;
+  }
+
+  async function doSignup() {
+    const name = document.getElementById('signupName').value.trim();
+    const email = document.getElementById('signupEmail').value.trim();
+    const password = document.getElementById('signupPassword').value;
+    const btn = document.getElementById('signupBtn');
+    document.getElementById('authError').style.display = 'none';
+    if (!name || !email || !password) { showAuthError('Please fill in all fields.'); return; }
+    if (password.length < 6) { showAuthError('Password must be at least 6 characters.'); return; }
+    btn.textContent = 'Creating account...'; btn.disabled = true;
+    try {
+      const data = await sbAuth('signup', { email, password, data: { display_name: name } });
+      if (data.access_token) {
+        await onAuthSuccess(data); closeAuthModal();
+      } else {
+        document.getElementById('authSuccess').style.display = 'block';
+        document.getElementById('authSuccess').textContent = '✅ Account created! Check your email to confirm, then sign in.';
+        switchAuthTab('login');
+      }
+    } catch(e) { showAuthError(e.message || 'Could not create account. Try again.'); }
+    btn.textContent = 'Create Account →'; btn.disabled = false;
+  }
+
+  async function onAuthSuccess(data) {
+    currentToken = data.access_token;
+    currentUser = data.user;
+    // Fetch fresh user object to get email_confirmed_at
+    try {
+      const res = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
+        headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${currentToken}` }
+      });
+      if (res.ok) currentUser = await res.json();
+    } catch(e) {}
+    localStorage.setItem('glh_token', currentToken);
+    localStorage.setItem('glh_user', JSON.stringify(currentUser));
+    await loadProfile();
+    updateNavAuth();
+  }
+
+  async function loadProfile() {
+    if (!currentUser) return;
+    try {
+      const rows = await sbFetch(`profiles?user_id=eq.${currentUser.id}`);
+      if (rows && rows.length > 0) {
+        currentProfile = rows[0];
+      } else {
+        const name = currentUser.user_metadata?.display_name || currentUser.email.split('@')[0];
+        await sbFetch('profiles', {
+          method: 'POST', prefer: 'return=minimal',
+          body: JSON.stringify({ user_id: currentUser.id, display_name: name, contact_pref: 'dm', contact_handle: '' })
+        });
+        const rows2 = await sbFetch(`profiles?user_id=eq.${currentUser.id}`);
+        currentProfile = rows2 && rows2[0];
+      }
+    } catch(e) { console.error('Profile error', e); }
+  }
+
+  function updateNavAuth() {
+    const btn = document.getElementById('navAuthBtn');
+    if (!btn) return;
+    if (currentUser && currentProfile) {
+      btn.textContent = `👤 ${currentProfile.display_name || 'Profile'}`;
+      btn.classList.add('signed-in');
+    } else {
+      btn.textContent = 'Sign In';
+      btn.classList.remove('signed-in');
+    }
+  }
+
+  function handleNavAuth() {
+    if (currentUser) { showPage('profile'); } else { openAuthModal('login'); }
+  }
+
+  function signOut() {
+    currentUser = null; currentToken = null; currentProfile = null;
+    localStorage.removeItem('glh_token'); localStorage.removeItem('glh_user');
+    updateNavAuth(); showPage('home');
+  }
+
+  async function restoreSession() {
+    const token = localStorage.getItem('glh_token');
+    const user = localStorage.getItem('glh_user');
+    if (token && user) {
+      try {
+        currentToken = token;
+        currentUser = JSON.parse(user);
+        // Refresh user from Supabase to get latest email_confirmed_at
+        const res = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
+          headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${currentToken}` }
+        });
+        if (res.ok) {
+          currentUser = await res.json();
+          localStorage.setItem('glh_user', JSON.stringify(currentUser));
+        } else {
+          // Token expired
+          signOut(); return;
+        }
+        await loadProfile();
+        updateNavAuth();
+      } catch(e) { signOut(); }
+    }
+  }
+
+  function openAuthModal(tab) {
+    document.getElementById('authModal').classList.add('open');
+    switchAuthTab(tab || 'login');
+    document.getElementById('authError').style.display = 'none';
+    document.getElementById('authSuccess').style.display = 'none';
+  }
+  function closeAuthModal() { document.getElementById('authModal').classList.remove('open'); }
+  function switchAuthTab(tab) {
+    document.getElementById('authLoginForm').style.display = tab === 'login' ? 'block' : 'none';
+    document.getElementById('authSignupForm').style.display = tab === 'signup' ? 'block' : 'none';
+    document.getElementById('authTabLogin').classList.toggle('active', tab === 'login');
+    document.getElementById('authTabSignup').classList.toggle('active', tab === 'signup');
+  }
+  function showAuthError(msg) {
+    const el = document.getElementById('authError');
+    el.textContent = msg; el.style.display = 'block';
+  }
+
+  // ============ NETWORK PAGE ============
+  let currentFilter = 'all';
+
+  function initNetworkPage() {
+    const signedOut = document.getElementById('networkSignedOut');
+    const unverified = document.getElementById('networkUnverified');
+    const signedIn = document.getElementById('networkSignedIn');
+    if (!currentUser) {
+      signedOut.style.display = 'block';
+      unverified.style.display = 'none';
+      signedIn.style.display = 'none';
+    } else if (!isEmailVerified()) {
+      signedOut.style.display = 'none';
+      unverified.style.display = 'block';
+      signedIn.style.display = 'none';
+      document.getElementById('unverifiedEmail').textContent = currentUser.email;
+    } else {
+      signedOut.style.display = 'none';
+      unverified.style.display = 'none';
+      signedIn.style.display = 'block';
+      loadListings();
+    }
+  }
+
+  function initPracticesPage() {
+    const wall = document.getElementById('practicesWall');
+    const content = document.getElementById('practicesContent');
+    const notSignedIn = document.getElementById('practicesWallNotSignedIn');
+    const unverifiedDiv = document.getElementById('practicesWallUnverified');
+    if (!currentUser) {
+      wall.style.display = 'block'; content.style.display = 'none';
+      notSignedIn.style.display = 'block'; unverifiedDiv.style.display = 'none';
+    } else if (!isEmailVerified()) {
+      wall.style.display = 'block'; content.style.display = 'none';
+      notSignedIn.style.display = 'none'; unverifiedDiv.style.display = 'block';
+      document.getElementById('practicesUnverifiedEmail').textContent = currentUser.email;
+    } else {
+      wall.style.display = 'none'; content.style.display = 'block';
+    }
+  }
+
+  async function loadListings() {
+    const container = document.getElementById('listingsContainer');
+    if (!container) return;
+    container.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text-mid);font-size:0.9rem;">Loading listings...</div>';
+    try {
+      let path = 'listings?traded=eq.false&order=created_at.desc';
+      if (currentFilter !== 'all') path += `&type=eq.${currentFilter}`;
+      const data = await sbFetch(path);
+      if (!data || data.length === 0) {
+        container.innerHTML = '<div style="text-align:center;padding:3rem;color:var(--text-mid);font-size:0.88rem;font-weight:300;">No listings yet. Be the first to post!</div>';
+        return;
+      }
+      container.innerHTML = data.map(l => renderListing(l)).join('');
+    } catch(e) {
+      container.innerHTML = '<div style="text-align:center;padding:2rem;color:#c0392b;font-size:0.88rem;">Could not load listings. Please try again.</div>';
+    }
+  }
+
+  function renderListing(l) {
+    const isOwn = currentUser && l.user_id === currentUser.id;
+    const badgeClass = l.type === 'offer' ? 'badge-offer' : 'badge-want';
+    const badgeText = l.type === 'offer' ? '🌱 Offering' : '🔍 Wanted';
+    const date = new Date(l.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    let contactBtn = isOwn
+      ? `<button class="contact-btn" style="opacity:0.5;cursor:default;">Your listing</button>`
+      : `<button class="contact-btn" onclick="openContactModal('${l.id}','${escapeAttr(l.display_name||'Neighbor')}','${escapeAttr(l.item)}','${l.contact_pref||'dm'}','${escapeAttr(l.contact_handle||'')}')">Contact →</button>`;
+    const tradeBtn = isOwn ? `<button onclick="promptTrade('${l.id}')" style="background:none;border:none;color:var(--gold);font-size:0.76rem;font-weight:700;cursor:pointer;margin-top:0.3rem;font-family:'DM Sans',sans-serif;letter-spacing:0.05em;">🤝 We Traded!</button>` : '';
+    return `<div class="listing-card">
+      <span class="listing-badge ${badgeClass}">${badgeText}</span>
+      <div class="listing-content">
+        <div class="listing-title">${escapeHtml(l.item)}</div>
+        <div class="listing-desc">${escapeHtml(l.description)}</div>
+        <div class="listing-meta">
+          <span>👤 ${escapeHtml(l.display_name||'Neighbor')}</span>
+          ${l.area ? `<span>📍 ${escapeHtml(l.area)}</span>` : ''}
+          <span>🗓 ${date}</span>
+        </div>
+        ${tradeBtn}
+      </div>
+      ${contactBtn}
+    </div>`;
+  }
+
+  function filterListings(type, btn) {
+    currentFilter = type;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    loadListings();
+  }
+
+  async function addListing() {
+    if (!currentUser || !currentProfile) { openAuthModal('login'); return; }
+    const type = document.getElementById('listingType').value;
+    const item = document.getElementById('listingItem').value.trim();
+    const description = document.getElementById('listingDesc').value.trim();
+    const area = document.getElementById('listingArea').value.trim();
+    if (!item || !description) { alert('Please fill in the item and details.'); return; }
+    const btn = document.querySelector('.btn-green');
+    btn.textContent = 'Posting...'; btn.disabled = true;
+    try {
+      await sbFetch('listings', {
+        method: 'POST', prefer: 'return=minimal',
+        body: JSON.stringify({
+          user_id: currentUser.id,
+          display_name: currentProfile.display_name,
+          contact_pref: currentProfile.contact_pref || 'dm',
+          contact_handle: currentProfile.contact_handle || '',
+          type, item, description,
+          area: area || 'Local area',
+          traded: false
+        })
+      });
+      ['listingItem','listingDesc','listingArea'].forEach(id => document.getElementById(id).value = '');
+      await loadListings();
+      alert('✅ Listing posted! Click "🤝 We Traded!" on your listing when done.');
+    } catch(e) { alert('Could not post listing. Please try again.'); }
+    btn.textContent = 'Post Listing →'; btn.disabled = false;
+  }
+
+  async function promptTrade(id) {
+    if (!confirm('Mark this listing as traded and remove it from the board?')) return;
+    try {
+      await sbFetch(`listings?id=eq.${id}`, { method: 'PATCH', prefer: 'return=minimal', body: JSON.stringify({ traded: true }) });
+      await loadListings();
+      alert('🤝 Amazing! Thanks for trading with your neighbor. Happy growing!');
+    } catch(e) { alert('Something went wrong. Please try again.'); }
+  }
+
+  // ============ CONTACT / DM MODAL ============
+  let currentContactListing = null;
+
+  function openContactModal(listingId, posterName, item, contactPref, contactHandle) {
+    if (!currentUser) { openAuthModal('login'); return; }
+    currentContactListing = { listingId, posterName, item, contactPref, contactHandle };
+    const modal = document.getElementById('contactModal');
+    const desc = document.getElementById('modalDesc');
+    const dmForm = document.getElementById('modalDmForm');
+    const extLink = document.getElementById('modalExternalLink');
+    const extBtn = document.getElementById('modalExternalBtn');
+    modal.classList.add('open');
+    if (contactPref === 'dm') {
+      desc.textContent = `Send a private message to ${posterName} about their "${item}" listing.`;
+      dmForm.style.display = 'block'; extLink.style.display = 'none';
+      document.getElementById('modalMsg').value = '';
+    } else if (contactPref === 'facebook') {
+      desc.textContent = `${posterName} prefers Facebook Messenger.`;
+      dmForm.style.display = 'none'; extLink.style.display = 'block';
+      const fbUrl = contactHandle.startsWith('http') ? contactHandle : `https://www.facebook.com/${contactHandle.replace('@','')}`;
+      extBtn.innerHTML = `<a href="${fbUrl}" target="_blank" style="display:inline-block;background:#1877f2;color:white;padding:0.85rem 2rem;border-radius:3px;text-decoration:none;font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;">📘 Message on Facebook →</a>`;
+    } else if (contactPref === 'instagram') {
+      desc.textContent = `${posterName} prefers Instagram DM.`;
+      dmForm.style.display = 'none'; extLink.style.display = 'block';
+      const igHandle = contactHandle.replace('@','');
+      extBtn.innerHTML = `<a href="https://www.instagram.com/${igHandle}" target="_blank" style="display:inline-block;background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);color:white;padding:0.85rem 2rem;border-radius:3px;text-decoration:none;font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;">📸 Message on Instagram →</a>`;
+    }
+  }
+
+  function closeContactModal() {
+    document.getElementById('contactModal').classList.remove('open');
+    currentContactListing = null;
+  }
+
+  async function sendDM() {
+    if (!currentContactListing || !currentUser) return;
+    const msg = document.getElementById('modalMsg').value.trim();
+    if (!msg) { alert('Please enter a message.'); return; }
+    const btn = document.querySelector('.modal-send');
+    btn.textContent = 'Sending...'; btn.disabled = true;
+    try {
+      const listing = await sbFetch(`listings?id=eq.${currentContactListing.listingId}`);
+      const recipientId = listing && listing[0] ? listing[0].user_id : null;
+      await sbFetch('messages', {
+        method: 'POST', prefer: 'return=minimal',
+        body: JSON.stringify({
+          sender_id: currentUser.id,
+          sender_name: currentProfile.display_name,
+          recipient_id: recipientId,
+          listing_id: currentContactListing.listingId,
+          listing_item: currentContactListing.item,
+          poster_name: currentContactListing.posterName,
+          message: msg,
+          read: false
+        })
+      });
+      closeContactModal();
+      alert('✅ Message sent! The neighbor will see it in their inbox.');
+    } catch(e) { alert('Could not send message. Please try again.'); }
+    btn.textContent = 'Send Message →'; btn.disabled = false;
+  }
+
+  // ============ PROFILE PAGE ============
+  async function initProfilePage() {
+    if (!currentUser) { showPage('home'); openAuthModal('login'); return; }
+    document.getElementById('profileDisplayName').textContent = currentProfile?.display_name || '—';
+    document.getElementById('profileDisplayEmail').textContent = currentUser.email || '—';
+    switchProfileTab('inbox');
+    loadPrefsUI();
+  }
+
+  function switchProfileTab(tab) {
+    ['inbox','mylistings','settings'].forEach(t => {
+      document.getElementById(`ptab-${t}`).style.display = t === tab ? 'block' : 'none';
+      document.getElementById(`pnav-${t}`).classList.toggle('active', t === tab);
+    });
+    if (tab === 'inbox') loadInbox();
+    if (tab === 'mylistings') loadMyListings();
+  }
+
+  let inboxFilter = 'unread';
+  function switchInboxTab(tab) {
+    inboxFilter = tab;
+    document.getElementById('itab-unread').classList.toggle('active', tab === 'unread');
+    document.getElementById('itab-all').classList.toggle('active', tab === 'all');
+    loadInbox();
+  }
+
+  async function loadInbox() {
+    if (!currentUser) return;
+    const container = document.getElementById('inboxContainer');
+    container.innerHTML = '<div class="inbox-empty">Loading messages...</div>';
+    try {
+      let path = `messages?recipient_id=eq.${currentUser.id}&order=created_at.desc`;
+      if (inboxFilter === 'unread') path += '&read=eq.false';
+      const msgs = await sbFetch(path);
+      if (!msgs || msgs.length === 0) {
+        container.innerHTML = `<div class="inbox-empty">${inboxFilter === 'unread' ? 'No unread messages.' : 'No messages yet.'}</div>`;
+        return;
+      }
+      container.innerHTML = msgs.map(m => {
+        const date = new Date(m.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+        return `<div class="inbox-msg" onclick="markRead('${m.id}', this)" style="${!m.read ? 'border-left:3px solid var(--gold);' : ''}">
+          <div class="inbox-msg-header">
+            <div class="inbox-msg-from">${escapeHtml(m.sender_name||'Neighbor')} ${!m.read ? '<span style="font-size:0.7rem;background:var(--gold);color:var(--forest);padding:0.1rem 0.5rem;border-radius:10px;font-family:DM Sans,sans-serif;font-weight:700;vertical-align:middle;">NEW</span>' : ''}</div>
+            <div class="inbox-msg-date">${date}</div>
+          </div>
+          <div class="inbox-msg-about">Re: ${escapeHtml(m.listing_item||'Listing')}</div>
+          <div class="inbox-msg-body">${escapeHtml(m.message)}</div>
+        </div>`;
+      }).join('');
+    } catch(e) { container.innerHTML = '<div class="inbox-empty">Could not load messages.</div>'; }
+  }
+
+  async function markRead(msgId, el) {
+    try {
+      await sbFetch(`messages?id=eq.${msgId}`, { method: 'PATCH', prefer: 'return=minimal', body: JSON.stringify({ read: true }) });
+      el.style.borderLeft = '';
+      el.querySelectorAll('span[style*="background:var(--gold)"]').forEach(s => s.remove());
+    } catch(e) {}
+  }
+
+  async function loadMyListings() {
+    if (!currentUser) return;
+    const container = document.getElementById('myListingsContainer');
+    container.innerHTML = '<div class="inbox-empty">Loading your listings...</div>';
+    try {
+      const data = await sbFetch(`listings?user_id=eq.${currentUser.id}&traded=eq.false&order=created_at.desc`);
+      if (!data || data.length === 0) {
+        container.innerHTML = '<div class="inbox-empty">No active listings. <a onclick="showPage(\'network\')" style="color:var(--forest-light);cursor:pointer;font-weight:600;">Post one →</a></div>';
+        return;
+      }
+      container.innerHTML = data.map(l => renderListing(l)).join('');
+    } catch(e) { container.innerHTML = '<div class="inbox-empty">Could not load listings.</div>'; }
+  }
+
+  function loadPrefsUI() {
+    if (!currentProfile) return;
+    const pref = currentProfile.contact_pref || 'dm';
+    const handle = currentProfile.contact_handle || '';
+    const radio = document.querySelector(`input[name=contactPref][value="${pref}"]`);
+    if (radio) { radio.checked = true; togglePrefHandle(pref); }
+    if (pref === 'facebook' && document.getElementById('fbHandle')) document.getElementById('fbHandle').value = handle;
+    if (pref === 'instagram' && document.getElementById('igHandle')) document.getElementById('igHandle').value = handle;
+  }
+
+  function togglePrefHandle(pref) {
+    document.getElementById('handle-facebook').style.display = pref === 'facebook' ? 'block' : 'none';
+    document.getElementById('handle-instagram').style.display = pref === 'instagram' ? 'block' : 'none';
+  }
+
+  async function saveContactPrefs() {
+    if (!currentUser || !currentProfile) return;
+    const pref = document.querySelector('input[name=contactPref]:checked')?.value || 'dm';
+    let handle = '';
+    if (pref === 'facebook') handle = document.getElementById('fbHandle').value.trim();
+    if (pref === 'instagram') handle = document.getElementById('igHandle').value.trim();
+    try {
+      await sbFetch(`profiles?user_id=eq.${currentUser.id}`, {
+        method: 'PATCH', prefer: 'return=minimal',
+        body: JSON.stringify({ contact_pref: pref, contact_handle: handle })
+      });
+      currentProfile.contact_pref = pref; currentProfile.contact_handle = handle;
+      const saved = document.getElementById('prefsSaved');
+      saved.style.display = 'block';
+      setTimeout(() => { saved.style.display = 'none'; }, 3000);
+    } catch(e) { alert('Could not save preferences. Please try again.'); }
+  }
+
+  // ============ UTILITIES ============
+  function escapeHtml(str) {
+    if (!str) return '';
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+  function escapeAttr(str) {
+    if (!str) return '';
+    return String(str).replace(/'/g,'&#39;').replace(/"/g,'&quot;');
+  }
+
+  function submitForm(successId) {
+    const el = document.getElementById(successId);
+    el.style.display = 'block';
+    setTimeout(() => { el.style.display = 'none'; }, 4000);
+  }
+
+  function handleGalleryUpload(event) {
+    const files = event.target.files;
+    if (!files.length) return;
+    const grid = document.getElementById('galleryGrid');
+    Array.from(files).forEach(file => {
+      const reader = new FileReader();
+      reader.onload = e => {
+        const card = document.createElement('div');
+        card.className = 'gallery-card';
+        card.innerHTML = `<img src="${e.target.result}" style="width:100%;height:200px;object-fit:cover;" /><div class="gallery-card-body"><h4>${file.name.replace(/\.[^.]+$/,'')}</h4><p>Uploaded project photo</p></div>`;
+        grid.insertBefore(card, grid.firstChild);
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // Auto-refresh listings every 30 seconds when on network page
+  setInterval(() => {
+    if (document.getElementById('page-network').classList.contains('active') && currentUser) loadListings();
+  }, 30000);
+
+  // Restore session on load
+  restoreSession();
+
+</script>
+</body>
+</html>
