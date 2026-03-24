@@ -614,6 +614,24 @@
       <p id="resendConfirm" style="display:none;color:var(--forest-light);font-size:0.84rem;margin-top:0.8rem;font-weight:600;">✓ Verification email resent!</p>
     </div>
 
+    <!-- VERIFIED BUT NO ACCESS CODE STATE -->
+    <div id="networkAccessCode" style="display:none;text-align:center;padding:3rem 1rem;">
+      <div style="font-size:3rem;margin-bottom:1rem;">🔑</div>
+      <h2 style="font-family:'Cormorant Garamond',serif;color:var(--forest);font-size:2rem;font-weight:600;margin-bottom:0.8rem;">One More Step</h2>
+      <p style="color:var(--text-mid);font-size:0.95rem;max-width:480px;margin:0 auto 2rem;font-weight:300;line-height:1.7;">The Community Table is available to Grow Life clients. Generate your personal access code below, then enter it to unlock this section permanently.</p>
+      <div id="networkCodeDisplay" style="display:none;background:rgba(196,163,90,0.08);border:1px solid rgba(196,163,90,0.3);border-radius:6px;padding:1.5rem 2rem;max-width:400px;margin:0 auto 1.5rem;">
+        <p style="color:var(--text-mid);font-size:0.84rem;font-weight:300;margin-bottom:0.8rem;">Your access code — screenshot or write this down:</p>
+        <div id="networkGeneratedCode" style="font-family:'Cormorant Garamond',serif;font-size:2.5rem;color:var(--forest);font-weight:700;letter-spacing:0.2em;margin-bottom:0.5rem;">——</div>
+        <p style="color:var(--text-mid);font-size:0.78rem;font-weight:300;">Enter it in the box below to unlock access.</p>
+      </div>
+      <button id="networkGenerateBtn" class="btn-submit" style="width:auto;padding:0.9rem 2.5rem;margin-bottom:1.5rem;" onclick="generateAccessCode('network')">Send My Access Code to My Email →</button>
+      <div style="max-width:400px;margin:0 auto;">
+        <div class="form-group"><label>Enter Your Access Code</label><input type="text" id="networkCodeInput" placeholder="e.g. A3F7K2" style="text-transform:uppercase;letter-spacing:0.15em;font-size:1.1rem;text-align:center;" /></div>
+        <button class="btn-submit" style="width:100%;" onclick="submitAccessCode('network')">Unlock Access →</button>
+        <p id="networkCodeError" style="display:none;color:#c0392b;font-size:0.84rem;margin-top:0.6rem;font-weight:500;">Invalid code. Please try again.</p>
+      </div>
+    </div>
+
     <!-- SIGNED IN STATE -->
     <div id="networkSignedIn" style="display:none;">
       <div class="trade-board">
@@ -846,6 +864,10 @@
       <div style="background:rgba(139,111,71,0.08);border-left:4px solid var(--bark);border-radius:0 4px 4px 0;padding:1.2rem 1.5rem;margin-bottom:2.5rem;">
         <p style="color:var(--bark);font-weight:700;font-size:0.85rem;margin-bottom:0.4rem;">📋 A Note on Pricing</p>
         <p style="color:var(--text-mid);font-size:0.85rem;line-height:1.7;font-weight:300;">The prices below are <strong style="color:var(--text-dark);">baseline starting points</strong>. Your actual monthly quote may vary based on your total square footage, the number and type of specialty systems on your property, and the maintenance demands of those systems. For example, a row of berry bushes may only need occasional watering and pruning, while a chicken coop requires regular hands-on care and monitoring. We'll work through all of this together during your consultation to build a quote that accurately reflects your property.</p>
+      </div>
+      <div style="background:rgba(196,163,90,0.08);border-left:4px solid var(--gold);border-radius:0 4px 4px 0;padding:1.2rem 1.5rem;margin-bottom:2.5rem;">
+        <p style="color:var(--gold);font-weight:700;font-size:0.85rem;margin-bottom:0.4rem;">🎖️ Service Discount — Veterans, Law Enforcement & First Responders</p>
+        <p style="color:var(--text-mid);font-size:0.85rem;line-height:1.7;font-weight:300;">We're proud to offer a <strong style="color:var(--text-dark);">10% discount</strong> on all maintenance plans to active and retired military veterans, law enforcement officers, and first responders. Thank you for your service. Mention your status during your consultation and we'll apply the discount to your quote.</p>
       </div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;">
 
@@ -1132,7 +1154,8 @@
           <p style="margin-bottom:0.8rem;">Crop insurance plans are add-on subscriptions available exclusively to active maintenance plan subscribers. Coverage begins on the first scheduled visit following enrollment.</p>
           <p style="margin-bottom:0.8rem;">Coverage is limited to losses that occur under the specific conditions outlined in your selected tier (Basic, Standard, or Premium). Grow Life Homesteading is not liable for losses resulting from client negligence, unauthorized modifications to the property, or circumstances outside the scope of the enrolled plan.</p>
           <p style="margin-bottom:0.8rem;">Crop replacement under Standard Coverage applies only to plants that have not exceeded 20% of their expected lifespan at the time of loss (juvenile stage). Mature plant losses are not covered under Standard Coverage.</p>
-          <p>All insurance claims must be reported within <strong style="color:var(--forest);">48 hours</strong> of the loss event. Claims submitted after this window may be denied at the discretion of Grow Life Homesteading.</p>
+          <p style="margin-bottom:0.8rem;"><strong style="color:var(--forest);">Definition of a Loss Event:</strong> A loss event begins at the time the customer first observes damage, death, or abnormal decline in their crop or system. It is the customer's responsibility to monitor their property and report issues promptly. Losses that occurred prior to the customer's first observation are still subject to the reporting window below.</p>
+          <p>All insurance claims must be reported within <strong style="color:var(--forest);">72 hours of first observation</strong> of the loss event. Claims submitted after this window may be denied at the discretion of Grow Life Homesteading. To report a claim, contact us directly at <strong style="color:var(--forest);">growlifekentucky@gmail.com</strong> or by phone.</p>
         </div>
       </div>
 
@@ -1414,6 +1437,22 @@
       <p style="color:var(--text-mid);font-size:0.84rem;font-weight:300;">Didn't get it? <a onclick="resendVerification()" style="color:var(--forest-light);cursor:pointer;font-weight:600;">Resend verification email</a></p>
       <p id="practicesResendConfirm" style="display:none;color:var(--forest-light);font-size:0.84rem;margin-top:0.8rem;font-weight:600;">✓ Verification email resent!</p>
     </div>
+    <div id="practicesWallAccessCode" style="display:none;">
+      <div style="font-size:3rem;margin-bottom:1rem;">🔑</div>
+      <h2 style="font-family:'Cormorant Garamond',serif;color:var(--forest);font-size:2rem;font-weight:600;margin-bottom:0.8rem;">One More Step</h2>
+      <p style="color:var(--text-mid);font-size:0.95rem;max-width:480px;margin:0 auto 2rem;font-weight:300;line-height:1.7;">This page is available to Grow Life clients. Generate your personal access code below, then enter it to unlock this section permanently.</p>
+      <div id="practicesCodeDisplay" style="display:none;background:rgba(196,163,90,0.08);border:1px solid rgba(196,163,90,0.3);border-radius:6px;padding:1.5rem 2rem;max-width:400px;margin:0 auto 1.5rem;">
+        <p style="color:var(--text-mid);font-size:0.84rem;font-weight:300;margin-bottom:0.8rem;">Your access code — screenshot or write this down:</p>
+        <div id="practicesGeneratedCode" style="font-family:'Cormorant Garamond',serif;font-size:2.5rem;color:var(--forest);font-weight:700;letter-spacing:0.2em;margin-bottom:0.5rem;">——</div>
+        <p style="color:var(--text-mid);font-size:0.78rem;font-weight:300;">Enter it in the box below to unlock access.</p>
+      </div>
+      <button id="practicesGenerateBtn" class="btn-submit" style="width:auto;padding:0.9rem 2.5rem;margin-bottom:1.5rem;" onclick="generateAccessCode('practices')">Send My Access Code to My Email →</button>
+      <div style="max-width:400px;margin:0 auto;">
+        <div class="form-group"><label>Enter Your Access Code</label><input type="text" id="practicesCodeInput" placeholder="e.g. A3F7K2" style="text-transform:uppercase;letter-spacing:0.15em;font-size:1.1rem;text-align:center;" /></div>
+        <button class="btn-submit" style="width:100%;" onclick="submitAccessCode('practices')">Unlock Access →</button>
+        <p id="practicesCodeError" style="display:none;color:#c0392b;font-size:0.84rem;margin-top:0.6rem;font-weight:500;">Invalid code. Please try again.</p>
+      </div>
+    </div>
   </div>
 
   <div id="practicesContent" class="page-content">
@@ -1647,6 +1686,48 @@
     <div id="modalExternalLink" style="display:none;">
       <div id="modalExternalBtn" style="margin-bottom:1rem;text-align:center;"></div>
       <button class="modal-cancel" style="width:100%;" onclick="closeContactModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- COMMUNITY TABLE RULES MODAL -->
+<div class="modal-overlay" id="communityRulesModal">
+  <div class="modal" style="max-width:520px;">
+    <button class="modal-close" onclick="declineRules()">×</button>
+    <div style="text-align:center;margin-bottom:1.5rem;">
+      <div style="font-size:2rem;margin-bottom:0.5rem;">🌽</div>
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;color:var(--forest);font-weight:600;">Community Table Rules</h3>
+      <p style="color:var(--text-mid);font-size:0.88rem;font-weight:300;margin-top:0.4rem;">Please read and agree before participating.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:0.8rem;margin-bottom:1.5rem;">
+      <div style="display:flex;gap:0.8rem;align-items:flex-start;padding:0.9rem 1rem;background:rgba(74,140,92,0.05);border:1px solid rgba(74,140,92,0.12);border-radius:4px;">
+        <span style="color:var(--gold);font-weight:700;flex-shrink:0;">1.</span>
+        <div><strong style="color:var(--forest);font-size:0.88rem;">Be Respectful</strong><p style="color:var(--text-mid);font-size:0.82rem;font-weight:300;margin-top:0.2rem;line-height:1.5;">Treat every neighbor with kindness. This is a community space built on trust.</p></div>
+      </div>
+      <div style="display:flex;gap:0.8rem;align-items:flex-start;padding:0.9rem 1rem;background:rgba(74,140,92,0.05);border:1px solid rgba(74,140,92,0.12);border-radius:4px;">
+        <span style="color:var(--gold);font-weight:700;flex-shrink:0;">2.</span>
+        <div><strong style="color:var(--forest);font-size:0.88rem;">Trades Are At Your Own Risk</strong><p style="color:var(--text-mid);font-size:0.82rem;font-weight:300;margin-top:0.2rem;line-height:1.5;">Grow Life Homesteading is not liable for any exchange made through this board. All trades are between private individuals at their own volition.</p></div>
+      </div>
+      <div style="display:flex;gap:0.8rem;align-items:flex-start;padding:0.9rem 1rem;background:rgba(74,140,92,0.05);border:1px solid rgba(74,140,92,0.12);border-radius:4px;">
+        <span style="color:var(--gold);font-weight:700;flex-shrink:0;">3.</span>
+        <div><strong style="color:var(--forest);font-size:0.88rem;">Homegrown & Local Only</strong><p style="color:var(--text-mid);font-size:0.82rem;font-weight:300;margin-top:0.2rem;line-height:1.5;">No reselling commercial or store-bought goods. This board is for homegrown produce, seeds, seedlings, and related goods only.</p></div>
+      </div>
+      <div style="display:flex;gap:0.8rem;align-items:flex-start;padding:0.9rem 1rem;background:rgba(74,140,92,0.05);border:1px solid rgba(74,140,92,0.12);border-radius:4px;">
+        <span style="color:var(--gold);font-weight:700;flex-shrink:0;">4.</span>
+        <div><strong style="color:var(--forest);font-size:0.88rem;">No Money Exchanges</strong><p style="color:var(--text-mid);font-size:0.82rem;font-weight:300;margin-top:0.2rem;line-height:1.5;">This is a trade and gift board, not a marketplace. Listings involving payment will be removed.</p></div>
+      </div>
+      <div style="display:flex;gap:0.8rem;align-items:flex-start;padding:0.9rem 1rem;background:rgba(74,140,92,0.05);border:1px solid rgba(74,140,92,0.12);border-radius:4px;">
+        <span style="color:var(--gold);font-weight:700;flex-shrink:0;">5.</span>
+        <div><strong style="color:var(--forest);font-size:0.88rem;">Accurate Listings Only</strong><p style="color:var(--text-mid);font-size:0.82rem;font-weight:300;margin-top:0.2rem;line-height:1.5;">Describe your items honestly — quantity, condition, and any relevant details. Misleading listings will be removed.</p></div>
+      </div>
+      <div style="display:flex;gap:0.8rem;align-items:flex-start;padding:0.9rem 1rem;background:rgba(74,140,92,0.05);border:1px solid rgba(74,140,92,0.12);border-radius:4px;">
+        <span style="color:var(--gold);font-weight:700;flex-shrink:0;">6.</span>
+        <div><strong style="color:var(--forest);font-size:0.88rem;">Remove Your Listing When It's Gone</strong><p style="color:var(--text-mid);font-size:0.82rem;font-weight:300;margin-top:0.2rem;line-height:1.5;">Mark your listing as traded or remove it as soon as the item is no longer available.</p></div>
+      </div>
+    </div>
+    <div class="modal-btns">
+      <button class="modal-cancel" onclick="declineRules()">Decline</button>
+      <button class="modal-send" onclick="acceptRules()">I Agree — Enter the Community Table →</button>
     </div>
   </div>
 </div>
@@ -1927,28 +2008,148 @@
     el.textContent = msg; el.style.display = 'block';
   }
 
+  // ============ ACCESS CODE SYSTEM ============
+  const RESEND_API_KEY = 'YOUR_RESEND_API_KEY_HERE'; // ← paste your Resend key here
+
+  function isAccessApproved() {
+    return currentProfile && currentProfile.access_approved === true;
+  }
+
+  function generateCode() {
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    let code = '';
+    for (let i = 0; i < 6; i++) code += chars[Math.floor(Math.random() * chars.length)];
+    return code;
+  }
+
+  async function sendAccessCodeEmail(toEmail, code, name) {
+    try {
+      await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${RESEND_API_KEY}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          from: 'Grow Life Homesteading <onboarding@resend.dev>',
+          to: toEmail,
+          subject: 'Your Grow Life Member Access Code',
+          html: `
+            <div style="font-family:Georgia,serif;max-width:520px;margin:0 auto;padding:2rem;background:#f8f4ed;border-radius:8px;">
+              <div style="text-align:center;margin-bottom:1.5rem;">
+                <img src="https://i.imgur.com/O9Fqr7M.png" width="80" style="border-radius:50%;" />
+              </div>
+              <h2 style="font-family:Georgia,serif;color:#0f2318;text-align:center;font-size:1.6rem;margin-bottom:0.5rem;">Welcome to the Community, ${name}!</h2>
+              <p style="color:#3a5544;font-size:0.95rem;line-height:1.7;text-align:center;margin-bottom:2rem;">Here is your personal Grow Life member access code:</p>
+              <div style="background:#0f2318;border-radius:6px;padding:1.5rem;text-align:center;margin-bottom:2rem;">
+                <div style="font-family:Georgia,serif;font-size:2.5rem;color:#c4a35a;letter-spacing:0.3em;font-weight:700;">${code}</div>
+              </div>
+              <p style="color:#3a5544;font-size:0.88rem;line-height:1.7;text-align:center;">Enter this code in the app to unlock the Community Table and Our Practices & Philosophy. You'll only need to enter it once.</p>
+              <hr style="border:none;border-top:1px solid rgba(45,90,61,0.15);margin:1.5rem 0;" />
+              <p style="color:#8b6f47;font-size:0.78rem;text-align:center;">Grow Life Homesteading · Central Kentucky · <a href="mailto:growlifekentucky@gmail.com" style="color:#8b6f47;">growlifekentucky@gmail.com</a></p>
+            </div>
+          `
+        })
+      });
+    } catch(e) {
+      console.error('Email send failed:', e);
+    }
+  }
+
+  async function generateAccessCode(page) {
+    if (!currentUser || !currentProfile) return;
+    const genBtn = document.getElementById(`${page}GenerateBtn`);
+    genBtn.textContent = 'Sending code to your email...'; genBtn.disabled = true;
+    try {
+      const code = generateCode();
+      const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
+      await sbFetch(`profiles?user_id=eq.${currentUser.id}`, {
+        method: 'PATCH', prefer: 'return=minimal',
+        body: JSON.stringify({ pending_access_code: code, code_expires_at: expiresAt })
+      });
+      currentProfile.pending_access_code = code;
+      currentProfile.code_expires_at = expiresAt;
+      await sendAccessCodeEmail(currentUser.email, code, currentProfile.display_name || 'Friend');
+      // Show confirmation — don't show the code on screen, it's in their email
+      document.getElementById(`${page}CodeDisplay`).style.display = 'block';
+      document.getElementById(`${page}GeneratedCode`).textContent = '📬 Sent!';
+      document.getElementById(`${page}CodeDisplay`).querySelector('p').textContent = `We emailed your access code to ${currentUser.email}. Check your inbox and enter it below.`;
+      genBtn.textContent = 'Resend Code';
+      genBtn.disabled = false;
+    } catch(e) {
+      alert('Could not send code. Please try again.');
+      genBtn.textContent = 'Send My Access Code →'; genBtn.disabled = false;
+    }
+  }
+
+  async function submitAccessCode(page) {
+    if (!currentUser || !currentProfile) return;
+    const input = document.getElementById(`${page}CodeInput`).value.trim().toUpperCase();
+    const errEl = document.getElementById(`${page}CodeError`);
+    errEl.style.display = 'none';
+    if (!input) { errEl.style.display = 'block'; errEl.textContent = 'Please enter your code.'; return; }
+    // Check expiry
+    if (currentProfile.code_expires_at && new Date() > new Date(currentProfile.code_expires_at)) {
+      errEl.style.display = 'block'; errEl.textContent = 'This code has expired. Please request a new one.'; return;
+    }
+    if (!currentProfile.pending_access_code || input !== currentProfile.pending_access_code) {
+      errEl.style.display = 'block'; errEl.textContent = 'Invalid code. Please check your email and try again.'; return;
+    }
+    try {
+      await sbFetch(`profiles?user_id=eq.${currentUser.id}`, {
+        method: 'PATCH', prefer: 'return=minimal',
+        body: JSON.stringify({ access_approved: true, pending_access_code: null, code_expires_at: null })
+      });
+      currentProfile.access_approved = true;
+      currentProfile.pending_access_code = null;
+      if (page === 'network') initNetworkPage();
+      if (page === 'practices') initPracticesPage();
+    } catch(e) {
+      errEl.style.display = 'block'; errEl.textContent = 'Something went wrong. Please try again.';
+    }
+  }
+
   // ============ NETWORK PAGE ============
   let currentFilter = 'all';
 
   function initNetworkPage() {
     const signedOut = document.getElementById('networkSignedOut');
     const unverified = document.getElementById('networkUnverified');
+    const accessCode = document.getElementById('networkAccessCode');
     const signedIn = document.getElementById('networkSignedIn');
+    [signedOut, unverified, accessCode, signedIn].forEach(el => el.style.display = 'none');
     if (!currentUser) {
       signedOut.style.display = 'block';
-      unverified.style.display = 'none';
-      signedIn.style.display = 'none';
     } else if (!isEmailVerified()) {
-      signedOut.style.display = 'none';
       unverified.style.display = 'block';
-      signedIn.style.display = 'none';
       document.getElementById('unverifiedEmail').textContent = currentUser.email;
+    } else if (!isAccessApproved()) {
+      accessCode.style.display = 'block';
+    } else if (!currentProfile.rules_agreed) {
+      // Show rules modal before entering
+      document.getElementById('communityRulesModal').classList.add('open');
     } else {
-      signedOut.style.display = 'none';
-      unverified.style.display = 'none';
       signedIn.style.display = 'block';
       loadListings();
     }
+  }
+
+  async function acceptRules() {
+    document.getElementById('communityRulesModal').classList.remove('open');
+    try {
+      await sbFetch(`profiles?user_id=eq.${currentUser.id}`, {
+        method: 'PATCH', prefer: 'return=minimal',
+        body: JSON.stringify({ rules_agreed: true })
+      });
+      currentProfile.rules_agreed = true;
+    } catch(e) { console.error('Could not save rules agreement', e); }
+    document.getElementById('networkSignedIn').style.display = 'block';
+    loadListings();
+  }
+
+  function declineRules() {
+    document.getElementById('communityRulesModal').classList.remove('open');
+    showPage('home');
   }
 
   function initPracticesPage() {
@@ -1956,13 +2157,18 @@
     const content = document.getElementById('practicesContent');
     const notSignedIn = document.getElementById('practicesWallNotSignedIn');
     const unverifiedDiv = document.getElementById('practicesWallUnverified');
+    const accessCodeDiv = document.getElementById('practicesWallAccessCode');
+    [notSignedIn, unverifiedDiv, accessCodeDiv].forEach(el => el.style.display = 'none');
     if (!currentUser) {
       wall.style.display = 'block'; content.style.display = 'none';
-      notSignedIn.style.display = 'block'; unverifiedDiv.style.display = 'none';
+      notSignedIn.style.display = 'block';
     } else if (!isEmailVerified()) {
       wall.style.display = 'block'; content.style.display = 'none';
-      notSignedIn.style.display = 'none'; unverifiedDiv.style.display = 'block';
+      unverifiedDiv.style.display = 'block';
       document.getElementById('practicesUnverifiedEmail').textContent = currentUser.email;
+    } else if (!isAccessApproved()) {
+      wall.style.display = 'block'; content.style.display = 'none';
+      accessCodeDiv.style.display = 'block';
     } else {
       wall.style.display = 'none'; content.style.display = 'block';
     }
