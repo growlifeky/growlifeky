@@ -35,7 +35,8 @@
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
-  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text-dark); overflow-x: hidden; padding-bottom: var(--bottom-nav-h); }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text-dark); overflow-x: hidden; padding-bottom: var(--bottom-nav-h); visibility: hidden; }
+  body.ready { visibility: visible; }
 
   /* APP SHELL */
   .app-shell { min-height: 100vh; }
@@ -2080,7 +2081,9 @@
   function signOut() {
     currentUser = null; currentToken = null; currentProfile = null;
     localStorage.removeItem('glh_token'); localStorage.removeItem('glh_user');
+    localStorage.removeItem('glh_current_page');
     updateNavAuth(); showPage('home');
+    document.body.classList.add('ready');
   }
 
   async function restoreSession() {
@@ -2110,6 +2113,7 @@
     if (lastPage && document.getElementById('page-' + lastPage)) {
       showPage(lastPage);
     }
+    document.body.classList.add('ready');
   }
 
   function openAuthModal(tab) {
@@ -2612,7 +2616,11 @@
   }, 30000);
 
   // Restore session on load
-  restoreSession();
+  restoreSession().then(() => {
+    if (!document.body.classList.contains('ready')) {
+      document.body.classList.add('ready');
+    }
+  });
 
 </script>
 <div class="bottom-nav" id="bottomNav">
