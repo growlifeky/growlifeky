@@ -10,7 +10,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Grow Life">
 <link rel="apple-touch-icon" href="./icon.png">
-<link rel="manifest" href='data:application/manifest+json,{"name":"Grow Life Homesteading","short_name":"Grow Life","description":"The Grow Life Homesteading client portal","start_url":"./","display":"standalone","background_color":"%230f2318","theme_color":"%230f2318","orientation":"portrait","icons":[{"src":"./icon.png","sizes":"192x192","type":"image/png","purpose":"any maskable"},{"src":"./icon.png","sizes":"512x512","type":"image/png"}]}'>
+<link rel="manifest" href='data:application/manifest+json,{"name":"Grow Life Homesteading","short_name":"Grow Life","description":"The Grow Life Homesteading client portal","start_url":"./","display":"standalone","background_color":"%230f2318","theme_color":"%230f2318","orientation":"portrait","icons":[{"src":"./icon-192.png","sizes":"192x192","type":"image/png","purpose":"any maskable"},{"src":"./icon-512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}]}'>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,300&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -372,10 +372,10 @@
 <!-- NAV -->
 <nav>
   <div class="nav-logo" onclick="showPage('home')">
-    <img src="https://i.imgur.com/O9Fqr7M.png" alt="Logo" style="height:44px;width:44px;object-fit:contain;border-radius:50%;" />
-    <div style="display:flex;flex-direction:column;line-height:1.2;">
-      <span>Grow Life Homesteading</span>
-      <span class="nav-logo-sub">Central Kentucky</span>
+    <img src="https://i.imgur.com/O9Fqr7M.png" alt="Logo" style="height:40px;width:40px;object-fit:contain;border-radius:50%;flex-shrink:0;" />
+    <div style="display:flex;flex-direction:column;justify-content:center;gap:0.15rem;">
+      <span style="line-height:1;">Grow Life Homesteading</span>
+      <span class="nav-logo-sub" style="margin-top:0;">Central Kentucky</span>
     </div>
   </div>
   <ul class="nav-links" id="navLinks">
