@@ -2032,9 +2032,30 @@
       if (res.ok) currentUser = await res.json();
     } catch(e) {}
     localStorage.setItem('glh_token', currentToken);
+    localStorage.setItem('glh_refresh_token', data.refresh_token || '');
     localStorage.setItem('glh_user', JSON.stringify(currentUser));
     await loadProfile();
     updateNavAuth();
+  }
+
+  async function refreshSession() {
+    const refreshToken = localStorage.getItem('glh_refresh_token');
+    if (!refreshToken) return false;
+    try {
+      const res = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=refresh_token`, {
+        method: 'POST',
+        headers: { 'apikey': SUPABASE_KEY, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ refresh_token: refreshToken })
+      });
+      if (!res.ok) return false;
+      const data = await res.json();
+      currentToken = data.access_token;
+      currentUser = data.user;
+      localStorage.setItem('glh_token', currentToken);
+      localStorage.setItem('glh_refresh_token', data.refresh_token || refreshToken);
+      localStorage.setItem('glh_user', JSON.stringify(currentUser));
+      return true;
+    } catch(e) { return false; }
   }
 
   async function loadProfile() {
@@ -2080,7 +2101,9 @@
 
   function signOut() {
     currentUser = null; currentToken = null; currentProfile = null;
-    localStorage.removeItem('glh_token'); localStorage.removeItem('glh_user');
+    localStorage.removeItem('glh_token');
+    localStorage.removeItem('glh_refresh_token');
+    localStorage.removeItem('glh_user');
     localStorage.removeItem('glh_current_page');
     updateNavAuth(); showPage('home');
     document.body.classList.add('ready');
@@ -2093,7 +2116,7 @@
       try {
         currentToken = token;
         currentUser = JSON.parse(user);
-        // Refresh user from Supabase to get latest email_confirmed_at
+        // Try to refresh user from Supabase
         const res = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
           headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${currentToken}` }
         });
@@ -2101,8 +2124,9 @@
           currentUser = await res.json();
           localStorage.setItem('glh_user', JSON.stringify(currentUser));
         } else {
-          // Token expired
-          signOut(); return;
+          // Token expired — try refresh token
+          const refreshed = await refreshSession();
+          if (!refreshed) { signOut(); return; }
         }
         await loadProfile();
         updateNavAuth();
@@ -2115,6 +2139,11 @@
     }
     document.body.classList.add('ready');
   }
+
+  // Auto-refresh token every 50 minutes to keep session alive
+  setInterval(async () => {
+    if (currentUser) await refreshSession();
+  }, 50 * 60 * 1000);
 
   function openAuthModal(tab) {
     document.getElementById('authModal').classList.add('open');
