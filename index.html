@@ -345,6 +345,7 @@
     <li><a onclick="showPage('network')">Community Table</a></li>
     <li><a onclick="showPage('contact')">Contact</a></li>
     <li><a onclick="showPage('consultation')" class="nav-cta">Get Started</a></li>
+    <li id="navAdminLink" style="display:none;"><a onclick="showPage('admin')" style="color:var(--gold) !important;">⚙ Admin</a></li>
     <li><button class="nav-auth-btn" id="navAuthBtn" onclick="handleNavAuth()">Sign In</button></li>
   </ul>
   <button class="nav-hamburger" onclick="toggleNav()"><span></span><span></span><span></span></button>
@@ -614,21 +615,20 @@
       <p id="resendConfirm" style="display:none;color:var(--forest-light);font-size:0.84rem;margin-top:0.8rem;font-weight:600;">✓ Verification email resent!</p>
     </div>
 
-    <!-- VERIFIED BUT NO ACCESS CODE STATE -->
+    <!-- VERIFIED BUT PENDING ACCESS -->
     <div id="networkAccessCode" style="display:none;text-align:center;padding:3rem 1rem;">
-      <div style="font-size:3rem;margin-bottom:1rem;">🔑</div>
-      <h2 style="font-family:'Cormorant Garamond',serif;color:var(--forest);font-size:2rem;font-weight:600;margin-bottom:0.8rem;">One More Step</h2>
-      <p style="color:var(--text-mid);font-size:0.95rem;max-width:480px;margin:0 auto 2rem;font-weight:300;line-height:1.7;">The Community Table is available to Grow Life clients. Generate your personal access code below, then enter it to unlock this section permanently.</p>
-      <div id="networkCodeDisplay" style="display:none;background:rgba(196,163,90,0.08);border:1px solid rgba(196,163,90,0.3);border-radius:6px;padding:1.5rem 2rem;max-width:400px;margin:0 auto 1.5rem;">
-        <p style="color:var(--text-mid);font-size:0.84rem;font-weight:300;margin-bottom:0.8rem;">Your access code — screenshot or write this down:</p>
-        <div id="networkGeneratedCode" style="font-family:'Cormorant Garamond',serif;font-size:2.5rem;color:var(--forest);font-weight:700;letter-spacing:0.2em;margin-bottom:0.5rem;">——</div>
-        <p style="color:var(--text-mid);font-size:0.78rem;font-weight:300;">Enter it in the box below to unlock access.</p>
+      <div id="networkRequestState">
+        <div style="font-size:3rem;margin-bottom:1rem;">🌱</div>
+        <h2 style="font-family:'Cormorant Garamond',serif;color:var(--forest);font-size:2rem;font-weight:600;margin-bottom:0.8rem;">Request Access</h2>
+        <p style="color:var(--text-mid);font-size:0.95rem;max-width:480px;margin:0 auto 2rem;font-weight:300;line-height:1.7;">The Community Table is available to Grow Life clients — subscribers, maintenance plan members, and pay-per-visit customers. Click below to request access and we'll review your account shortly.</p>
+        <button class="btn-submit" style="width:auto;padding:0.9rem 2.5rem;" onclick="requestAccess()">Request Access →</button>
       </div>
-      <button id="networkGenerateBtn" class="btn-submit" style="width:auto;padding:0.9rem 2.5rem;margin-bottom:1.5rem;" onclick="generateAccessCode('network')">Send My Access Code to My Email →</button>
-      <div style="max-width:400px;margin:0 auto;">
-        <div class="form-group"><label>Enter Your Access Code</label><input type="text" id="networkCodeInput" placeholder="e.g. A3F7K2" style="text-transform:uppercase;letter-spacing:0.15em;font-size:1.1rem;text-align:center;" /></div>
-        <button class="btn-submit" style="width:100%;" onclick="submitAccessCode('network')">Unlock Access →</button>
-        <p id="networkCodeError" style="display:none;color:#c0392b;font-size:0.84rem;margin-top:0.6rem;font-weight:500;">Invalid code. Please try again.</p>
+      <div id="networkPendingState" style="display:none;">
+        <div style="font-size:3rem;margin-bottom:1rem;">⏳</div>
+        <h2 style="font-family:'Cormorant Garamond',serif;color:var(--forest);font-size:2rem;font-weight:600;margin-bottom:0.8rem;">Request Received</h2>
+        <div style="background:rgba(196,163,90,0.08);border:1px solid rgba(196,163,90,0.25);border-radius:4px;padding:1.5rem 2rem;max-width:480px;margin:0 auto;">
+          <p style="color:var(--text-mid);font-size:0.95rem;font-weight:300;line-height:1.7;">Your access request has been submitted. Grow Life Homesteading will review your account and approve you shortly. Check back soon — this page will unlock automatically once approved.</p>
+        </div>
       </div>
     </div>
 
@@ -1438,19 +1438,18 @@
       <p id="practicesResendConfirm" style="display:none;color:var(--forest-light);font-size:0.84rem;margin-top:0.8rem;font-weight:600;">✓ Verification email resent!</p>
     </div>
     <div id="practicesWallAccessCode" style="display:none;">
-      <div style="font-size:3rem;margin-bottom:1rem;">🔑</div>
-      <h2 style="font-family:'Cormorant Garamond',serif;color:var(--forest);font-size:2rem;font-weight:600;margin-bottom:0.8rem;">One More Step</h2>
-      <p style="color:var(--text-mid);font-size:0.95rem;max-width:480px;margin:0 auto 2rem;font-weight:300;line-height:1.7;">This page is available to Grow Life clients. Generate your personal access code below, then enter it to unlock this section permanently.</p>
-      <div id="practicesCodeDisplay" style="display:none;background:rgba(196,163,90,0.08);border:1px solid rgba(196,163,90,0.3);border-radius:6px;padding:1.5rem 2rem;max-width:400px;margin:0 auto 1.5rem;">
-        <p style="color:var(--text-mid);font-size:0.84rem;font-weight:300;margin-bottom:0.8rem;">Your access code — screenshot or write this down:</p>
-        <div id="practicesGeneratedCode" style="font-family:'Cormorant Garamond',serif;font-size:2.5rem;color:var(--forest);font-weight:700;letter-spacing:0.2em;margin-bottom:0.5rem;">——</div>
-        <p style="color:var(--text-mid);font-size:0.78rem;font-weight:300;">Enter it in the box below to unlock access.</p>
+      <div id="practicesRequestState">
+        <div style="font-size:3rem;margin-bottom:1rem;">🌱</div>
+        <h2 style="font-family:'Cormorant Garamond',serif;color:var(--forest);font-size:2rem;font-weight:600;margin-bottom:0.8rem;">Request Access</h2>
+        <p style="color:var(--text-mid);font-size:0.95rem;max-width:480px;margin:0 auto 2rem;font-weight:300;line-height:1.7;">This page is available to Grow Life clients — subscribers, maintenance plan members, and pay-per-visit customers. Click below to request access and we'll review your account shortly.</p>
+        <button class="btn-submit" style="width:auto;padding:0.9rem 2.5rem;" onclick="requestAccess()">Request Access →</button>
       </div>
-      <button id="practicesGenerateBtn" class="btn-submit" style="width:auto;padding:0.9rem 2.5rem;margin-bottom:1.5rem;" onclick="generateAccessCode('practices')">Send My Access Code to My Email →</button>
-      <div style="max-width:400px;margin:0 auto;">
-        <div class="form-group"><label>Enter Your Access Code</label><input type="text" id="practicesCodeInput" placeholder="e.g. A3F7K2" style="text-transform:uppercase;letter-spacing:0.15em;font-size:1.1rem;text-align:center;" /></div>
-        <button class="btn-submit" style="width:100%;" onclick="submitAccessCode('practices')">Unlock Access →</button>
-        <p id="practicesCodeError" style="display:none;color:#c0392b;font-size:0.84rem;margin-top:0.6rem;font-weight:500;">Invalid code. Please try again.</p>
+      <div id="practicesPendingState" style="display:none;">
+        <div style="font-size:3rem;margin-bottom:1rem;">⏳</div>
+        <h2 style="font-family:'Cormorant Garamond',serif;color:var(--forest);font-size:2rem;font-weight:600;margin-bottom:0.8rem;">Request Received</h2>
+        <div style="background:rgba(196,163,90,0.08);border:1px solid rgba(196,163,90,0.25);border-radius:4px;padding:1.5rem 2rem;max-width:480px;margin:0 auto;">
+          <p style="color:var(--text-mid);font-size:0.95rem;font-weight:300;line-height:1.7;">Your access request has been submitted. Grow Life Homesteading will review your account and approve you shortly. Check back soon — this page will unlock automatically once approved.</p>
+        </div>
       </div>
     </div>
   </div>
@@ -1690,6 +1689,50 @@
   </div>
 </div>
 
+<!-- ======== ADMIN ======== -->
+<div class="page" id="page-admin">
+  <div class="page-hero">
+    <div class="page-hero-content">
+      <div class="breadcrumb" onclick="showPage('home')">← Home <span>/</span> Admin</div>
+      <h1>Admin Panel</h1>
+      <p>Manage access requests and member approvals.</p>
+    </div>
+  </div>
+  <div class="page-content" style="max-width:800px;">
+    <div id="adminNotAllowed" style="display:none;text-align:center;padding:3rem;">
+      <div style="font-size:3rem;margin-bottom:1rem;">🚫</div>
+      <h2 style="font-family:'Cormorant Garamond',serif;color:var(--forest);font-size:1.8rem;font-weight:600;">Access Denied</h2>
+      <p style="color:var(--text-mid);font-weight:300;">This page is restricted to Grow Life administrators.</p>
+    </div>
+    <div id="adminContent" style="display:none;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem;">
+        <div>
+          <div class="section-tag">Pending Requests</div>
+          <h2 class="section-title" style="font-size:1.8rem;">Access Requests</h2>
+        </div>
+        <button onclick="loadAdminRequests()" style="background:none;border:1px solid rgba(45,90,61,0.2);color:var(--text-mid);padding:0.5rem 1.2rem;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:0.78rem;font-weight:600;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.borderColor='var(--forest-light)';this.style.color='var(--forest)'" onmouseout="this.style.borderColor='rgba(45,90,61,0.2)';this.style.color='var(--text-mid)'">↻ Refresh</button>
+      </div>
+
+      <!-- PENDING -->
+      <div style="margin-bottom:2.5rem;">
+        <h3 style="font-family:'Cormorant Garamond',serif;color:var(--forest);font-size:1.3rem;font-weight:600;margin-bottom:1rem;padding-bottom:0.6rem;border-bottom:1px solid rgba(45,90,61,0.1);">⏳ Pending <span id="pendingCount" style="font-family:'DM Sans',sans-serif;font-size:0.85rem;color:var(--text-mid);font-weight:400;"></span></h3>
+        <div id="pendingList"><div class="inbox-empty">Loading...</div></div>
+      </div>
+
+      <!-- APPROVED -->
+      <div>
+        <h3 style="font-family:'Cormorant Garamond',serif;color:var(--forest);font-size:1.3rem;font-weight:600;margin-bottom:1rem;padding-bottom:0.6rem;border-bottom:1px solid rgba(45,90,61,0.1);">✅ Approved Members <span id="approvedCount" style="font-family:'DM Sans',sans-serif;font-size:0.85rem;color:var(--text-mid);font-weight:400;"></span></h3>
+        <div id="approvedList"><div class="inbox-empty">Loading...</div></div>
+      </div>
+    </div>
+  </div>
+  <footer>
+    <div class="footer-logo">Grow Life Homesteading <span>· Admin</span></div>
+    <div class="footer-links"><a onclick="showPage('home')">Home</a></div>
+    <p>© 2025 Grow Life Homesteading.</p>
+  </footer>
+</div>
+
 <!-- COMMUNITY TABLE RULES MODAL -->
 <div class="modal-overlay" id="communityRulesModal">
   <div class="modal" style="max-width:520px;">
@@ -1833,6 +1876,7 @@
     if (name === 'network') initNetworkPage();
     if (name === 'practices') initPracticesPage();
     if (name === 'profile') initProfilePage();
+    if (name === 'admin') initAdminPage();
   }
 
   function toggleNav() { document.getElementById('navLinks').classList.toggle('open'); }
@@ -1946,13 +1990,16 @@
 
   function updateNavAuth() {
     const btn = document.getElementById('navAuthBtn');
+    const adminLink = document.getElementById('navAdminLink');
     if (!btn) return;
     if (currentUser && currentProfile) {
       btn.textContent = `👤 ${currentProfile.display_name || 'Profile'}`;
       btn.classList.add('signed-in');
+      if (adminLink) adminLink.style.display = isAdmin() ? 'block' : 'none';
     } else {
       btn.textContent = 'Sign In';
       btn.classList.remove('signed-in');
+      if (adminLink) adminLink.style.display = 'none';
     }
   }
 
@@ -2008,104 +2055,111 @@
     el.textContent = msg; el.style.display = 'block';
   }
 
-  // ============ ACCESS CODE SYSTEM ============
+  // ============ ACCESS REQUEST SYSTEM ============
+  const ADMIN_UID = '7f414e55-92be-4d87-a606-0f5f38544244';
   const RESEND_API_KEY = 'YOUR_RESEND_API_KEY_HERE'; // ← paste your Resend key here
 
-  function isAccessApproved() {
-    return currentProfile && currentProfile.access_approved === true;
-  }
+  function isAdmin() { return currentUser && currentUser.id === ADMIN_UID; }
+  function isAccessApproved() { return currentProfile && currentProfile.access_approved === true; }
+  function isAccessPending() { return currentProfile && currentProfile.access_requested === true; }
 
-  function generateCode() {
-    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-    let code = '';
-    for (let i = 0; i < 6; i++) code += chars[Math.floor(Math.random() * chars.length)];
-    return code;
-  }
-
-  async function sendAccessCodeEmail(toEmail, code, name) {
+  async function requestAccess() {
+    if (!currentUser || !currentProfile) return;
+    const btns = document.querySelectorAll('[onclick="requestAccess()"]');
+    btns.forEach(b => { b.textContent = 'Submitting...'; b.disabled = true; });
     try {
-      await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${RESEND_API_KEY}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          from: 'Grow Life Homesteading <onboarding@resend.dev>',
-          to: toEmail,
-          subject: 'Your Grow Life Member Access Code',
-          html: `
-            <div style="font-family:Georgia,serif;max-width:520px;margin:0 auto;padding:2rem;background:#f8f4ed;border-radius:8px;">
-              <div style="text-align:center;margin-bottom:1.5rem;">
-                <img src="https://i.imgur.com/O9Fqr7M.png" width="80" style="border-radius:50%;" />
-              </div>
-              <h2 style="font-family:Georgia,serif;color:#0f2318;text-align:center;font-size:1.6rem;margin-bottom:0.5rem;">Welcome to the Community, ${name}!</h2>
-              <p style="color:#3a5544;font-size:0.95rem;line-height:1.7;text-align:center;margin-bottom:2rem;">Here is your personal Grow Life member access code:</p>
-              <div style="background:#0f2318;border-radius:6px;padding:1.5rem;text-align:center;margin-bottom:2rem;">
-                <div style="font-family:Georgia,serif;font-size:2.5rem;color:#c4a35a;letter-spacing:0.3em;font-weight:700;">${code}</div>
-              </div>
-              <p style="color:#3a5544;font-size:0.88rem;line-height:1.7;text-align:center;">Enter this code in the app to unlock the Community Table and Our Practices & Philosophy. You'll only need to enter it once.</p>
-              <hr style="border:none;border-top:1px solid rgba(45,90,61,0.15);margin:1.5rem 0;" />
-              <p style="color:#8b6f47;font-size:0.78rem;text-align:center;">Grow Life Homesteading · Central Kentucky · <a href="mailto:growlifekentucky@gmail.com" style="color:#8b6f47;">growlifekentucky@gmail.com</a></p>
+      await sbFetch(`profiles?user_id=eq.${currentUser.id}`, {
+        method: 'PATCH', prefer: 'return=minimal',
+        body: JSON.stringify({ access_requested: true })
+      });
+      currentProfile.access_requested = true;
+      // Show pending state on both possible screens
+      ['networkRequestState','practicesRequestState'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = 'none';
+      });
+      ['networkPendingState','practicesPendingState'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = 'block';
+      });
+    } catch(e) {
+      alert('Could not submit request. Please try again.');
+      btns.forEach(b => { b.textContent = 'Request Access →'; b.disabled = false; });
+    }
+  }
+
+  async function approveUser(userId, rowEl) {
+    try {
+      rowEl.style.opacity = '0.5';
+      await sbFetch(`profiles?user_id=eq.${userId}`, {
+        method: 'PATCH', prefer: 'return=minimal',
+        body: JSON.stringify({ access_approved: true, access_requested: true })
+      });
+      await loadAdminRequests();
+    } catch(e) { alert('Could not approve user. Please try again.'); rowEl.style.opacity = '1'; }
+  }
+
+  async function revokeUser(userId, rowEl) {
+    if (!confirm('Revoke this user\'s access?')) return;
+    try {
+      rowEl.style.opacity = '0.5';
+      await sbFetch(`profiles?user_id=eq.${userId}`, {
+        method: 'PATCH', prefer: 'return=minimal',
+        body: JSON.stringify({ access_approved: false })
+      });
+      await loadAdminRequests();
+    } catch(e) { alert('Could not revoke access. Please try again.'); rowEl.style.opacity = '1'; }
+  }
+
+  async function loadAdminRequests() {
+    try {
+      const pending = await sbFetch('profiles?access_requested=eq.true&access_approved=eq.false&order=created_at.desc');
+      const approved = await sbFetch('profiles?access_approved=eq.true&order=created_at.desc');
+      const pendingList = document.getElementById('pendingList');
+      const approvedList = document.getElementById('approvedList');
+      document.getElementById('pendingCount').textContent = `(${pending ? pending.length : 0})`;
+      document.getElementById('approvedCount').textContent = `(${approved ? approved.length : 0})`;
+      if (!pending || pending.length === 0) {
+        pendingList.innerHTML = '<div class="inbox-empty">No pending requests.</div>';
+      } else {
+        pendingList.innerHTML = pending.map(p => `
+          <div class="inbox-msg" id="row-${p.user_id}">
+            <div class="inbox-msg-header">
+              <div class="inbox-msg-from">${escapeHtml(p.display_name || 'Unknown')}</div>
+              <div class="inbox-msg-date">${new Date(p.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</div>
             </div>
-          `
-        })
-      });
+            <div class="inbox-msg-body" style="font-size:0.82rem;color:var(--text-mid);margin-bottom:0.8rem;">User ID: ${p.user_id}</div>
+            <button onclick="approveUser('${p.user_id}', document.getElementById('row-${p.user_id}'))" style="background:var(--forest-mid);color:white;border:none;padding:0.55rem 1.4rem;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:0.78rem;font-weight:700;cursor:pointer;letter-spacing:0.08em;text-transform:uppercase;transition:background 0.2s;" onmouseover="this.style.background='var(--forest-light)'" onmouseout="this.style.background='var(--forest-mid)'">✓ Approve Access</button>
+          </div>`).join('');
+      }
+      if (!approved || approved.length === 0) {
+        approvedList.innerHTML = '<div class="inbox-empty">No approved members yet.</div>';
+      } else {
+        approvedList.innerHTML = approved.map(p => `
+          <div class="inbox-msg" id="row-${p.user_id}" style="border-left:3px solid var(--leaf);">
+            <div class="inbox-msg-header">
+              <div class="inbox-msg-from">${escapeHtml(p.display_name || 'Unknown')}</div>
+              <div style="display:flex;gap:0.5rem;align-items:center;">
+                <span style="font-size:0.72rem;background:rgba(74,140,92,0.12);color:var(--forest-mid);padding:0.2rem 0.6rem;border-radius:10px;font-weight:700;">Approved</span>
+              </div>
+            </div>
+            <div class="inbox-msg-body" style="font-size:0.82rem;color:var(--text-mid);margin-bottom:0.8rem;">User ID: ${p.user_id}</div>
+            <button onclick="revokeUser('${p.user_id}', document.getElementById('row-${p.user_id}'))" style="background:none;border:1px solid rgba(192,57,43,0.3);color:rgba(192,57,43,0.7);padding:0.45rem 1.2rem;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:0.76rem;font-weight:600;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='rgba(192,57,43,0.06)'" onmouseout="this.style.background='none'">Revoke Access</button>
+          </div>`).join('');
+      }
     } catch(e) {
-      console.error('Email send failed:', e);
+      document.getElementById('pendingList').innerHTML = '<div class="inbox-empty">Could not load requests.</div>';
     }
   }
 
-  async function generateAccessCode(page) {
-    if (!currentUser || !currentProfile) return;
-    const genBtn = document.getElementById(`${page}GenerateBtn`);
-    genBtn.textContent = 'Sending code to your email...'; genBtn.disabled = true;
-    try {
-      const code = generateCode();
-      const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
-      await sbFetch(`profiles?user_id=eq.${currentUser.id}`, {
-        method: 'PATCH', prefer: 'return=minimal',
-        body: JSON.stringify({ pending_access_code: code, code_expires_at: expiresAt })
-      });
-      currentProfile.pending_access_code = code;
-      currentProfile.code_expires_at = expiresAt;
-      await sendAccessCodeEmail(currentUser.email, code, currentProfile.display_name || 'Friend');
-      // Show confirmation — don't show the code on screen, it's in their email
-      document.getElementById(`${page}CodeDisplay`).style.display = 'block';
-      document.getElementById(`${page}GeneratedCode`).textContent = '📬 Sent!';
-      document.getElementById(`${page}CodeDisplay`).querySelector('p').textContent = `We emailed your access code to ${currentUser.email}. Check your inbox and enter it below.`;
-      genBtn.textContent = 'Resend Code';
-      genBtn.disabled = false;
-    } catch(e) {
-      alert('Could not send code. Please try again.');
-      genBtn.textContent = 'Send My Access Code →'; genBtn.disabled = false;
-    }
-  }
-
-  async function submitAccessCode(page) {
-    if (!currentUser || !currentProfile) return;
-    const input = document.getElementById(`${page}CodeInput`).value.trim().toUpperCase();
-    const errEl = document.getElementById(`${page}CodeError`);
-    errEl.style.display = 'none';
-    if (!input) { errEl.style.display = 'block'; errEl.textContent = 'Please enter your code.'; return; }
-    // Check expiry
-    if (currentProfile.code_expires_at && new Date() > new Date(currentProfile.code_expires_at)) {
-      errEl.style.display = 'block'; errEl.textContent = 'This code has expired. Please request a new one.'; return;
-    }
-    if (!currentProfile.pending_access_code || input !== currentProfile.pending_access_code) {
-      errEl.style.display = 'block'; errEl.textContent = 'Invalid code. Please check your email and try again.'; return;
-    }
-    try {
-      await sbFetch(`profiles?user_id=eq.${currentUser.id}`, {
-        method: 'PATCH', prefer: 'return=minimal',
-        body: JSON.stringify({ access_approved: true, pending_access_code: null, code_expires_at: null })
-      });
-      currentProfile.access_approved = true;
-      currentProfile.pending_access_code = null;
-      if (page === 'network') initNetworkPage();
-      if (page === 'practices') initPracticesPage();
-    } catch(e) {
-      errEl.style.display = 'block'; errEl.textContent = 'Something went wrong. Please try again.';
+  function initAdminPage() {
+    if (!isAdmin()) {
+      document.getElementById('adminNotAllowed').style.display = 'block';
+      document.getElementById('adminContent').style.display = 'none';
+    } else {
+      document.getElementById('adminNotAllowed').style.display = 'none';
+      document.getElementById('adminContent').style.display = 'block';
+      loadAdminRequests();
     }
   }
 
@@ -2125,8 +2179,15 @@
       document.getElementById('unverifiedEmail').textContent = currentUser.email;
     } else if (!isAccessApproved()) {
       accessCode.style.display = 'block';
+      // If already requested, show pending state
+      if (isAccessPending()) {
+        document.getElementById('networkRequestState').style.display = 'none';
+        document.getElementById('networkPendingState').style.display = 'block';
+      } else {
+        document.getElementById('networkRequestState').style.display = 'block';
+        document.getElementById('networkPendingState').style.display = 'none';
+      }
     } else if (!currentProfile.rules_agreed) {
-      // Show rules modal before entering
       document.getElementById('communityRulesModal').classList.add('open');
     } else {
       signedIn.style.display = 'block';
@@ -2169,6 +2230,13 @@
     } else if (!isAccessApproved()) {
       wall.style.display = 'block'; content.style.display = 'none';
       accessCodeDiv.style.display = 'block';
+      if (isAccessPending()) {
+        document.getElementById('practicesRequestState').style.display = 'none';
+        document.getElementById('practicesPendingState').style.display = 'block';
+      } else {
+        document.getElementById('practicesRequestState').style.display = 'block';
+        document.getElementById('practicesPendingState').style.display = 'none';
+      }
     } else {
       wall.style.display = 'none'; content.style.display = 'block';
     }
