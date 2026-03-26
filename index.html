@@ -1514,7 +1514,7 @@
     <div style="background:var(--forest);border-radius:6px;padding:2.5rem 3rem;margin-bottom:3rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1.5rem;text-align:center;">
       <div><div style="font-size:1.8rem;margin-bottom:0.5rem;">🚫</div><div style="color:var(--leaf-bright);font-weight:700;font-size:0.8rem;letter-spacing:0.12em;text-transform:uppercase;">Zero Synthetics</div><div style="color:rgba(232,220,200,0.6);font-size:0.8rem;margin-top:0.3rem;font-weight:300;">Strictly organic inputs only</div></div>
       <div><div style="font-size:1.8rem;margin-bottom:0.5rem;">♻️</div><div style="color:var(--leaf-bright);font-weight:700;font-size:0.8rem;letter-spacing:0.12em;text-transform:uppercase;">Regenerative</div><div style="color:rgba(232,220,200,0.6);font-size:0.8rem;margin-top:0.3rem;font-weight:300;">Build soil, don't deplete it</div></div>
-      <div><div style="font-size:1.8rem;margin-bottom:0.5rem;">🌀</div><div style="color:var(--leaf-bright);font-weight:700;font-size:0.8rem;letter-spacing:0.12em;text-transform:uppercase;">Permaculture</div><div style="color:rgba(232,220,200,0.6);font-size:0.8rem;margin-top:0.3rem;font-weight:300;">Design with nature's patterns</div></div>
+      <div><div style="font-size:1.8rem;margin-bottom:0.5rem;">🌳</div><div style="color:var(--leaf-bright);font-weight:700;font-size:0.8rem;letter-spacing:0.12em;text-transform:uppercase;">Permaculture</div><div style="color:rgba(232,220,200,0.6);font-size:0.8rem;margin-top:0.3rem;font-weight:300;">Design with nature's patterns</div></div>
       <div><div style="font-size:1.8rem;margin-bottom:0.5rem;">🌾</div><div style="color:var(--leaf-bright);font-weight:700;font-size:0.8rem;letter-spacing:0.12em;text-transform:uppercase;">No-Till / Low-Till</div><div style="color:rgba(232,220,200,0.6);font-size:0.8rem;margin-top:0.3rem;font-weight:300;">Protect the soil food web</div></div>
       <div><div style="font-size:1.8rem;margin-bottom:0.5rem;">🌳</div><div style="color:var(--leaf-bright);font-weight:700;font-size:0.8rem;letter-spacing:0.12em;text-transform:uppercase;">Biodynamic</div><div style="color:rgba(232,220,200,0.6);font-size:0.8rem;margin-top:0.3rem;font-weight:300;">Rooted in living systems</div></div>
       <div><div style="font-size:1.8rem;margin-bottom:0.5rem;">🐛</div><div style="color:var(--leaf-bright);font-weight:700;font-size:0.8rem;letter-spacing:0.12em;text-transform:uppercase;">IPM</div><div style="color:rgba(232,220,200,0.6);font-size:0.8rem;margin-top:0.3rem;font-weight:300;">Smart, targeted pest control</div></div>
@@ -1929,6 +1929,7 @@
     document.getElementById('page-' + name).classList.add('active');
     window.scrollTo(0, 0);
     document.getElementById('navLinks').classList.remove('open');
+    localStorage.setItem('glh_current_page', name);
     // Sync bottom nav
     ['home','network','profile','contact'].forEach(id => {
       const el = document.getElementById('bnav-' + id);
@@ -2103,6 +2104,11 @@
         await loadProfile();
         updateNavAuth();
       } catch(e) { signOut(); }
+    }
+    // Restore last visited page
+    const lastPage = localStorage.getItem('glh_current_page');
+    if (lastPage && document.getElementById('page-' + lastPage)) {
+      showPage(lastPage);
     }
   }
 
