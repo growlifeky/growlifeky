@@ -346,6 +346,23 @@
 
   @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
+  /* Why Choose Us Slideshow transitions */
+  #whySlideshow { position: relative; }
+  .why-slide {
+    position: absolute; top: 0; left: 0; width: 100%;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.7s ease, transform 0.7s ease;
+    transform: translateX(30px);
+  }
+  .why-slide.why-active {
+    position: relative; opacity: 1; pointer-events: all;
+    transform: translateX(0);
+  }
+  .why-slide.why-exit {
+    position: absolute; opacity: 0;
+    transform: translateX(-30px);
+  }
+
   @media (max-width: 960px) {
     .nav-links { display: none; }
     .nav-links.open { display: flex; flex-direction: column; position: fixed; top: 56px; left: 0; right: 0; background: rgba(26,58,42,0.98); padding: 1.5rem 5%; gap: 1.2rem; border-bottom: 1px solid rgba(196,163,90,0.15); z-index: 99; }
@@ -573,7 +590,135 @@
         </ul>
       </div>
     </div>
-    <div style="text-align:center;margin-top:3rem;">
+    <!-- WHY CHOOSE US SLIDESHOW -->
+    <div style="margin-top:5rem;">
+      <div style="text-align:center;margin-bottom:2.5rem;">
+        <div class="section-tag">Why Grow Life</div>
+        <h2 class="section-title">Why Choose Suburban Homesteading?</h2>
+        <p class="section-sub" style="margin:0 auto;">The numbers, benefits, and expertise behind every project we take on.</p>
+      </div>
+      <div id="whySlideshow" style="position:relative;border-radius:12px;">
+        <!-- SLIDE 1: Financial Value -->
+        <div class="why-slide why-active" style="background:linear-gradient(135deg,var(--forest) 0%,#1a3a2a 100%);padding:2.5rem;border-radius:12px;">
+          <div style="display:flex;align-items:center;gap:0.7rem;margin-bottom:1.8rem;">
+            <span style="font-size:1.6rem;">💰</span>
+            <h3 style="font-family:'Cormorant Garamond',serif;color:var(--gold);font-size:1.7rem;font-weight:600;">Financial Value</h3>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.2rem;">
+            <div style="background:rgba(255,255,255,0.07);border:1px solid rgba(196,163,90,0.2);border-radius:10px;padding:1.4rem;">
+              <div style="font-size:1.3rem;margin-bottom:0.5rem;">🏡</div>
+              <h4 style="font-family:'Cormorant Garamond',serif;color:var(--cream);font-size:1.1rem;font-weight:600;margin-bottom:0.3rem;">Increase Property Value</h4>
+              <p style="color:rgba(232,220,200,0.6);font-size:0.84rem;font-weight:300;line-height:1.5;">Productive landscapes boost home worth</p>
+            </div>
+            <div style="background:rgba(255,255,255,0.07);border:1px solid rgba(196,163,90,0.2);border-radius:10px;padding:1.4rem;">
+              <div style="font-size:1.3rem;margin-bottom:0.5rem;">💵</div>
+              <h4 style="font-family:'Cormorant Garamond',serif;color:var(--cream);font-size:1.1rem;font-weight:600;margin-bottom:0.3rem;">$1,000–$1,750 Annual Savings</h4>
+              <p style="color:rgba(232,220,200,0.6);font-size:0.84rem;font-weight:300;line-height:1.5;">700 lbs of organic produce per 1,000 sq ft with succession planting</p>
+            </div>
+            <div style="background:rgba(255,255,255,0.07);border:1px solid rgba(196,163,90,0.2);border-radius:10px;padding:1.4rem;">
+              <div style="font-size:1.3rem;margin-bottom:0.5rem;">📈</div>
+              <h4 style="font-family:'Cormorant Garamond',serif;color:var(--cream);font-size:1.1rem;font-weight:600;margin-bottom:0.3rem;">Growing Returns</h4>
+              <p style="color:rgba(232,220,200,0.6);font-size:0.84rem;font-weight:300;line-height:1.5;">Perennials increase yield yearly as roots establish deeper</p>
+            </div>
+          </div>
+        </div>
+        <!-- SLIDE 2: Health & Security -->
+        <div class="why-slide" style="background:linear-gradient(135deg,#1c3d28 0%,#0f2318 100%);padding:2.5rem;border-radius:12px;">
+          <div style="display:flex;align-items:center;gap:0.7rem;margin-bottom:1.8rem;">
+            <span style="font-size:1.6rem;">🌿</span>
+            <h3 style="font-family:'Cormorant Garamond',serif;color:var(--leaf-bright);font-size:1.7rem;font-weight:600;">Health &amp; Security</h3>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.2rem;">
+            <div style="background:rgba(109,184,122,0.1);border:1px solid rgba(109,184,122,0.25);border-radius:10px;padding:1.4rem;">
+              <div style="font-size:1.3rem;margin-bottom:0.5rem;">❤️</div>
+              <h4 style="font-family:'Cormorant Garamond',serif;color:var(--cream);font-size:1.1rem;font-weight:600;margin-bottom:0.3rem;">Reduced Healthcare Costs</h4>
+              <p style="color:rgba(232,220,200,0.6);font-size:0.84rem;font-weight:300;line-height:1.5;">Better nutrition naturally</p>
+            </div>
+            <div style="background:rgba(109,184,122,0.1);border:1px solid rgba(109,184,122,0.25);border-radius:10px;padding:1.4rem;">
+              <div style="font-size:1.3rem;margin-bottom:0.5rem;">🛡️</div>
+              <h4 style="font-family:'Cormorant Garamond',serif;color:var(--cream);font-size:1.1rem;font-weight:600;margin-bottom:0.3rem;">Enhanced Food Security</h4>
+              <p style="color:rgba(232,220,200,0.6);font-size:0.84rem;font-weight:300;line-height:1.5;">Control your own supply chain</p>
+            </div>
+            <div style="background:rgba(109,184,122,0.1);border:1px solid rgba(109,184,122,0.25);border-radius:10px;padding:1.4rem;">
+              <div style="font-size:1.3rem;margin-bottom:0.5rem;">♻️</div>
+              <h4 style="font-family:'Cormorant Garamond',serif;color:var(--cream);font-size:1.1rem;font-weight:600;margin-bottom:0.3rem;">Decrease Food Waste</h4>
+              <p style="color:rgba(232,220,200,0.6);font-size:0.84rem;font-weight:300;line-height:1.5;">Harvest only what you need, when you need it</p>
+            </div>
+          </div>
+        </div>
+        <!-- SLIDE 3: Unique Benefits -->
+        <div class="why-slide" style="background:linear-gradient(135deg,#1f2d1a 0%,#0f1f14 100%);padding:2.5rem;border-radius:12px;">
+          <div style="display:flex;align-items:center;gap:0.7rem;margin-bottom:1.8rem;">
+            <span style="font-size:1.6rem;">🍓</span>
+            <h3 style="font-family:'Cormorant Garamond',serif;color:var(--gold);font-size:1.7rem;font-weight:600;">Unique Benefits</h3>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.2rem;">
+            <div style="background:rgba(196,163,90,0.08);border:1px solid rgba(196,163,90,0.2);border-radius:10px;padding:1.8rem;">
+              <div style="font-size:1.3rem;margin-bottom:0.5rem;">🌾</div>
+              <h4 style="font-family:'Cormorant Garamond',serif;color:var(--cream);font-size:1.2rem;font-weight:600;margin-bottom:0.5rem;">Rare Varieties</h4>
+              <p style="color:rgba(232,220,200,0.6);font-size:0.88rem;font-weight:300;line-height:1.6;">Heirloom and superfood crops never found in stores — grow food with real flavor and nutritional density.</p>
+            </div>
+            <div style="background:rgba(196,163,90,0.08);border:1px solid rgba(196,163,90,0.2);border-radius:10px;padding:1.8rem;">
+              <div style="font-size:1.3rem;margin-bottom:0.5rem;">📚</div>
+              <h4 style="font-family:'Cormorant Garamond',serif;color:var(--cream);font-size:1.2rem;font-weight:600;margin-bottom:0.5rem;">Educational Value</h4>
+              <p style="color:rgba(232,220,200,0.6);font-size:0.88rem;font-weight:300;line-height:1.6;">Build self-sufficiency skills for your whole family — from kids learning to garden to adults mastering preservation.</p>
+            </div>
+          </div>
+        </div>
+        <!-- SLIDE 4: Expert Support -->
+        <div class="why-slide" style="background:linear-gradient(135deg,#1a2e1a 0%,#0f2318 100%);padding:2.5rem;border-radius:12px;">
+          <div style="display:flex;align-items:center;gap:0.7rem;margin-bottom:1.8rem;">
+            <span style="font-size:1.6rem;">⚙️</span>
+            <h3 style="font-family:'Cormorant Garamond',serif;color:var(--leaf-bright);font-size:1.7rem;font-weight:600;">Expert Support</h3>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.2rem;">
+            <div style="background:rgba(90,158,106,0.12);border:1px solid rgba(90,158,106,0.25);border-radius:10px;padding:1.4rem;">
+              <div style="font-size:1.3rem;margin-bottom:0.5rem;">🎯</div>
+              <h4 style="font-family:'Cormorant Garamond',serif;color:var(--cream);font-size:1.1rem;font-weight:600;margin-bottom:0.3rem;">Skip the Learning Curve</h4>
+              <p style="color:rgba(232,220,200,0.6);font-size:0.84rem;font-weight:300;line-height:1.5;">Avoid costly beginner mistakes. Professional installation gets you started right.</p>
+            </div>
+            <div style="background:rgba(90,158,106,0.12);border:1px solid rgba(90,158,106,0.25);border-radius:10px;padding:1.4rem;">
+              <div style="font-size:1.3rem;margin-bottom:0.5rem;">🔄</div>
+              <h4 style="font-family:'Cormorant Garamond',serif;color:var(--cream);font-size:1.1rem;font-weight:600;margin-bottom:0.3rem;">Maintenance Plans Available</h4>
+              <p style="color:rgba(232,220,200,0.6);font-size:0.84rem;font-weight:300;line-height:1.5;">We handle the intensive work — you enjoy harvesting.</p>
+            </div>
+            <div style="background:rgba(90,158,106,0.12);border:1px solid rgba(90,158,106,0.25);border-radius:10px;padding:1.4rem;">
+              <div style="font-size:1.3rem;margin-bottom:0.5rem;">✏️</div>
+              <h4 style="font-family:'Cormorant Garamond',serif;color:var(--cream);font-size:1.1rem;font-weight:600;margin-bottom:0.3rem;">Professional Design</h4>
+              <p style="color:rgba(232,220,200,0.6);font-size:0.84rem;font-weight:300;line-height:1.5;">Customized plans for your space, goals, and budget.</p>
+            </div>
+          </div>
+        </div>
+        <!-- SLIDE 5: Transform Your Yard -->
+        <div class="why-slide" style="background:linear-gradient(135deg,var(--forest-mid) 0%,#0f2318 100%);padding:3rem 2.5rem;border-radius:12px;text-align:center;">
+          <div style="max-width:520px;margin:0 auto;">
+            <div style="font-size:2.5rem;margin-bottom:1rem;">🌻</div>
+            <h3 style="font-family:'Cormorant Garamond',serif;color:var(--cream);font-size:clamp(1.8rem,4vw,2.6rem);font-weight:300;line-height:1.15;margin-bottom:1.5rem;">Transform Your Yard Into a <em style="color:var(--leaf-bright);">Productive Paradise</em></h3>
+            <div style="background:rgba(196,163,90,0.12);border:2px solid rgba(196,163,90,0.3);border-radius:50%;width:110px;height:110px;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 1.5rem;">
+              <span style="font-family:'Cormorant Garamond',serif;color:var(--gold);font-size:2.2rem;font-weight:700;line-height:1;">700</span>
+              <span style="color:rgba(232,220,200,0.6);font-size:0.68rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;">lbs/year</span>
+            </div>
+            <p style="color:rgba(232,220,200,0.65);font-size:0.9rem;font-weight:300;margin-bottom:2rem;">Production potential per 1,000 sq ft 🌿🍅🥦</p>
+            <button class="btn-submit" style="width:auto;padding:1rem 2.5rem;" onclick="showPage('consultation')">Start Your Homestead →</button>
+          </div>
+        </div>
+        <!-- CONTROLS -->
+        <div style="display:flex;align-items:center;justify-content:center;gap:1rem;margin-top:1.5rem;">
+          <button onclick="whySlide(-1)" style="background:rgba(15,35,24,0.6);border:1px solid rgba(196,163,90,0.25);color:var(--gold);width:38px;height:38px;border-radius:50%;font-size:1.1rem;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;" onmouseover="this.style.background='rgba(196,163,90,0.15)'" onmouseout="this.style.background='rgba(15,35,24,0.6)'">‹</button>
+          <div style="display:flex;gap:0.45rem;">
+            <span class="why-dot" onclick="whySlideTo(0)" style="width:8px;height:8px;border-radius:50%;background:var(--gold);cursor:pointer;transition:all 0.2s;display:inline-block;"></span>
+            <span class="why-dot" onclick="whySlideTo(1)" style="width:8px;height:8px;border-radius:50%;background:rgba(196,163,90,0.3);cursor:pointer;transition:all 0.2s;display:inline-block;"></span>
+            <span class="why-dot" onclick="whySlideTo(2)" style="width:8px;height:8px;border-radius:50%;background:rgba(196,163,90,0.3);cursor:pointer;transition:all 0.2s;display:inline-block;"></span>
+            <span class="why-dot" onclick="whySlideTo(3)" style="width:8px;height:8px;border-radius:50%;background:rgba(196,163,90,0.3);cursor:pointer;transition:all 0.2s;display:inline-block;"></span>
+            <span class="why-dot" onclick="whySlideTo(4)" style="width:8px;height:8px;border-radius:50%;background:rgba(196,163,90,0.3);cursor:pointer;transition:all 0.2s;display:inline-block;"></span>
+          </div>
+          <button onclick="whySlide(1)" style="background:rgba(15,35,24,0.6);border:1px solid rgba(196,163,90,0.25);color:var(--gold);width:38px;height:38px;border-radius:50%;font-size:1.1rem;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;" onmouseover="this.style.background='rgba(196,163,90,0.15)'" onmouseout="this.style.background='rgba(15,35,24,0.6)'">›</button>
+        </div>
+        <p id="whySlideLabel" style="text-align:center;color:rgba(196,163,90,0.5);font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;font-family:'DM Sans',sans-serif;font-weight:600;margin-top:0.6rem;">1 / 5</p>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:4rem;">
       <button class="btn-submit" style="width:auto;padding:1rem 3rem;" onclick="showPage('consultation')">Schedule a Free Consultation →</button>
     </div>
   </div>
@@ -1010,7 +1155,14 @@
     <div style="margin-bottom:4rem;">
       <div class="section-tag">Protection Plans</div>
       <h2 class="section-title">Crop Insurance Plans</h2>
-      <p class="section-sub" style="margin-bottom:2.5rem;">Protect your investment. Our crop insurance plans cover everything from weather damage to livestock health — so a bad season never means starting from zero.</p>
+      <p class="section-sub" style="margin-bottom:1.5rem;">Protect your investment. Our crop insurance plans cover everything from weather damage to livestock health — so a bad season never means starting from zero.</p>
+      <div style="background:rgba(139,111,71,0.08);border:1px solid rgba(139,111,71,0.25);border-left:4px solid var(--bark);border-radius:0 6px 6px 0;padding:1.2rem 1.5rem;margin-bottom:2.5rem;display:flex;gap:1rem;align-items:flex-start;">
+        <span style="font-size:1.4rem;flex-shrink:0;margin-top:0.1rem;">&#127822;</span>
+        <div>
+          <p style="color:var(--bark);font-weight:700;font-size:0.85rem;margin-bottom:0.4rem;letter-spacing:0.04em;">Orchard &amp; Berry Coverage — Important Notice</p>
+          <p style="color:var(--text-mid);font-size:0.84rem;line-height:1.7;font-weight:300;">Orchards, berry plantings, and other <strong style="color:var(--text-dark);">perennial woody systems</strong> are <strong style="color:var(--text-dark);">not covered</strong> under Basic or Standard Coverage. Due to the high replacement cost, long establishment timeline, and multi-year nature of these plants, coverage for orchard trees and berry bushes is <strong style="color:var(--text-dark);">exclusively available under Premium Coverage ($45/mo)</strong>. If your property includes fruit trees, nut trees, berry bushes, or a food forest planting, Premium Coverage is required to protect that investment.</p>
+        </div>
+      </div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;">
 
         <!-- Basic Coverage -->
@@ -1057,6 +1209,7 @@
           </div>
           <ul class="service-items" style="margin-bottom:1.5rem;">
             <li>Minimum harvest guarantee</li>
+            <li>&#127822; <strong>Orchard &amp; berry coverage</strong> (fruit trees, nut trees, berry bushes)</li>
             <li>Livestock health issues (chickens, bees)</li>
             <li>Infrastructure damage coverage (irrigation/rainwater systems, pathways, tree and shrub damage)</li>
             <li>Season restart guarantee if catastrophic failure</li>
@@ -1217,6 +1370,7 @@
           <p style="margin-bottom:0.8rem;">Crop insurance plans are add-on subscriptions available exclusively to active maintenance plan subscribers. Coverage begins on the first scheduled visit following enrollment.</p>
           <p style="margin-bottom:0.8rem;">Coverage is limited to losses that occur under the specific conditions outlined in your selected tier (Basic, Standard, or Premium). Grow Life Homesteading is not liable for losses resulting from client negligence, unauthorized modifications to the property, or circumstances outside the scope of the enrolled plan.</p>
           <p style="margin-bottom:0.8rem;">Crop replacement under Standard Coverage applies only to plants that have not exceeded 20% of their expected lifespan at the time of loss (juvenile stage). Mature plant losses are not covered under Standard Coverage.</p>
+          <p style="margin-bottom:0.8rem;"><strong style="color:var(--forest);">Orchard &amp; Berry Exclusion:</strong> Coverage for orchards (fruit trees, nut trees, food forest plantings) and berry systems (berry bushes, brambles, perennial fruiting plants) is <strong style="color:var(--forest);">not included</strong> under Basic or Standard Coverage. These perennial systems carry a higher replacement value and longer establishment period than annual crops. Coverage for orchard and berry losses is available exclusively under <strong style="color:var(--forest);">Premium Coverage ($45/mo)</strong>. Clients with orchards or berry plantings who are not enrolled in Premium Coverage assume full risk for loss of those systems.</p>
           <p style="margin-bottom:0.8rem;"><strong style="color:var(--forest);">Definition of a Loss Event:</strong> A loss event begins at the time the customer first observes damage, death, or abnormal decline in their crop or system. It is the customer's responsibility to monitor their property and report issues promptly. Losses that occurred prior to the customer's first observation are still subject to the reporting window below.</p>
           <p>All insurance claims must be reported within <strong style="color:var(--forest);">72 hours of first observation</strong> of the loss event. Claims submitted after this window may be denied at the discretion of Grow Life Homesteading. To report a claim, contact us directly at <strong style="color:var(--forest);"><a href="mailto:growlifekentucky@gmail.com" style="color:var(--forest);">growlifekentucky@gmail.com</a></strong> or by phone.</p>
         </div>
@@ -1438,7 +1592,7 @@
         <p>Whether you're ready to schedule a consultation or just want to learn more about what we do, reach out any time. We serve residential properties and community centers throughout the local region.</p>
         <div class="contact-cards">
           <div class="contact-card" onclick="window.location.href='tel:+18596932689'" style="cursor:pointer;"><div class="icon">📞</div><div><h4>Call Us</h4><p>859-693-2689</p></div></div>
-          <div class="contact-card" onclick="window.location.href='mailto:growlifekentucky@gmail.com'" style="cursor:pointer;"><div class="icon">📧</div><div><h4>Email</h4><p>growlifekentucky@gmail.com</p></div></div>
+          <div class="contact-card" onclick="window.location.href='mailto:growlifekentucky@gmail.com'" style="cursor:pointer;"><div class="icon">📧</div><div><h4>Email</h4><p><a href="mailto:growlifekentucky@gmail.com" style="color:var(--forest);">growlifekentucky@gmail.com</a></p></div></div>
           <div class="contact-card"><div class="icon">📍</div><div><h4>Service Area</h4><p>Central Kentucky</p></div></div>
           <div class="contact-card"><div class="icon">🕐</div><div><h4>Hours</h4><p>Mon–Sat: 7am – 6pm · Sun: By Appointment</p></div></div>
           <div class="contact-card" onclick="window.open('https://www.facebook.com/GrowLifeEL','_blank')" style="cursor:pointer;">
@@ -2029,6 +2183,7 @@
     if (name === 'practices') initPracticesPage();
     if (name === 'profile') initProfilePage();
     if (name === 'admin') initAdminPage();
+    if (name === 'services') startWhySlideshow();
   }
 
   function toggleNav() { document.getElementById('navLinks').classList.toggle('open'); }
@@ -3043,6 +3198,68 @@
     });
   }
 
+  // ============ WHY CHOOSE US SLIDESHOW ============
+  let whyCurrentSlide = 0;
+  const WHY_TOTAL = 5;
+  let whyAutoTimer = null;
+  let whyTouchStartX = 0;
+
+  function whySlideTo(n) {
+    const slides = document.querySelectorAll('.why-slide');
+    const dots = document.querySelectorAll('.why-dot');
+    if (!slides.length) return;
+
+    const prev = whyCurrentSlide;
+    whyCurrentSlide = ((n % WHY_TOTAL) + WHY_TOTAL) % WHY_TOTAL;
+    if (prev === whyCurrentSlide) return;
+
+    // Exit: slide current out to the left
+    slides[prev].classList.remove('why-active');
+    slides[prev].classList.add('why-exit');
+    setTimeout(() => { slides[prev].classList.remove('why-exit'); }, 750);
+
+    // Enter: slide next in from the right
+    slides[whyCurrentSlide].classList.add('why-active');
+
+    // Dots
+    dots[prev].style.background = 'rgba(196,163,90,0.3)';
+    dots[whyCurrentSlide].style.background = 'var(--gold)';
+
+    const label = document.getElementById('whySlideLabel');
+    if (label) label.textContent = (whyCurrentSlide + 1) + ' / ' + WHY_TOTAL;
+
+    clearInterval(whyAutoTimer);
+    whyAutoTimer = setInterval(() => whySlide(1), 10000);
+  }
+
+  function whySlide(dir) { whySlideTo(whyCurrentSlide + dir); }
+
+  function startWhySlideshow() {
+    clearInterval(whyAutoTimer);
+    // Reset all slides, activate first
+    document.querySelectorAll('.why-slide').forEach((s, i) => {
+      s.classList.remove('why-active', 'why-exit');
+      if (i === 0) s.classList.add('why-active');
+    });
+    document.querySelectorAll('.why-dot').forEach((d, i) => {
+      d.style.background = i === 0 ? 'var(--gold)' : 'rgba(196,163,90,0.3)';
+    });
+    whyCurrentSlide = 0;
+    const label = document.getElementById('whySlideLabel');
+    if (label) label.textContent = '1 / ' + WHY_TOTAL;
+    whyAutoTimer = setInterval(() => whySlide(1), 10000);
+    // Swipe support
+    const el = document.getElementById('whySlideshow');
+    if (el && !el._swipeInit) {
+      el._swipeInit = true;
+      el.addEventListener('touchstart', e => { whyTouchStartX = e.touches[0].clientX; }, { passive: true });
+      el.addEventListener('touchend', e => {
+        const diff = whyTouchStartX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 40) whySlide(diff > 0 ? 1 : -1);
+      }, { passive: true });
+    }
+  }
+
   // Auto-refresh listings every 30 seconds when on network page
   setInterval(() => {
     if (document.getElementById('page-network').classList.contains('active') && currentUser) loadListings();
@@ -3073,6 +3290,7 @@
     <button class="bnav-item" id="bnav-profile" onclick="handleNavAuth()">
       <span class="bnav-icon">👤</span>
       <span class="bnav-label" id="bnavProfileLabel">Profile</span>
+      <span id="bnavUnreadBadge" style="display:none;position:absolute;top:0.25rem;right:0.5rem;background:#c0392b;color:white;font-size:0.55rem;font-weight:700;padding:0.1rem 0.35rem;border-radius:10px;min-width:16px;text-align:center;font-family:'DM Sans',sans-serif;"></span>
     </button>
     <button class="bnav-item" id="bnav-contact" onclick="showPage('contact')">
       <span class="bnav-icon">📞</span>
@@ -3084,4 +3302,9 @@
 <script>
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
-      
+      navigator.serviceWorker.register('./sw.js').catch(function() {});
+    });
+  }
+</script>
+</body>
+</html>
