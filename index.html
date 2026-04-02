@@ -2468,13 +2468,13 @@
   }
 
   async function loadAdminRequests() {
+    const pendingList = document.getElementById('pendingList');
+    const approvedList = document.getElementById('approvedList');
+
+    // ── Pending ──────────────────────────────────────────────────────────────
     try {
       const pending = await sbFetch('profiles?access_requested=eq.true&access_approved=eq.false&order=created_at.desc');
-      const approved = await sbFetch('profiles?access_approved=eq.true&order=created_at.desc');
-      const pendingList = document.getElementById('pendingList');
-      const approvedList = document.getElementById('approvedList');
       document.getElementById('pendingCount').textContent = `(${pending ? pending.length : 0})`;
-      document.getElementById('approvedCount').textContent = `(${approved ? approved.length : 0})`;
       if (!pending || pending.length === 0) {
         pendingList.innerHTML = '<div class="inbox-empty">No pending requests.</div>';
       } else {
@@ -2486,7 +2486,7 @@
             </div>
             ${p.email
               ? `<div class="inbox-msg-body" style="font-size:0.85rem;color:var(--forest-light);font-weight:600;margin-bottom:0.8rem;">📧 ${escapeHtml(p.email)}</div>`
-              : `<div class="inbox-msg-body" style="font-size:0.82rem;color:var(--bark);margin-bottom:0.4rem;">⚠️ Email not on file — user signed up before sync was added.</div>
+              : `<div class="inbox-msg-body" style="font-size:0.82rem;color:var(--bark);margin-bottom:0.4rem;">⚠️ Email not on file.</div>
                  <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.8rem;">
                    <code style="font-size:0.75rem;color:var(--text-mid);background:rgba(45,90,61,0.07);padding:0.2rem 0.5rem;border-radius:3px;flex:1;overflow:hidden;text-overflow:ellipsis;">${p.user_id}</code>
                    <button onclick="navigator.clipboard.writeText('${p.user_id}').then(()=>{this.textContent='Copied!';setTimeout(()=>this.textContent='Copy ID',2000)})" style="background:none;border:1px solid rgba(45,90,61,0.2);color:var(--text-mid);padding:0.25rem 0.6rem;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:0.72rem;cursor:pointer;white-space:nowrap;">Copy ID</button>
@@ -2495,6 +2495,16 @@
             <button onclick="approveUser('${p.user_id}', document.getElementById('row-${p.user_id}'))" style="background:var(--forest-mid);color:white;border:none;padding:0.55rem 1.4rem;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:0.78rem;font-weight:700;cursor:pointer;letter-spacing:0.08em;text-transform:uppercase;transition:background 0.2s;" onmouseover="this.style.background='var(--forest-light)'" onmouseout="this.style.background='var(--forest-mid)'">✓ Approve Access</button>
           </div>`).join('');
       }
+    } catch(e) {
+      console.error('Pending query error:', e);
+      pendingList.innerHTML = `<div class="inbox-empty" style="color:#c0392b;">Could not load pending requests.<br><small style="font-size:0.75rem;opacity:0.7;">${escapeHtml(e.message||'Unknown error')}</small></div>`;
+    }
+
+    // ── Approved ─────────────────────────────────────────────────────────────
+    try {
+      // Select all columns explicitly to avoid schema cache issues
+      const approved = await sbFetch('profiles?select=user_id,display_name,email,created_at&access_approved=eq.true&order=created_at.desc');
+      document.getElementById('approvedCount').textContent = `(${approved ? approved.length : 0})`;
       if (!approved || approved.length === 0) {
         approvedList.innerHTML = '<div class="inbox-empty">No approved members yet.</div>';
       } else {
@@ -2506,17 +2516,17 @@
                 <span style="font-size:0.72rem;background:rgba(74,140,92,0.12);color:var(--forest-mid);padding:0.2rem 0.6rem;border-radius:10px;font-weight:700;">Approved</span>
               </div>
             </div>
-            <div class="inbox-msg-body" style="font-size:0.82rem;color:var(--text-mid);margin-bottom:0.4rem;">User ID: ${p.user_id}</div>
-            ${p.email ? `<div class="inbox-msg-body" style="font-size:0.82rem;color:var(--forest-light);font-weight:600;margin-bottom:0.8rem;">📧 ${escapeHtml(p.email)}</div>` : ''}
+            ${p.email ? `<div class="inbox-msg-body" style="font-size:0.82rem;color:var(--forest-light);font-weight:600;margin-bottom:0.8rem;">📧 ${escapeHtml(p.email)}</div>` : `<div class="inbox-msg-body" style="font-size:0.82rem;color:var(--text-mid);margin-bottom:0.8rem;">ID: ${p.user_id}</div>`}
             <button onclick="revokeUser('${p.user_id}', document.getElementById('row-${p.user_id}'))" style="background:none;border:1px solid rgba(192,57,43,0.3);color:rgba(192,57,43,0.7);padding:0.45rem 1.2rem;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:0.76rem;font-weight:600;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='rgba(192,57,43,0.06)'" onmouseout="this.style.background='none'">Revoke Access</button>
           </div>`).join('');
       }
     } catch(e) {
-      document.getElementById('pendingList').innerHTML = '<div class="inbox-empty">Could not load requests.</div>';
+      console.error('Approved query error:', e);
+      approvedList.innerHTML = `<div class="inbox-empty" style="color:#c0392b;">Could not load approved members.<br><small style="font-size:0.75rem;opacity:0.7;">${escapeHtml(e.message||'Unknown error')}</small></div>`;
     }
-    // Load reports too
+
+    // Load reports and messages
     await loadAdminReports();
-    // Load contact/consult messages
     await loadAdminMessages();
   }
 
