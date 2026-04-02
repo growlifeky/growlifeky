@@ -2484,8 +2484,14 @@
               <div class="inbox-msg-from">${escapeHtml(p.display_name || 'Unknown')}</div>
               <div class="inbox-msg-date">${new Date(p.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</div>
             </div>
-            <div class="inbox-msg-body" style="font-size:0.82rem;color:var(--text-mid);margin-bottom:0.4rem;">User ID: ${p.user_id}</div>
-            ${p.email ? `<div class="inbox-msg-body" style="font-size:0.82rem;color:var(--forest-light);font-weight:600;margin-bottom:0.8rem;">📧 ${escapeHtml(p.email)}</div>` : ''}
+            ${p.email
+              ? `<div class="inbox-msg-body" style="font-size:0.85rem;color:var(--forest-light);font-weight:600;margin-bottom:0.8rem;">📧 ${escapeHtml(p.email)}</div>`
+              : `<div class="inbox-msg-body" style="font-size:0.82rem;color:var(--bark);margin-bottom:0.4rem;">⚠️ Email not on file — user signed up before sync was added.</div>
+                 <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.8rem;">
+                   <code style="font-size:0.75rem;color:var(--text-mid);background:rgba(45,90,61,0.07);padding:0.2rem 0.5rem;border-radius:3px;flex:1;overflow:hidden;text-overflow:ellipsis;">${p.user_id}</code>
+                   <button onclick="navigator.clipboard.writeText('${p.user_id}').then(()=>{this.textContent='Copied!';setTimeout(()=>this.textContent='Copy ID',2000)})" style="background:none;border:1px solid rgba(45,90,61,0.2);color:var(--text-mid);padding:0.25rem 0.6rem;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:0.72rem;cursor:pointer;white-space:nowrap;">Copy ID</button>
+                 </div>`
+            }
             <button onclick="approveUser('${p.user_id}', document.getElementById('row-${p.user_id}'))" style="background:var(--forest-mid);color:white;border:none;padding:0.55rem 1.4rem;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:0.78rem;font-weight:700;cursor:pointer;letter-spacing:0.08em;text-transform:uppercase;transition:background 0.2s;" onmouseover="this.style.background='var(--forest-light)'" onmouseout="this.style.background='var(--forest-mid)'">✓ Approve Access</button>
           </div>`).join('');
       }
@@ -3004,25 +3010,38 @@
     }
     btn.textContent = 'Sending...'; btn.disabled = true;
     try {
-      await sbFetch('messages', {
-        method: 'POST', prefer: 'return=minimal',
-        body: JSON.stringify({
-          sender_id: currentUser ? currentUser.id : null,
-          sender_name: `${first} ${last}`.trim(),
-          recipient_id: ADMIN_UID,
-          listing_id: null,
-          listing_item: 'Contact Form',
-          poster_name: 'Admin',
-          message: `📧 Contact Form Submission\n\nName: ${first} ${last}\nEmail: ${email}\nPhone: ${phone || 'Not provided'}\n\nMessage:\n${message}`,
-          read: false
-        })
+      const payload = {
+        sender_name: `${first} ${last}`.trim(),
+        recipient_id: ADMIN_UID,
+        listing_item: 'Contact Form',
+        poster_name: 'Admin',
+        message: `📧 Contact Form\n\nName: ${first} ${last}\nEmail: ${email}\nPhone: ${phone || 'Not provided'}\n\nMessage:\n${message}`,
+        read: false
+      };
+      if (currentUser) payload.sender_id = currentUser.id;
+      // Use anon key directly so unauthenticated users can submit
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/messages`, {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${SUPABASE_KEY}`,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify(payload)
       });
+      if (!res.ok) {
+        const errText = await res.text();
+        console.error('Contact form error:', errText);
+        throw new Error(errText);
+      }
       document.getElementById('contactSuccess').style.display = 'block';
       ['contactFirst','contactLast','contactEmail','contactPhone','contactMessage'].forEach(id => {
         const el = document.getElementById(id); if(el) el.value = '';
       });
       setTimeout(() => { document.getElementById('contactSuccess').style.display = 'none'; }, 5000);
     } catch(e) {
+      console.error('Contact form catch:', e);
       errEl.textContent = 'Could not send message. Please email us directly at growlifekentucky@gmail.com';
       errEl.style.display = 'block';
     }
@@ -3047,19 +3066,31 @@
     }
     btn.textContent = 'Submitting...'; btn.disabled = true;
     try {
-      await sbFetch('messages', {
-        method: 'POST', prefer: 'return=minimal',
-        body: JSON.stringify({
-          sender_id: currentUser ? currentUser.id : null,
-          sender_name: `${first} ${last}`.trim(),
-          recipient_id: ADMIN_UID,
-          listing_id: null,
-          listing_item: 'Consultation Request',
-          poster_name: 'Admin',
-          message: `🌱 Consultation Request\n\nName: ${first} ${last}\nEmail: ${email}\nPhone: ${phone || 'Not provided'}\nProperty Type: ${propType || 'Not specified'}\nService Needed: ${service || 'Not specified'}\n\nProject Details:\n${details || 'None provided'}`,
-          read: false
-        })
+      const payload = {
+        sender_name: `${first} ${last}`.trim(),
+        recipient_id: ADMIN_UID,
+        listing_item: 'Consultation Request',
+        poster_name: 'Admin',
+        message: `🌱 Consultation Request\n\nName: ${first} ${last}\nEmail: ${email}\nPhone: ${phone || 'Not provided'}\nProperty Type: ${propType || 'Not specified'}\nService Needed: ${service || 'Not specified'}\n\nProject Details:\n${details || 'None provided'}`,
+        read: false
+      };
+      if (currentUser) payload.sender_id = currentUser.id;
+      // Use anon key directly so unauthenticated users can submit
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/messages`, {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${SUPABASE_KEY}`,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify(payload)
       });
+      if (!res.ok) {
+        const errText = await res.text();
+        console.error('Consult form error:', errText);
+        throw new Error(errText);
+      }
       document.getElementById('consultSuccess').style.display = 'block';
       ['consultFirst','consultLast','consultEmail','consultPhone','consultDetails'].forEach(id => {
         const el = document.getElementById(id); if(el) el.value = '';
@@ -3069,6 +3100,7 @@
       });
       setTimeout(() => { document.getElementById('consultSuccess').style.display = 'none'; }, 5000);
     } catch(e) {
+      console.error('Consult form catch:', e);
       errEl.textContent = 'Could not submit request. Please email us at growlifekentucky@gmail.com or call 859-693-2689.';
       errEl.style.display = 'block';
     }
