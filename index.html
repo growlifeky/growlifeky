@@ -2028,6 +2028,8 @@
         <div class="form-group"><label>Which visit needs rescheduling?</label>
           <select id="rescheduleVisit" style="width:100%;background:var(--cream);border:1px solid rgba(45,90,61,0.2);border-radius:10px;padding:0.82rem 1rem;color:var(--text-dark);font-family:'DM Sans',sans-serif;font-size:0.9rem;outline:none;">
             <option value="">Select a visit...</option>
+            <option value="priority">⚡ Schedule Priority Maintenance</option>
+            <option value="reschedule_next">🔄 Reschedule Next Visit</option>
           </select>
         </div>
         <div class="form-group"><label>Preferred new date / time window</label>
@@ -3615,7 +3617,7 @@
       const pastVisits = allVisits.filter(v => v.visit_date < today || v.status === 'completed').reverse();
 
       // Populate reschedule dropdown
-      select.innerHTML = '<option value="">Select a visit...</option>';
+      select.innerHTML = '<option value="">Select a visit...</option><option value="priority">⚡ Schedule Priority Maintenance</option><option value="reschedule_next">🔄 Reschedule Next Visit</option>';
       upcomingVisits.forEach(v => {
         const opt = document.createElement('option');
         opt.value = v.id;
@@ -3674,10 +3676,13 @@
     const errorEl = document.getElementById('rescheduleError');
     [successEl, errorEl].forEach(el => el.style.display = 'none');
     if (!visitId || !newDate) {
-      errorEl.textContent = 'Please select a visit and provide a preferred new date.';
+      errorEl.textContent = 'Please select an option and provide a preferred date or time window.';
       errorEl.style.display = 'block'; return;
     }
     btn.textContent = 'Sending...'; btn.disabled = true;
+    const visitLabel = visitId === 'priority' ? '⚡ Schedule Priority Maintenance'
+      : visitId === 'reschedule_next' ? '🔄 Reschedule Next Visit'
+      : `Visit ID: ${visitId}`;
     try {
       const res = await fetch(`${SUPABASE_URL}/rest/v1/messages`, {
         method: 'POST',
@@ -3688,7 +3693,7 @@
           recipient_id: ADMIN_UID,
           listing_item: 'Reschedule Request',
           poster_name: 'Admin',
-          message: `🔄 Reschedule Request\n\nClient: ${currentProfile.display_name}\nVisit ID: ${visitId}\nPreferred new time: ${newDate}${reason ? `\nReason: ${reason}` : ''}`,
+          message: `🔄 Reschedule Request\n\nClient: ${currentProfile.display_name}\nRequest: ${visitLabel}\nPreferred time: ${newDate}${reason ? `\nReason: ${reason}` : ''}`,
           read: false
         })
       });
