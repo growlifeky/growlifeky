@@ -2473,7 +2473,7 @@
 
     // ── Pending ──────────────────────────────────────────────────────────────
     try {
-      const pending = await sbFetch('profiles?access_requested=eq.true&access_approved=eq.false&order=created_at.desc');
+      const pending = await sbFetch('profiles?select=user_id,display_name,email,access_requested,created_at&access_approved=eq.false&order=created_at.desc');
       document.getElementById('pendingCount').textContent = `(${pending ? pending.length : 0})`;
       if (!pending || pending.length === 0) {
         pendingList.innerHTML = '<div class="inbox-empty">No pending requests.</div>';
@@ -2481,7 +2481,7 @@
         pendingList.innerHTML = pending.map(p => `
           <div class="inbox-msg" id="row-${p.user_id}">
             <div class="inbox-msg-header">
-              <div class="inbox-msg-from">${escapeHtml(p.display_name || 'Unknown')}</div>
+              <div class="inbox-msg-from">${escapeHtml(p.display_name || 'Unknown')} ${p.access_requested ? '<span style="font-size:0.7rem;background:rgba(196,163,90,0.15);color:var(--bark);padding:0.15rem 0.5rem;border-radius:8px;font-weight:700;margin-left:0.3rem;">Requested</span>' : '<span style="font-size:0.7rem;background:rgba(45,90,61,0.1);color:var(--text-mid);padding:0.15rem 0.5rem;border-radius:8px;font-weight:700;margin-left:0.3rem;">New User</span>'}</div>
               <div class="inbox-msg-date">${new Date(p.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</div>
             </div>
             ${p.email
@@ -2681,12 +2681,9 @@
     [signedOut, unverified, accessCode, signedIn].forEach(el => el.style.display = 'none');
     if (!currentUser) {
       signedOut.style.display = 'block';
-    } else if (!isEmailVerified()) {
-      unverified.style.display = 'block';
-      document.getElementById('unverifiedEmail').textContent = currentUser.email;
     } else if (!isAccessApproved()) {
+      // Any signed-in user can request access regardless of email verification
       accessCode.style.display = 'block';
-      // If already requested, show pending state
       if (isAccessPending()) {
         document.getElementById('networkRequestState').style.display = 'none';
         document.getElementById('networkPendingState').style.display = 'block';
