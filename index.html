@@ -2072,6 +2072,7 @@
         <button class="admin-tab" id="atab-schedule" onclick="switchAdminTab('schedule')" style="background:none;border:none;border-bottom:2px solid transparent;color:rgba(61,90,69,0.45);padding:0.6rem 1.2rem;font-family:'DM Sans',sans-serif;font-size:0.8rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;margin-bottom:-1px;transition:all 0.2s;">Schedule</button>
         <button class="admin-tab" id="atab-messages" onclick="switchAdminTab('messages')" style="background:none;border:none;border-bottom:2px solid transparent;color:rgba(61,90,69,0.45);padding:0.6rem 1.2rem;font-family:'DM Sans',sans-serif;font-size:0.8rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;margin-bottom:-1px;transition:all 0.2s;">Messages</button>
         <button class="admin-tab" id="atab-reports" onclick="switchAdminTab('reports')" style="background:none;border:none;border-bottom:2px solid transparent;color:rgba(61,90,69,0.45);padding:0.6rem 1.2rem;font-family:'DM Sans',sans-serif;font-size:0.8rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;margin-bottom:-1px;transition:all 0.2s;">Reports</button>
+        <button class="admin-tab" id="atab-analytics" onclick="switchAdminTab('analytics')" style="background:none;border:none;border-bottom:2px solid transparent;color:rgba(61,90,69,0.45);padding:0.6rem 1.2rem;font-family:'DM Sans',sans-serif;font-size:0.8rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;margin-bottom:-1px;transition:all 0.2s;">Analytics</button>
         <button onclick="loadAdminRequests()" style="margin-left:auto;background:none;border:1px solid rgba(45,90,61,0.2);color:var(--text-mid);padding:0.4rem 1rem;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:0.78rem;font-weight:600;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.borderColor='var(--forest-light)';this.style.color='var(--forest)'" onmouseout="this.style.borderColor='rgba(45,90,61,0.2)';this.style.color='var(--text-mid)'">↻ Refresh</button>
       </div>
 
@@ -2139,6 +2140,60 @@
         <h3 style="font-family:'Cormorant Garamond',serif;color:var(--forest);font-size:1.3rem;font-weight:600;margin-bottom:1rem;padding-bottom:0.6rem;border-bottom:1px solid rgba(45,90,61,0.1);">📬 Incoming Messages <span id="adminMsgCount" style="font-family:'DM Sans',sans-serif;font-size:0.85rem;color:var(--text-mid);font-weight:400;"></span></h3>
         <p style="color:var(--text-mid);font-size:0.85rem;font-weight:300;margin-bottom:1.5rem;">Contact form and consultation requests sent through the app.</p>
         <div id="adminMsgList"><div class="inbox-empty">Loading...</div></div>
+      </div>
+
+      <!-- ANALYTICS TAB -->
+      <div id="adminTab-analytics" style="display:none;">
+        <h3 style="font-family:'Cormorant Garamond',serif;color:var(--forest);font-size:1.3rem;font-weight:600;margin-bottom:0.4rem;padding-bottom:0.6rem;border-bottom:1px solid rgba(45,90,61,0.1);">📊 Site Analytics</h3>
+        <p style="color:var(--text-mid);font-size:0.85rem;font-weight:300;margin-bottom:1.8rem;">Visitor counts logged each time someone opens the app.</p>
+
+        <!-- Stat cards -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;margin-bottom:2rem;">
+          <div style="background:var(--forest);border-radius:12px;padding:1.4rem;text-align:center;">
+            <div id="statTotal" style="font-family:'Cormorant Garamond',serif;color:var(--gold);font-size:2.4rem;font-weight:700;line-height:1;">—</div>
+            <div style="color:rgba(232,220,200,0.6);font-size:0.72rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;margin-top:0.3rem;">Total Visits</div>
+          </div>
+          <div style="background:var(--forest-mid);border-radius:12px;padding:1.4rem;text-align:center;">
+            <div id="statToday" style="font-family:'Cormorant Garamond',serif;color:var(--leaf-bright);font-size:2.4rem;font-weight:700;line-height:1;">—</div>
+            <div style="color:rgba(232,220,200,0.6);font-size:0.72rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;margin-top:0.3rem;">Today</div>
+          </div>
+          <div style="background:var(--forest-mid);border-radius:12px;padding:1.4rem;text-align:center;">
+            <div id="statWeek" style="font-family:'Cormorant Garamond',serif;color:var(--leaf-bright);font-size:2.4rem;font-weight:700;line-height:1;">—</div>
+            <div style="color:rgba(232,220,200,0.6);font-size:0.72rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;margin-top:0.3rem;">This Week</div>
+          </div>
+          <div style="background:var(--forest-mid);border-radius:12px;padding:1.4rem;text-align:center;">
+            <div id="statMonth" style="font-family:'Cormorant Garamond',serif;color:var(--leaf-bright);font-size:2.4rem;font-weight:700;line-height:1;">—</div>
+            <div style="color:rgba(232,220,200,0.6);font-size:0.72rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;margin-top:0.3rem;">This Month</div>
+          </div>
+        </div>
+
+        <!-- Registered users -->
+        <div style="background:white;border:1px solid rgba(45,90,61,0.1);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;">
+          <h4 style="font-family:'Cormorant Garamond',serif;color:var(--forest);font-size:1.1rem;font-weight:600;margin-bottom:1rem;">👤 Registered Users</h4>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:0.8rem;">
+            <div style="text-align:center;padding:1rem;background:rgba(74,140,92,0.06);border-radius:8px;">
+              <div id="statUsers" style="font-family:'Cormorant Garamond',serif;color:var(--forest);font-size:2rem;font-weight:700;">—</div>
+              <div style="color:var(--text-mid);font-size:0.72rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin-top:0.2rem;">Total</div>
+            </div>
+            <div style="text-align:center;padding:1rem;background:rgba(74,140,92,0.06);border-radius:8px;">
+              <div id="statApproved" style="font-family:'Cormorant Garamond',serif;color:var(--forest);font-size:2rem;font-weight:700;">—</div>
+              <div style="color:var(--text-mid);font-size:0.72rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin-top:0.2rem;">Approved</div>
+            </div>
+            <div style="text-align:center;padding:1rem;background:rgba(74,140,92,0.06);border-radius:8px;">
+              <div id="statPending" style="font-family:'Cormorant Garamond',serif;color:var(--forest);font-size:2rem;font-weight:700;">—</div>
+              <div style="color:var(--text-mid);font-size:0.72rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin-top:0.2rem;">Pending</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent visits log -->
+        <div style="background:white;border:1px solid rgba(45,90,61,0.1);border-radius:12px;padding:1.5rem;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+            <h4 style="font-family:'Cormorant Garamond',serif;color:var(--forest);font-size:1.1rem;font-weight:600;">🕐 Recent Visits</h4>
+            <button onclick="loadAnalytics()" style="background:none;border:1px solid rgba(45,90,61,0.2);color:var(--text-mid);padding:0.3rem 0.8rem;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:0.75rem;font-weight:600;cursor:pointer;">↻ Refresh</button>
+          </div>
+          <div id="analyticsLog"><div class="inbox-empty">Loading...</div></div>
+        </div>
       </div>
 
       <!-- REPORTS TAB -->
@@ -2838,7 +2893,7 @@
   }
 
   function switchAdminTab(tab) {
-    ['access','schedule','messages','reports'].forEach(t => {
+    ['access','schedule','messages','reports','analytics'].forEach(t => {
       const panel = document.getElementById(`adminTab-${t}`);
       const btn = document.getElementById(`atab-${t}`);
       if (panel) panel.style.display = t === tab ? 'block' : 'none';
@@ -2848,6 +2903,7 @@
       }
     });
     if (tab === 'schedule') loadAdminSchedule();
+    if (tab === 'analytics') loadAnalytics();
   }
 
   function initAdminPage() {
@@ -3780,6 +3836,59 @@
     } catch(e) { rowEl.style.opacity = '1'; alert('Could not cancel visit. Try again.'); }
   }
 
+
+  // ============ ANALYTICS ============
+  async function loadAnalytics() {
+    try {
+      const now = new Date();
+      const todayStr = now.toISOString().split('T')[0];
+      const weekAgo = new Date(now - 7*24*60*60*1000).toISOString();
+      const monthAgo = new Date(now - 30*24*60*60*1000).toISOString();
+
+      // Fetch counts in parallel
+      const [allViews, todayViews, weekViews, monthViews, allProfiles] = await Promise.all([
+        sbFetch('page_views?select=id'),
+        sbFetch(`page_views?select=id&visited_at=gte.${todayStr}`),
+        sbFetch(`page_views?select=id&visited_at=gte.${weekAgo}`),
+        sbFetch(`page_views?select=id&visited_at=gte.${monthAgo}`),
+        sbFetch('profiles?select=user_id,access_approved,access_requested'),
+      ]);
+
+      document.getElementById('statTotal').textContent  = allViews   ? allViews.length   : 0;
+      document.getElementById('statToday').textContent  = todayViews ? todayViews.length : 0;
+      document.getElementById('statWeek').textContent   = weekViews  ? weekViews.length  : 0;
+      document.getElementById('statMonth').textContent  = monthViews ? monthViews.length : 0;
+
+      if (allProfiles) {
+        document.getElementById('statUsers').textContent    = allProfiles.length;
+        document.getElementById('statApproved').textContent = allProfiles.filter(p => p.access_approved).length;
+        document.getElementById('statPending').textContent  = allProfiles.filter(p => !p.access_approved).length;
+      }
+
+      // Recent visits log — last 20
+      const recent = await sbFetch('page_views?order=visited_at.desc&limit=20');
+      const log = document.getElementById('analyticsLog');
+      if (!recent || recent.length === 0) {
+        log.innerHTML = '<div class="inbox-empty">No visits recorded yet.</div>';
+      } else {
+        log.innerHTML = recent.map(v => {
+          const d = new Date(v.visited_at);
+          const timeStr = d.toLocaleDateString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
+          const isMobile = v.user_agent && /mobile|android|iphone|ipad/i.test(v.user_agent);
+          const device = isMobile ? '📱 Mobile' : '💻 Desktop';
+          return `<div style="display:flex;justify-content:space-between;align-items:center;padding:0.55rem 0;border-bottom:1px solid rgba(45,90,61,0.07);font-size:0.82rem;">
+            <span style="color:var(--text-mid);font-weight:300;">${timeStr}</span>
+            <span style="color:var(--text-mid);font-size:0.75rem;">${device}</span>
+          </div>`;
+        }).join('');
+      }
+    } catch(e) {
+      console.error('Analytics error:', e);
+      const log = document.getElementById('analyticsLog');
+      if (log) log.innerHTML = `<div class="inbox-empty" style="color:#c0392b;">Could not load analytics.<br><small>${escapeHtml(e.message||'')}</small></div>`;
+    }
+  }
+
   // ============ WHY CHOOSE US SLIDESHOW ============
   let whyCurrentSlide = 0;
   const WHY_TOTAL = 5;
@@ -3846,6 +3955,26 @@
   setInterval(() => {
     if (document.getElementById('page-network').classList.contains('active') && currentUser) loadListings();
   }, 30000);
+
+  // Log page view on every load
+  (async function logPageView() {
+    try {
+      await fetch(`${SUPABASE_URL}/rest/v1/page_views`, {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${SUPABASE_KEY}`,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify({
+          visited_at: new Date().toISOString(),
+          referrer: document.referrer || null,
+          user_agent: navigator.userAgent ? navigator.userAgent.substring(0, 200) : null
+        })
+      });
+    } catch(e) { /* silent — never block the app */ }
+  })();
 
   // Restore session on load
   restoreSession().then(() => {
