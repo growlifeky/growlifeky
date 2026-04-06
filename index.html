@@ -384,6 +384,25 @@
     .section-title { font-size: 1.7rem; }
   }
 </style>
+<script>
+  // Email built at runtime — Cloudflare cannot encode this
+  var _e = ['growlifekentucky','gmail.com'].join('@');
+  function _mailto() { window.location.href = 'mailto:' + _e; }
+  function _showEmail(id) { var el = document.getElementById(id); if(el) el.textContent = _e; }
+  document.addEventListener('DOMContentLoaded', function() {
+    // Populate all email placeholders
+    document.querySelectorAll('[data-email]').forEach(function(el) {
+      var href = el.getAttribute('data-email');
+      if (href === 'mailto') {
+        el.href = 'mailto:' + _e;
+        if (!el.textContent.trim() || el.textContent === 'EMAIL') el.textContent = _e;
+      }
+    });
+    document.querySelectorAll('[data-email-text]').forEach(function(el) {
+      el.textContent = _e;
+    });
+  });
+</script>
 </head>
 <body>
 
@@ -1364,7 +1383,7 @@
         <h3 style="font-family:'Playfair Display',serif;color:var(--forest);font-size:1.15rem;margin-bottom:1rem;padding-bottom:0.8rem;border-bottom:1px solid rgba(45,90,61,0.1);">1. Maintenance Plan Terms & Cancellation Policy</h3>
         <div style="color:var(--text-mid);font-size:0.88rem;line-height:1.8;font-weight:300;">
           <p style="margin-bottom:0.8rem;">Maintenance plans are billed on a monthly recurring basis. By enrolling in a plan, you authorize Grow Life Homesteading to charge your selected payment method each month until cancellation.</p>
-          <p style="margin-bottom:0.8rem;">Cancellations must be submitted in writing via email to <strong style="color:var(--forest);"><a href="/cdn-cgi/l/email-protection#99feebf6eef5f0fffcf2fcf7edecfaf2e0d9fef4f8f0f5b7faf6f4" style="color:var(--forest);"><span class="__cf_email__" data-cfemail="a0c7d2cfd7ccc9c6c5cbc5ced4d5c3cbd9e0c7cdc1c9cc8ec3cfcd">[email&#160;protected]</span></a></strong> at least <strong style="color:var(--forest);">7 days before</strong> your next billing date to avoid being charged for the following month.</p>
+          <p style="margin-bottom:0.8rem;">Cancellations must be submitted in writing via email to <strong style="color:var(--forest);"><a data-email="mailto" href="#" style="color:var(--forest);" onclick="_mailto();return false;">EMAIL</a></strong> at least <strong style="color:var(--forest);">7 days before</strong> your next billing date to avoid being charged for the following month.</p>
           <p style="margin-bottom:0.8rem;">Grow Life Homesteading reserves the right to adjust pricing with a minimum of 30 days written notice. Continued enrollment after a pricing change constitutes acceptance of the new rate.</p>
           <p>Specialty system add-ons are subject to an additional monthly fee agreed upon during your consultation. These add-ons may be removed with the same 7-day written notice required for full plan cancellations.</p>
         </div>
@@ -1379,7 +1398,7 @@
           <p style="margin-bottom:0.8rem;">Crop replacement under Standard Coverage applies only to plants that have not exceeded 20% of their expected lifespan at the time of loss (juvenile stage). Mature plant losses are not covered under Standard Coverage.</p>
           <p style="margin-bottom:0.8rem;"><strong style="color:var(--forest);">Orchard &amp; Berry Exclusion:</strong> Coverage for orchards (fruit trees, nut trees, food forest plantings) and berry systems (berry bushes, brambles, perennial fruiting plants) is <strong style="color:var(--forest);">not included</strong> under Basic or Standard Coverage. These perennial systems carry a higher replacement value and longer establishment period than annual crops. Coverage for orchard and berry losses is available exclusively under <strong style="color:var(--forest);">Premium Coverage ($45/mo)</strong>. Clients with orchards or berry plantings who are not enrolled in Premium Coverage assume full risk for loss of those systems.</p>
           <p style="margin-bottom:0.8rem;"><strong style="color:var(--forest);">Definition of a Loss Event:</strong> A loss event begins at the time the customer first observes damage, death, or abnormal decline in their crop or system. It is the customer's responsibility to monitor their property and report issues promptly. Losses that occurred prior to the customer's first observation are still subject to the reporting window below.</p>
-          <p>All insurance claims must be reported within <strong style="color:var(--forest);">72 hours of first observation</strong> of the loss event. Claims submitted after this window may be denied at the discretion of Grow Life Homesteading. To report a claim, contact us directly at <strong style="color:var(--forest);"><a href="/cdn-cgi/l/email-protection#1e796c71697277787b757b706a6b7d75675e79737f7772307d7173" style="color:var(--forest);"><span class="__cf_email__" data-cfemail="80e7f2eff7ece9e6e5ebe5eef4f5e3ebf9c0e7ede1e9ecaee3efed">[email&#160;protected]</span></a></strong> or by phone.</p>
+          <p>All insurance claims must be reported within <strong style="color:var(--forest);">72 hours of first observation</strong> of the loss event. Claims submitted after this window may be denied at the discretion of Grow Life Homesteading. To report a claim, contact us directly at <strong style="color:var(--forest);"><a data-email="mailto" href="#" style="color:var(--forest);" onclick="_mailto();return false;">EMAIL</a></strong> or by phone.</p>
         </div>
       </div>
 
@@ -1428,7 +1447,7 @@
           <p style="margin-bottom:0.8rem;">Grow Life Homesteading collects only the information you provide voluntarily through our consultation form and contact form — including your name, email, phone number, and property details. This information is used solely to provide and improve our services and to communicate with you about your account or inquiries.</p>
           <p style="margin-bottom:0.8rem;">We do not sell, rent, or share your personal information with third parties for marketing purposes.</p>
           <p style="margin-bottom:0.8rem;">Community Table posts are visible to all app users. Do not include personal contact information such as your full address or phone number in public listings.</p>
-          <p>By using this app or submitting a form, you consent to the collection and use of your information as described above. To request deletion of your data, contact us at <strong style="color:var(--forest);"><a href="/cdn-cgi/l/email-protection#f592879a82999c93909e909b8180969e8cb59298949c99db969a98" style="color:var(--forest);"><span class="__cf_email__" data-cfemail="cea9bca1b9a2a7a8aba5aba0babbada5b78ea9a3afa7a2e0ada1a3">[email&#160;protected]</span></a></strong>.</p>
+          <p>By using this app or submitting a form, you consent to the collection and use of your information as described above. To request deletion of your data, contact us at <strong style="color:var(--forest);"><a data-email="mailto" href="#" style="color:var(--forest);" onclick="_mailto();return false;">EMAIL</a></strong>.</p>
         </div>
       </div>
 
@@ -1599,7 +1618,7 @@
         <p>Whether you're ready to schedule a consultation or just want to learn more about what we do, reach out any time. We serve residential properties and community centers throughout the local region.</p>
         <div class="contact-cards">
           <div class="contact-card" onclick="window.location.href='tel:+18596932689'" style="cursor:pointer;"><div class="icon">📞</div><div><h4>Call Us</h4><p>859-693-2689</p></div></div>
-          <div class="contact-card" onclick="window.location.href='mailto:growlifekentucky@gmail.com'" style="cursor:pointer;"><div class="icon">📧</div><div><h4>Email</h4><p><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="36514459415a5f50535d53584243555d4f76515b575f5a1855595b">[email&#160;protected]</a></p></div></div>
+          <div class="contact-card" onclick="_mailto()" style="cursor:pointer;"><div class="icon">📧</div><div><h4>Email</h4><p data-email-text="true">EMAIL</p></div></div>
           <div class="contact-card"><div class="icon">📍</div><div><h4>Service Area</h4><p>Central Kentucky</p></div></div>
           <div class="contact-card"><div class="icon">🕐</div><div><h4>Hours</h4><p>Mon–Sat: 7am – 6pm · Sun: By Appointment</p></div></div>
           <div class="contact-card" onclick="window.open('https://www.facebook.com/GrowLifeEL','_blank')" style="cursor:pointer;">
@@ -2338,7 +2357,7 @@
   </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 
   function toggleFaq(btn) {
     const answer = btn.nextElementSibling;
@@ -3474,7 +3493,7 @@
       setTimeout(() => { document.getElementById('contactSuccess').style.display = 'none'; }, 5000);
     } catch(e) {
       console.error('Contact form catch:', e);
-      errEl.textContent = 'Could not send message. Please email us directly at growlifekentucky@gmail.com';
+      errEl.textContent = 'Could not send message. Please email us directly at ' + _e + '';
       errEl.style.display = 'block';
     }
     btn.textContent = 'Send Message →'; btn.disabled = false;
@@ -3533,7 +3552,7 @@
       setTimeout(() => { document.getElementById('consultSuccess').style.display = 'none'; }, 5000);
     } catch(e) {
       console.error('Consult form catch:', e);
-      errEl.textContent = 'Could not submit request. Please email us at growlifekentucky@gmail.com or call 859-693-2689.';
+      errEl.textContent = 'Could not submit request. Please email us at ' + _e + ' or call 859-693-2689.';
       errEl.style.display = 'block';
     }
     btn.textContent = 'Submit Request →'; btn.disabled = false;
@@ -3775,7 +3794,7 @@
       document.getElementById('rescheduleDate').value = '';
       document.getElementById('rescheduleReason').value = '';
     } catch(e) {
-      errorEl.textContent = 'Could not send request. Please contact us directly at growlifekentucky@gmail.com';
+      errorEl.textContent = 'Could not send request. Please contact us directly at ' + _e + '';
       errorEl.style.display = 'block';
     }
     btn.textContent = 'Send Request →'; btn.disabled = false;
