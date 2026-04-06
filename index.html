@@ -3060,8 +3060,14 @@
     const btn = document.querySelector('.btn-green');
     btn.textContent = 'Posting...'; btn.disabled = true;
     try {
-      await sbFetch('listings', {
-        method: 'POST', prefer: 'return=minimal',
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/listings`, {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${currentToken || SUPABASE_KEY}`,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=minimal'
+        },
         body: JSON.stringify({
           user_id: currentUser.id,
           display_name: currentProfile.display_name,
@@ -3072,10 +3078,20 @@
           traded: false
         })
       });
+      if (!res.ok) {
+        const errText = await res.text();
+        console.error('Listing post error:', errText);
+        alert(`Could not post listing: ${errText}`);
+        btn.textContent = 'Post Listing →'; btn.disabled = false;
+        return;
+      }
       ['listingItem','listingDesc','listingArea'].forEach(id => document.getElementById(id).value = '');
       await loadListings();
       alert('✅ Listing posted! Click "🤝 We Traded!" on your listing when done.');
-    } catch(e) { alert('Could not post listing. Please try again.'); }
+    } catch(e) {
+      console.error('Listing post catch:', e);
+      alert(`Could not post listing. Error: ${e.message}`);
+    }
     btn.textContent = 'Post Listing →'; btn.disabled = false;
   }
 
