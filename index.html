@@ -3665,21 +3665,7 @@
     setTimeout(() => { el.style.display = 'none'; }, 4000);
   }
 
-  function handleGalleryUpload(event) {
-    const files = event.target.files;
-    if (!files.length) return;
-    const grid = document.getElementById('galleryGrid');
-    Array.from(files).forEach(file => {
-      const reader = new FileReader();
-      reader.onload = e => {
-        const card = document.createElement('div');
-        card.className = 'gallery-card';
-        card.innerHTML = `<img src="${e.target.result}" style="width:100%;height:200px;object-fit:cover;" /><div class="gallery-card-body"><h4>${file.name.replace(/\.[^.]+$/,'')}</h4><p>Uploaded project photo</p></div>`;
-        grid.insertBefore(card, grid.firstChild);
-      };
-      reader.readAsDataURL(file);
-    });
-  }
+  // Gallery upload reserved for future use
 
   // ============ CLIENT PORTAL ============
   async function initPortalPage() {
