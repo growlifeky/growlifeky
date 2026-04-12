@@ -2164,13 +2164,13 @@
       <!-- ANALYTICS TAB -->
       <div id="adminTab-analytics" style="display:none;">
         <h3 style="font-family:'Cormorant Garamond',serif;color:var(--forest);font-size:1.3rem;font-weight:600;margin-bottom:0.4rem;padding-bottom:0.6rem;border-bottom:1px solid rgba(45,90,61,0.1);">📊 Site Analytics</h3>
-        <p style="color:var(--text-mid);font-size:0.85rem;font-weight:300;margin-bottom:1.8rem;">Visitor counts logged each time someone opens the app.</p>
+        <p style="color:var(--text-mid);font-size:0.85rem;font-weight:300;margin-bottom:1.5rem;">Visitor counts logged each time someone opens the app.</p>
 
         <!-- Stat cards -->
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;margin-bottom:2rem;">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1rem;margin-bottom:2rem;">
           <div style="background:var(--forest);border-radius:12px;padding:1.4rem;text-align:center;">
             <div id="statTotal" style="font-family:'Cormorant Garamond',serif;color:var(--gold);font-size:2.4rem;font-weight:700;line-height:1;">—</div>
-            <div style="color:rgba(232,220,200,0.6);font-size:0.72rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;margin-top:0.3rem;">Total Visits</div>
+            <div style="color:rgba(232,220,200,0.6);font-size:0.72rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;margin-top:0.3rem;">All Time</div>
           </div>
           <div style="background:var(--forest-mid);border-radius:12px;padding:1.4rem;text-align:center;">
             <div id="statToday" style="font-family:'Cormorant Garamond',serif;color:var(--leaf-bright);font-size:2.4rem;font-weight:700;line-height:1;">—</div>
@@ -2184,6 +2184,28 @@
             <div id="statMonth" style="font-family:'Cormorant Garamond',serif;color:var(--leaf-bright);font-size:2.4rem;font-weight:700;line-height:1;">—</div>
             <div style="color:rgba(232,220,200,0.6);font-size:0.72rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;margin-top:0.3rem;">This Month</div>
           </div>
+        </div>
+
+        <!-- Traffic Graph -->
+        <div style="background:white;border:1px solid rgba(45,90,61,0.1);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;flex-wrap:wrap;gap:0.8rem;">
+            <h4 style="font-family:'Cormorant Garamond',serif;color:var(--forest);font-size:1.1rem;font-weight:600;">📈 Traffic</h4>
+            <div style="display:flex;gap:0.4rem;">
+              <button id="graphTabDaily" onclick="switchGraphTab('daily')" style="background:var(--forest-mid);color:white;border:none;padding:0.35rem 0.9rem;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:0.75rem;font-weight:700;cursor:pointer;transition:all 0.2s;">Daily</button>
+              <button id="graphTabWeekly" onclick="switchGraphTab('weekly')" style="background:rgba(45,90,61,0.08);color:var(--text-mid);border:none;padding:0.35rem 0.9rem;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:0.75rem;font-weight:700;cursor:pointer;transition:all 0.2s;">Weekly</button>
+              <button id="graphTabMonthly" onclick="switchGraphTab('monthly')" style="background:rgba(45,90,61,0.08);color:var(--text-mid);border:none;padding:0.35rem 0.9rem;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:0.75rem;font-weight:700;cursor:pointer;transition:all 0.2s;">Monthly</button>
+            </div>
+          </div>
+          <div id="trafficGraph" style="position:relative;height:180px;display:flex;align-items:flex-end;gap:3px;padding-bottom:24px;">
+            <div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-between;pointer-events:none;padding-bottom:24px;">
+              <div style="border-top:1px dashed rgba(45,90,61,0.1);width:100%;position:relative;"><span id="graphYMax" style="position:absolute;right:0;top:-10px;font-size:0.68rem;color:rgba(61,90,69,0.4);font-family:'DM Sans',sans-serif;"></span></div>
+              <div style="border-top:1px dashed rgba(45,90,61,0.1);width:100%;"></div>
+              <div style="border-top:1px dashed rgba(45,90,61,0.1);width:100%;"></div>
+              <div style="border-top:1px solid rgba(45,90,61,0.15);width:100%;"></div>
+            </div>
+            <div id="graphBars" style="display:flex;align-items:flex-end;gap:3px;width:100%;height:100%;position:relative;z-index:1;"></div>
+          </div>
+          <p id="graphEmpty" style="display:none;text-align:center;color:var(--text-mid);font-size:0.85rem;padding:2rem 0;font-weight:300;">No visit data yet. Data will appear as people use the app.</p>
         </div>
 
         <!-- Registered users -->
@@ -3859,20 +3881,118 @@
 
 
   // ============ ANALYTICS ============
+  let graphMode = 'daily';
+  let allVisitData = [];
+
+  function switchGraphTab(mode) {
+    graphMode = mode;
+    ['daily','weekly','monthly'].forEach(m => {
+      const btn = document.getElementById('graphTab' + m.charAt(0).toUpperCase() + m.slice(1));
+      if (btn) {
+        btn.style.background = m === mode ? 'var(--forest-mid)' : 'rgba(45,90,61,0.08)';
+        btn.style.color = m === mode ? 'white' : 'var(--text-mid)';
+      }
+    });
+    renderGraph(allVisitData, mode);
+  }
+
+  function renderGraph(visits, mode) {
+    const barsEl = document.getElementById('graphBars');
+    const emptyEl = document.getElementById('graphEmpty');
+    const graphEl = document.getElementById('trafficGraph');
+    const yMaxEl = document.getElementById('graphYMax');
+    if (!barsEl) return;
+
+    if (!visits || visits.length === 0) {
+      barsEl.innerHTML = '';
+      emptyEl.style.display = 'block';
+      graphEl.style.display = 'none';
+      return;
+    }
+    emptyEl.style.display = 'none';
+    graphEl.style.display = 'flex';
+
+    const now = new Date();
+    let buckets = [];
+
+    if (mode === 'daily') {
+      // Last 14 days
+      for (let i = 13; i >= 0; i--) {
+        const d = new Date(now); d.setDate(d.getDate() - i);
+        const key = d.toISOString().split('T')[0];
+        const label = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        buckets.push({ key, label, count: 0 });
+      }
+      visits.forEach(v => {
+        const key = v.visited_at.split('T')[0];
+        const b = buckets.find(b => b.key === key);
+        if (b) b.count++;
+      });
+    } else if (mode === 'weekly') {
+      // Last 8 weeks
+      for (let i = 7; i >= 0; i--) {
+        const d = new Date(now); d.setDate(d.getDate() - i * 7);
+        const weekStart = new Date(d); weekStart.setDate(d.getDate() - d.getDay());
+        const key = weekStart.toISOString().split('T')[0];
+        const label = 'Wk ' + weekStart.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        buckets.push({ key, label, count: 0, weekStart });
+      }
+      visits.forEach(v => {
+        const vd = new Date(v.visited_at);
+        const ws = new Date(vd); ws.setDate(vd.getDate() - vd.getDay());
+        const key = ws.toISOString().split('T')[0];
+        const b = buckets.find(b => b.key === key);
+        if (b) b.count++;
+      });
+    } else {
+      // Last 6 months
+      for (let i = 5; i >= 0; i--) {
+        const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+        const key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+        const label = d.toLocaleDateString('en-US', { month: 'short', year: '2-digit' });
+        buckets.push({ key, label, count: 0 });
+      }
+      visits.forEach(v => {
+        const key = v.visited_at.substring(0, 7);
+        const b = buckets.find(b => b.key === key);
+        if (b) b.count++;
+      });
+    }
+
+    const maxCount = Math.max(...buckets.map(b => b.count), 1);
+    if (yMaxEl) yMaxEl.textContent = maxCount;
+
+    barsEl.innerHTML = buckets.map(b => {
+      const pct = maxCount > 0 ? (b.count / maxCount) * 100 : 0;
+      const isToday = mode === 'daily' && b.key === now.toISOString().split('T')[0];
+      return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:3px;height:100%;">
+        <span style="font-size:0.62rem;color:var(--text-mid);font-weight:600;">${b.count > 0 ? b.count : ''}</span>
+        <div title="${b.label}: ${b.count} visit${b.count !== 1 ? 's' : ''}"
+          style="width:100%;border-radius:4px 4px 0 0;background:${isToday ? 'var(--gold)' : 'var(--forest-light)'};
+          height:${Math.max(pct, b.count > 0 ? 4 : 1)}%;min-height:${b.count > 0 ? '4px' : '1px'};
+          opacity:${b.count > 0 ? '1' : '0.15'};transition:height 0.4s ease;cursor:pointer;"
+          onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='${b.count > 0 ? 1 : 0.15}'">
+        </div>
+        <span style="font-size:0.58rem;color:rgba(61,90,69,0.45);position:absolute;bottom:0;white-space:nowrap;transform:rotate(-35deg);transform-origin:center top;margin-top:2px;">${b.label}</span>
+      </div>`;
+    }).join('');
+  }
+
   async function loadAnalytics() {
     try {
       const now = new Date();
       const todayStr = now.toISOString().split('T')[0];
       const weekAgo = new Date(now - 7*24*60*60*1000).toISOString();
       const monthAgo = new Date(now - 30*24*60*60*1000).toISOString();
+      const sixMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 5, 1).toISOString();
 
-      // Fetch counts in parallel
-      const [allViews, todayViews, weekViews, monthViews, allProfiles] = await Promise.all([
+      const [allViews, todayViews, weekViews, monthViews, allProfiles, graphViews] = await Promise.all([
         sbFetch('page_views?select=id'),
         sbFetch(`page_views?select=id&visited_at=gte.${todayStr}`),
         sbFetch(`page_views?select=id&visited_at=gte.${weekAgo}`),
         sbFetch(`page_views?select=id&visited_at=gte.${monthAgo}`),
         sbFetch('profiles?select=user_id,access_approved,access_requested'),
+        sbFetch(`page_views?select=visited_at&visited_at=gte.${sixMonthsAgo}&order=visited_at.asc`),
       ]);
 
       document.getElementById('statTotal').textContent  = allViews   ? allViews.length   : 0;
@@ -3885,6 +4005,10 @@
         document.getElementById('statApproved').textContent = allProfiles.filter(p => p.access_approved).length;
         document.getElementById('statPending').textContent  = allProfiles.filter(p => !p.access_approved).length;
       }
+
+      // Store and render graph
+      allVisitData = graphViews || [];
+      renderGraph(allVisitData, graphMode);
 
       // Recent visits log — last 20
       const recent = await sbFetch('page_views?order=visited_at.desc&limit=20');
