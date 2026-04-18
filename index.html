@@ -2480,7 +2480,7 @@
   const SUPABASE_URL = 'https://rzahjdysmqakdqjtolcn.supabase.co';
   const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ6YWhqZHlzbXFha2RxanRvbGNuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM2MzcwMDgsImV4cCI6MjA4OTIxMzAwOH0.d4by1EvFyTBXbaZM0rtuwGjy7KYbECoNH2Qu4aBtvTM';
 
-  async function sbFetch(path, options = {}) {
+  async function sbFetch(path, options = {}, _isRetry = false) {
     const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
       method: options.method || 'GET',
       headers: {
@@ -2491,7 +2491,15 @@
       },
       body: options.body || undefined
     });
-    if (!res.ok) throw new Error(await res.text());
+    if (!res.ok) {
+      const errText = await res.text();
+      // Auto-refresh on JWT expiry and retry once
+      if (!_isRetry && (errText.includes('JWT expired') || errText.includes('PGRST303'))) {
+        const refreshed = await refreshSession();
+        if (refreshed) return sbFetch(path, options, true);
+      }
+      throw new Error(errText);
+    }
     if (res.status === 204) return null;
     return res.json();
   }
