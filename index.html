@@ -2210,11 +2210,16 @@
 
         <!-- Registered users -->
         <div style="background:white;border:1px solid rgba(45,90,61,0.1);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;">
-          <h4 style="font-family:'Cormorant Garamond',serif;color:var(--forest);font-size:1.1rem;font-weight:600;margin-bottom:1rem;">👤 Registered Users</h4>
+          <h4 style="font-family:'Cormorant Garamond',serif;color:var(--forest);font-size:1.1rem;font-weight:600;margin-bottom:0.4rem;">👤 Registered Users</h4>
+          <p style="color:var(--text-mid);font-size:0.78rem;font-weight:300;margin-bottom:1rem;">Total signups = everyone who created an account. Profile count may be lower if someone signed up but never fully logged in.</p>
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:0.8rem;">
+            <div style="text-align:center;padding:1rem;background:rgba(15,35,24,0.07);border-radius:8px;border:1px solid rgba(45,90,61,0.12);">
+              <div id="statSignups" style="font-family:'Cormorant Garamond',serif;color:var(--forest);font-size:2rem;font-weight:700;">—</div>
+              <div style="color:var(--text-mid);font-size:0.72rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin-top:0.2rem;">Total Signups</div>
+            </div>
             <div style="text-align:center;padding:1rem;background:rgba(74,140,92,0.06);border-radius:8px;">
               <div id="statUsers" style="font-family:'Cormorant Garamond',serif;color:var(--forest);font-size:2rem;font-weight:700;">—</div>
-              <div style="color:var(--text-mid);font-size:0.72rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin-top:0.2rem;">Total</div>
+              <div style="color:var(--text-mid);font-size:0.72rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin-top:0.2rem;">Have Profiles</div>
             </div>
             <div style="text-align:center;padding:1rem;background:rgba(74,140,92,0.06);border-radius:8px;">
               <div id="statApproved" style="font-family:'Cormorant Garamond',serif;color:var(--forest);font-size:2rem;font-weight:700;">—</div>
@@ -2222,7 +2227,7 @@
             </div>
             <div style="text-align:center;padding:1rem;background:rgba(74,140,92,0.06);border-radius:8px;">
               <div id="statPending" style="font-family:'Cormorant Garamond',serif;color:var(--forest);font-size:2rem;font-weight:700;">—</div>
-              <div style="color:var(--text-mid);font-size:0.72rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin-top:0.2rem;">Pending</div>
+              <div style="color:var(--text-mid);font-size:0.72rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin-top:0.2rem;">Not Approved</div>
             </div>
           </div>
         </div>
@@ -2771,7 +2776,7 @@
       const pending = await sbFetch('profiles?select=user_id,display_name,email,access_requested,created_at&access_approved=eq.false&order=created_at.desc');
       document.getElementById('pendingCount').textContent = `(${pending ? pending.length : 0})`;
       if (!pending || pending.length === 0) {
-        pendingList.innerHTML = '<div class="inbox-empty">No pending requests.</div>';
+        pendingList.innerHTML = '<div class="inbox-empty">No unapproved users with profiles. Check Analytics → Total Signups vs Have Profiles to see if anyone signed up but never logged in.</div>';
       } else {
         pendingList.innerHTML = pending.map(p => `
           <div class="inbox-msg" id="row-${p.user_id}">
@@ -3994,19 +3999,28 @@
       const monthAgo = new Date(now - 30*24*60*60*1000).toISOString();
       const sixMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 5, 1).toISOString();
 
-      const [allViews, todayViews, weekViews, monthViews, allProfiles, graphViews] = await Promise.all([
+      const [allViews, todayViews, weekViews, monthViews, allProfiles, graphViews, userCountRes] = await Promise.all([
         sbFetch('page_views?select=id'),
         sbFetch(`page_views?select=id&visited_at=gte.${todayStr}`),
         sbFetch(`page_views?select=id&visited_at=gte.${weekAgo}`),
         sbFetch(`page_views?select=id&visited_at=gte.${monthAgo}`),
         sbFetch('profiles?select=user_id,access_approved,access_requested'),
         sbFetch(`page_views?select=visited_at&visited_at=gte.${sixMonthsAgo}&order=visited_at.asc`),
+        fetch(`${SUPABASE_URL}/rest/v1/rpc/get_user_count`, {
+          method: 'POST',
+          headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${currentToken}`, 'Content-Type': 'application/json' },
+          body: '{}'
+        }).then(r => r.ok ? r.json() : null).catch(() => null),
       ]);
 
       document.getElementById('statTotal').textContent  = allViews   ? allViews.length   : 0;
       document.getElementById('statToday').textContent  = todayViews ? todayViews.length : 0;
       document.getElementById('statWeek').textContent   = weekViews  ? weekViews.length  : 0;
       document.getElementById('statMonth').textContent  = monthViews ? monthViews.length : 0;
+
+      // User count from auth.users (total signups)
+      const signupEl = document.getElementById('statSignups');
+      if (signupEl) signupEl.textContent = userCountRes !== null ? userCountRes : '—';
 
       if (allProfiles) {
         document.getElementById('statUsers').textContent    = allProfiles.length;
