@@ -2745,6 +2745,7 @@
   }
 
   async function approveUser(userId, rowEl) {
+    alert('Approve tapped for: ' + userId);
     try {
       // rowEl may be null if passed inline getElementById fails — look it up as fallback
       const el = rowEl || document.getElementById(`row-${userId}`);
