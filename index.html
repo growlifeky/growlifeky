@@ -2166,6 +2166,15 @@
         <h3 style="font-family:'Cormorant Garamond',serif;color:var(--forest);font-size:1.3rem;font-weight:600;margin-bottom:0.4rem;padding-bottom:0.6rem;border-bottom:1px solid rgba(45,90,61,0.1);">📊 Site Analytics</h3>
         <p style="color:var(--text-mid);font-size:0.85rem;font-weight:300;margin-bottom:1.5rem;">Visitor counts logged each time someone opens the app.</p>
 
+        <!-- Push notification setup -->
+        <div id="pushSetupCard" style="background:linear-gradient(135deg,var(--forest) 0%,#1a3a2a 100%);border-radius:12px;padding:1.2rem 1.5rem;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+          <div>
+            <div style="color:var(--gold);font-family:'DM Sans',sans-serif;font-size:0.8rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.2rem;">🔔 Push Notifications</div>
+            <div id="pushStatusText" style="color:rgba(232,220,200,0.7);font-size:0.82rem;font-weight:300;">Get notified when someone requests access, submits a form, or sends a trade proposal.</div>
+          </div>
+          <button id="pushSetupBtn" onclick="setupPushNotifications()" style="background:var(--gold);color:var(--forest);border:none;padding:0.6rem 1.4rem;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.78rem;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">Enable Notifications</button>
+        </div>
+
         <!-- Stat cards -->
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1rem;margin-bottom:2rem;">
           <div style="background:var(--forest);border-radius:12px;padding:1.4rem;text-align:center;">
@@ -2186,7 +2195,28 @@
           </div>
         </div>
 
-        <!-- Traffic Graph -->
+        <!-- Community Table Stats -->
+        <div style="background:white;border:1px solid rgba(45,90,61,0.1);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;">
+          <h4 style="font-family:'Cormorant Garamond',serif;color:var(--forest);font-size:1.1rem;font-weight:600;margin-bottom:1rem;">🌽 Community Table</h4>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:0.8rem;">
+            <div style="text-align:center;padding:1rem;background:rgba(74,140,92,0.06);border-radius:8px;">
+              <div id="statListingsActive" style="font-family:'Cormorant Garamond',serif;color:var(--forest);font-size:2rem;font-weight:700;">—</div>
+              <div style="color:var(--text-mid);font-size:0.72rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin-top:0.2rem;">Active</div>
+            </div>
+            <div style="text-align:center;padding:1rem;background:rgba(196,163,90,0.08);border-radius:8px;">
+              <div id="statTradeCount" style="font-family:'Cormorant Garamond',serif;color:var(--bark);font-size:2rem;font-weight:700;">—</div>
+              <div style="color:var(--text-mid);font-size:0.72rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin-top:0.2rem;">Trades Made</div>
+            </div>
+            <div style="text-align:center;padding:1rem;background:rgba(74,140,92,0.06);border-radius:8px;">
+              <div id="statListingsTotal" style="font-family:'Cormorant Garamond',serif;color:var(--forest);font-size:2rem;font-weight:700;">—</div>
+              <div style="color:var(--text-mid);font-size:0.72rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin-top:0.2rem;">All Time</div>
+            </div>
+            <div style="text-align:center;padding:1rem;background:rgba(74,140,92,0.06);border-radius:8px;">
+              <div id="statTradeProposals" style="font-family:'Cormorant Garamond',serif;color:var(--forest);font-size:2rem;font-weight:700;">—</div>
+              <div style="color:var(--text-mid);font-size:0.72rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin-top:0.2rem;">Proposals</div>
+            </div>
+          </div>
+        </div>
         <div style="background:white;border:1px solid rgba(45,90,61,0.1);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;flex-wrap:wrap;gap:0.8rem;">
             <h4 style="font-family:'Cormorant Garamond',serif;color:var(--forest);font-size:1.1rem;font-weight:600;">📈 Traffic</h4>
@@ -2729,6 +2759,8 @@
         body: JSON.stringify({ access_requested: true })
       });
       currentProfile.access_requested = true;
+      // Notify admin
+      sendLocalNotification('🔔 Access Request', `${currentProfile.display_name || 'A new user'} is requesting Community Table access.`, 'access-request');
       // Show pending state on both possible screens
       ['networkRequestState','practicesRequestState'].forEach(id => {
         const el = document.getElementById(id);
@@ -3343,6 +3375,7 @@
         })
       });
       closeContactModal();
+      sendLocalNotification('🤝 New Trade Proposal', `${currentProfile.display_name} proposed trading ${myQty} ${myItem} for ${theirQty} ${theirItem}`, 'trade-proposal');
       alert(`✅ Trade proposal sent to ${currentContactListing.posterName}! They'll see it in their inbox and can accept, decline, or counter.`);
     } catch(e) { alert('Could not send proposal. Please try again.'); }
     btn.textContent = 'Send Proposal →'; btn.disabled = false;
@@ -3563,6 +3596,8 @@
       ['contactFirst','contactLast','contactEmail','contactPhone','contactMessage'].forEach(id => {
         const el = document.getElementById(id); if(el) el.value = '';
       });
+      // Notify admin
+      sendLocalNotification('📧 New Contact Form', `Message from ${first} ${last}`, 'contact-form');
       setTimeout(() => { document.getElementById('contactSuccess').style.display = 'none'; }, 5000);
     } catch(e) {
       console.error('Contact form catch:', e);
@@ -3622,6 +3657,8 @@
       ['consultPropertyType','consultService'].forEach(id => {
         const el = document.getElementById(id); if(el) el.selectedIndex = 0;
       });
+      // Notify admin
+      sendLocalNotification('🌱 New Consultation Request', `From ${first} ${last} — ${service || 'service not specified'}`, 'consult-form');
       setTimeout(() => { document.getElementById('consultSuccess').style.display = 'none'; }, 5000);
     } catch(e) {
       console.error('Consult form catch:', e);
@@ -4037,7 +4074,7 @@
       const monthAgo = new Date(now - 30*24*60*60*1000).toISOString();
       const sixMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 5, 1).toISOString();
 
-      const [allViews, todayViews, weekViews, monthViews, allProfiles, graphViews, userCountRes] = await Promise.all([
+      const [allViews, todayViews, weekViews, monthViews, allProfiles, graphViews, userCountRes, listingsActive, listingsAll, tradesMade, tradeProposals] = await Promise.all([
         sbFetch('page_views?select=id'),
         sbFetch(`page_views?select=id&visited_at=gte.${todayStr}`),
         sbFetch(`page_views?select=id&visited_at=gte.${weekAgo}`),
@@ -4049,6 +4086,10 @@
           headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${currentToken}`, 'Content-Type': 'application/json' },
           body: '{}'
         }).then(r => r.ok ? r.json() : null).catch(() => null),
+        sbFetch('listings?select=id&traded=eq.false'),
+        sbFetch('listings?select=id'),
+        sbFetch('listings?select=id&traded=eq.true'),
+        sbFetch('messages?select=id&listing_item=eq.Consultation Request').catch(() => null),
       ]);
 
       document.getElementById('statTotal').textContent  = allViews   ? allViews.length   : 0;
@@ -4056,7 +4097,7 @@
       document.getElementById('statWeek').textContent   = weekViews  ? weekViews.length  : 0;
       document.getElementById('statMonth').textContent  = monthViews ? monthViews.length : 0;
 
-      // User count from auth.users (total signups)
+      // User count from auth.users
       const signupEl = document.getElementById('statSignups');
       if (signupEl) signupEl.textContent = userCountRes !== null ? userCountRes : '—';
 
@@ -4065,6 +4106,19 @@
         document.getElementById('statApproved').textContent = allProfiles.filter(p => p.access_approved).length;
         document.getElementById('statPending').textContent  = allProfiles.filter(p => !p.access_approved).length;
       }
+
+      // Community Table stats
+      const activeEl = document.getElementById('statListingsActive');
+      const tradesEl = document.getElementById('statTradeCount');
+      const totalEl  = document.getElementById('statListingsTotal');
+      const propsEl  = document.getElementById('statTradeProposals');
+      if (activeEl) activeEl.textContent = listingsActive ? listingsActive.length : 0;
+      if (tradesEl) tradesEl.textContent = tradesMade ? tradesMade.length : 0;
+      if (totalEl)  totalEl.textContent  = listingsAll ? listingsAll.length : 0;
+      if (propsEl)  propsEl.textContent  = tradeProposals ? tradeProposals.length : 0;
+
+      // Update push notification button state
+      updatePushButtonState();
 
       // Store and render graph
       allVisitData = graphViews || [];
@@ -4092,6 +4146,51 @@
       const log = document.getElementById('analyticsLog');
       if (log) log.innerHTML = `<div class="inbox-empty" style="color:#c0392b;">Could not load analytics.<br><small>${escapeHtml(e.message||'')}</small></div>`;
     }
+  }
+
+  // ============ PUSH NOTIFICATIONS ============
+  function updatePushButtonState() {
+    const btn = document.getElementById('pushSetupBtn');
+    const statusText = document.getElementById('pushStatusText');
+    if (!btn || !statusText) return;
+    if (!('Notification' in window)) {
+      btn.textContent = 'Not Supported'; btn.disabled = true; btn.style.opacity = '0.5';
+      statusText.textContent = 'Notifications are not supported on this browser.'; return;
+    }
+    if (Notification.permission === 'granted') {
+      btn.textContent = '\u2713 Enabled';
+      btn.style.background = 'rgba(109,184,122,0.3)'; btn.style.color = 'var(--leaf-bright)'; btn.disabled = true;
+      statusText.textContent = "Notifications are active. You'll be alerted for access requests, contact forms, and trade proposals.";
+    } else if (Notification.permission === 'denied') {
+      btn.textContent = 'Blocked'; btn.disabled = true; btn.style.opacity = '0.5';
+      statusText.textContent = "Notifications are blocked. Enable in phone settings \u2192 Apps \u2192 Browser \u2192 Notifications.";
+    } else {
+      btn.textContent = 'Enable Notifications'; btn.disabled = false;
+    }
+  }
+
+  async function setupPushNotifications() {
+    if (!('Notification' in window)) { alert('Notifications not supported on this browser.'); return; }
+    const permission = await Notification.requestPermission();
+    updatePushButtonState();
+    if (permission === 'granted') {
+      sendLocalNotification('\ud83c\udf31 Grow Life Notifications Active', "You'll now get alerts for access requests, forms, and trade proposals.", 'setup');
+    } else {
+      alert('Permission denied. Enable in phone settings \u2192 Apps \u2192 Browser \u2192 Notifications.');
+    }
+  }
+
+  function sendLocalNotification(title, body, tag) {
+    if (!('Notification' in window) || Notification.permission !== 'granted') return;
+    try {
+      if (navigator.serviceWorker && navigator.serviceWorker.controller) {
+        navigator.serviceWorker.ready.then(reg => {
+          reg.showNotification(title, { body, icon: 'https://i.imgur.com/O9Fqr7M.png', tag: tag || 'growlife', requireInteraction: true });
+        }).catch(() => new Notification(title, { body, icon: 'https://i.imgur.com/O9Fqr7M.png' }));
+      } else {
+        new Notification(title, { body, icon: 'https://i.imgur.com/O9Fqr7M.png' });
+      }
+    } catch(e) {}
   }
 
   // ============ WHY CHOOSE US SLIDESHOW ============
